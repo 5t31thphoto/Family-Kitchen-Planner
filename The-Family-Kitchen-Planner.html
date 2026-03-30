@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Family Kitchen">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%233A6B52'/><text x='50' y='68' text-anchor='middle' font-size='55'>🍳</text></svg>">
+<title>The Family Kitchen — 7-Week Planner</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#FDF6EC;--warm:#FAF0E1;--peach:#FDDCB5;--coral:#E8856C;--rust:#C2553A;
+  --forest:#3A6B52;--sage:#7DA88B;--olive:#5C7A56;--dark:#2C2417;--mid:#5E4B35;
+  --sand:#E8DCC8;--light-sage:#D4E4D9;--white:#FFFDF9;--card:#FFFFFF;
+  --shadow:0 2px 12px rgba(44,36,23,0.08);--shadow-lg:0 8px 30px rgba(44,36,23,0.12);
+  --radius:14px;--radius-sm:8px;
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--cream);color:var(--dark);line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,var(--forest) 0%,var(--olive) 100%);color:var(--white);padding:28px 20px 22px;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(58,107,82,0.3)}
+.header h1{font-family:Georgia,'Times New Roman',serif;font-size:1.6em;font-weight:400;letter-spacing:.5px}
+.header .sub{font-size:.78em;opacity:.8;margin-top:4px;font-weight:400}
+
+/* NAV TABS */
+.nav{display:flex;gap:0;background:var(--white);border-bottom:1px solid var(--sand);position:sticky;top:78px;z-index:99;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav button{flex:none;padding:13px 18px;font-size:.82em;font-weight:600;border:none;background:transparent;color:var(--mid);cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s;font-family:inherit}
+.nav button.active{color:var(--forest);border-bottom-color:var(--forest);background:var(--light-sage)}
+.nav button:hover:not(.active){background:var(--warm)}
+
+/* WEEK SELECTOR */
+.week-bar{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 20px;background:var(--warm);border-bottom:1px solid var(--sand)}
+.week-bar button{width:40px;height:40px;border-radius:50%;border:2px solid var(--sand);background:var(--white);font-weight:700;font-size:.85em;cursor:pointer;color:var(--mid);transition:all .2s;font-family:inherit}
+.week-bar button.active{background:var(--forest);color:var(--white);border-color:var(--forest);transform:scale(1.1)}
+.week-bar button:hover:not(.active){border-color:var(--forest);color:var(--forest)}
+.week-label{font-weight:700;font-size:.85em;color:var(--mid);margin:0 6px}
+
+/* PANELS */
+.panel{display:none;padding:16px;max-width:800px;margin:0 auto}
+.panel.active{display:block}
+
+/* DAY STRIP */
+.day-strip{display:flex;gap:6px;padding:0 0 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.day-strip::-webkit-scrollbar{display:none}
+.day-btn{flex:none;padding:10px 14px;border-radius:var(--radius);border:2px solid var(--sand);background:var(--white);cursor:pointer;text-align:center;transition:all .2s;min-width:52px}
+.day-btn .dow{font-size:.65em;font-weight:700;text-transform:uppercase;color:var(--mid);letter-spacing:.5px}
+.day-btn .dname{font-size:.82em;font-weight:600;color:var(--dark);margin-top:2px}
+.day-btn.active{background:var(--coral);border-color:var(--coral)}
+.day-btn.active .dow,.day-btn.active .dname{color:var(--white)}
+.day-btn:hover:not(.active){border-color:var(--coral)}
+.day-btn.sunday{border-color:var(--sage)}
+.day-btn.sunday.active{background:var(--forest);border-color:var(--forest)}
+
+/* CARDS */
+.card{background:var(--card);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow);border:1px solid rgba(232,220,200,0.5)}
+.card h3{font-family:Georgia,'Times New Roman',serif;font-size:1.15em;font-weight:400;margin-bottom:10px;color:var(--dark)}
+.card-label{display:inline-block;font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+.label-breakfast{background:#FFF3E0;color:#E65100}
+.label-dinner{background:#E8F5E9;color:#2E7D32}
+.label-workout{background:#E3F2FD;color:#1565C0}
+.label-schedule{background:#F3E5F5;color:#7B1FA2}
+.label-prep{background:#FFF8E1;color:#F57F17}
+.label-shop{background:#FBE9E7;color:var(--rust)}
+
+.meta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.meta-tag{font-size:.75em;padding:4px 10px;border-radius:20px;background:var(--warm);color:var(--mid);font-weight:600}
+
+/* SCHEDULE TABLE */
+.sched-table{width:100%;font-size:.82em}
+.sched-table tr{border-bottom:1px solid var(--warm)}
+.sched-table td{padding:8px 6px;vertical-align:top}
+.sched-table .time{font-weight:700;color:var(--forest);white-space:nowrap;width:70px;font-size:.9em}
+.sched-table .event{font-weight:600;color:var(--dark)}
+.sched-table .details{color:var(--mid);font-size:.92em;margin-top:2px}
+.sched-highlight{background:var(--light-sage);border-radius:6px}
+
+/* RECIPE */
+.ingredients{columns:2;column-gap:16px;margin:10px 0}
+.ingredients li{font-size:.85em;padding:3px 0;break-inside:avoid;list-style:none;position:relative;padding-left:18px}
+.ingredients li::before{content:'•';position:absolute;left:4px;color:var(--coral);font-weight:700}
+.steps{counter-reset:step;margin:10px 0}
+.steps li{font-size:.85em;padding:6px 0 6px 32px;position:relative;list-style:none;border-bottom:1px solid var(--warm)}
+.steps li::before{counter-increment:step;content:counter(step);position:absolute;left:0;width:24px;height:24px;background:var(--forest);color:var(--white);border-radius:50%;text-align:center;line-height:24px;font-size:.75em;font-weight:700}
+.tip{background:#FFF8E1;border-left:4px solid #F9A825;padding:10px 14px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:.83em;margin:10px 0;color:var(--mid)}
+.weight-plate{background:var(--light-sage);border-left:4px solid var(--forest);padding:10px 14px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:.83em;margin:10px 0;color:var(--olive)}
+
+/* SHOPPING LIST */
+.shop-item{display:flex;align-items:center;padding:9px 0;border-bottom:1px solid var(--warm);font-size:.85em;gap:10px}
+.shop-item label{flex:1;cursor:pointer;display:flex;align-items:center;gap:10px}
+.shop-item input[type=checkbox]{width:20px;height:20px;accent-color:var(--forest);cursor:pointer;flex:none}
+.shop-item .qty{color:var(--mid);font-size:.9em;min-width:65px;text-align:right}
+.shop-item .price{color:var(--coral);font-weight:700;font-size:.9em;min-width:55px;text-align:right}
+.shop-item.checked label span{text-decoration:line-through;opacity:.5}
+.shop-total{font-weight:700;font-size:1em;padding:14px 0;text-align:right;color:var(--forest);border-top:2px solid var(--forest)}
+.shop-category{font-weight:700;font-size:.8em;text-transform:uppercase;letter-spacing:.5px;color:var(--forest);padding:12px 0 6px;border-bottom:2px solid var(--sage)}
+
+/* OVERVIEW TABLE */
+.overview-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:10px 0}
+.ov-cell{background:var(--white);border-radius:var(--radius-sm);padding:10px;border:1px solid var(--sand);font-size:.78em;cursor:pointer;transition:all .2s}
+.ov-cell:hover{border-color:var(--coral);transform:translateY(-2px);box-shadow:var(--shadow)}
+.ov-cell .ov-day{font-weight:700;color:var(--forest);font-size:.75em;text-transform:uppercase;margin-bottom:4px}
+.ov-cell .ov-dinner{font-weight:600;color:var(--dark);margin-bottom:3px;font-size:.95em}
+.ov-cell .ov-bfast{color:var(--mid);font-size:.9em}
+.ov-cell .ov-cost{color:var(--coral);font-weight:700;margin-top:4px;font-size:.9em}
+.ov-head{font-weight:700;font-size:.7em;text-transform:uppercase;letter-spacing:.5px;color:var(--mid);text-align:center;padding:4px}
+
+/* PREP CHECKLIST */
+.prep-block{margin:10px 0}
+.prep-block h4{font-size:.9em;font-weight:700;color:var(--forest);margin-bottom:8px}
+.prep-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--warm)}
+.prep-item input[type=checkbox]{margin-top:3px;width:18px;height:18px;accent-color:var(--forest);cursor:pointer}
+.prep-item span{font-size:.85em;cursor:pointer}
+.prep-item.checked span{text-decoration:line-through;opacity:.5}
+
+/* COLLAPSIBLES */
+.collapse-trigger{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:4px 0}
+.collapse-trigger::after{content:'▾';font-size:.8em;color:var(--mid);transition:transform .2s}
+.collapse-trigger.open::after{transform:rotate(180deg)}
+.collapse-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.collapse-body.open{max-height:5000px}
+
+/* BUDGET */
+.budget-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--warm);font-size:.88em}
+.budget-row .bl{color:var(--mid)}.budget-row .br{font-weight:700;color:var(--dark)}
+.budget-row.total{border-top:2px solid var(--forest);border-bottom:none;font-size:1em}
+.budget-row.total .br{color:var(--forest)}
+
+/* WORKOUT */
+.exercise-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--warm);font-size:.88em}
+.exercise-row .ename{font-weight:600}.exercise-row .esets{color:var(--mid);white-space:nowrap}
+
+/* SEARCH */
+.search-box{padding:10px 16px;background:var(--warm);border-bottom:1px solid var(--sand)}
+.search-box input{width:100%;padding:10px 14px;border-radius:var(--radius);border:2px solid var(--sand);font-size:.9em;font-family:inherit;background:var(--white);outline:none;transition:border .2s}
+.search-box input:focus{border-color:var(--forest)}
+
+/* PANTRY */
+.pantry-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--warm);font-size:.85em}
+.pantry-item .pi-name{color:var(--dark)}.pantry-item .pi-price{color:var(--coral);font-weight:600}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .header h1{font-size:1.3em}
+  .header{padding:max(28px,env(safe-area-inset-top)) 20px 18px}
+  .overview-grid{grid-template-columns:1fr 1fr;gap:6px}
+  .ov-head{display:none}
+  .ingredients{columns:1}
+  .panel{padding:12px}
+  .nav button{padding:12px 14px;font-size:.78em;min-height:48px}
+  .week-bar button{width:44px;height:44px;font-size:.9em}
+  .day-btn{padding:12px 16px;min-width:56px;min-height:48px}
+  .shop-item{padding:12px 0;min-height:48px}
+  .shop-item input[type=checkbox]{width:24px;height:24px}
+  .prep-item{padding:12px 0;min-height:48px}
+  .prep-item input[type=checkbox]{width:22px;height:22px}
+  .collapse-trigger{min-height:44px;padding:8px 0}
+  .sched-table td{padding:10px 6px}
+}
+
+/* UTILITY */
+.section-title{font-family:Georgia,'Times New Roman',serif;font-size:1.3em;color:var(--dark);margin:18px 0 12px}
+.divider{height:1px;background:var(--sand);margin:16px 0}
+.badge{display:inline-block;font-size:.68em;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:6px}
+.badge-sc{background:#FFF3E0;color:#E65100}
+.badge-oven{background:#E3F2FD;color:#1565C0}
+.badge-stove{background:#F3E5F5;color:#7B1FA2}
+.empty-state{text-align:center;padding:40px 20px;color:var(--mid);font-size:.95em}
+.tab-icon{font-size:1.1em;display:block;margin-bottom:2px}
+.progress-bar{height:6px;background:var(--sand);border-radius:3px;margin:12px 0;overflow:hidden}
+.progress-fill{height:100%;background:var(--forest);border-radius:3px;transition:width .4s}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🍳 The Family Kitchen</h1>
+  <div class="sub">7-Week Planner · Family of 5 · $3–$5/Person · Walmart</div>
+</div>
+
+<div class="nav" id="mainNav">
+  <button class="active" onclick="showTab('today')"><span class="tab-icon">📅</span>Today</button>
+  <button onclick="showTab('overview')"><span class="tab-icon">🗓</span>Overview</button>
+  <button onclick="showTab('shop')"><span class="tab-icon">🛒</span>Shopping</button>
+  <button onclick="showTab('prep')"><span class="tab-icon">🥗</span>Prep</button>
+  <button onclick="showTab('recipes')"><span class="tab-icon">📖</span>Recipes</button>
+  <button onclick="showTab('pantry')"><span class="tab-icon">🏪</span>Pantry</button>
+</div>
+
+<div class="week-bar">
+  <span class="week-label">WEEK</span>
+  <button onclick="setWeek(1)" class="active" id="wb1">1</button>
+  <button onclick="setWeek(2)" id="wb2">2</button>
+  <button onclick="setWeek(3)" id="wb3">3</button>
+  <button onclick="setWeek(4)" id="wb4">4</button>
+  <button onclick="setWeek(5)" id="wb5">5</button>
+  <button onclick="setWeek(6)" id="wb6">6</button>
+  <button onclick="setWeek(7)" id="wb7">7</button>
+</div>
+
+<div id="panelToday" class="panel active"></div>
+<div id="panelOverview" class="panel"></div>
+<div id="panelShop" class="panel"></div>
+<div id="panelPrep" class="panel"></div>
+<div id="panelRecipes" class="panel"></div>
+<div id="panelPantry" class="panel"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// ═══════════════════════════════════════════
+//  COMPLETE 7-WEEK DATA
+// ═══════════════════════════════════════════
+const DATA = {
+  weekNames: ["Classic Family Favorites","Global Mix","Budget Stretchers","Comfort & Hearty","Fan Favorites Remix","Southern & Slow","Around the World"],
+  weekBudgets: [
+    {fresh:143.62,dinners:112.00,avg:"3.20"},
+    {fresh:131.93,dinners:102.00,avg:"2.91"},
+    {fresh:124.01,dinners:92.50,avg:"2.64"},
+    {fresh:135.44,dinners:110.50,avg:"3.16"},
+    {fresh:140.87,dinners:107.00,avg:"3.06"},
+    {fresh:129.74,dinners:99.50,avg:"2.84"},
+    {fresh:138.19,dinners:105.00,avg:"3.00"}
+  ],
+  days: ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+  // WORKOUTS (same pattern every week)
+  workouts: {
+    Sunday: {name:"Rest + Meal Prep",icon:"🧘",type:"rest",exercises:[{n:"Optional: 20–30 min gentle walk",s:""},{n:"Stretch or yoga if desired",s:""},{n:"NO intense exercise today",s:"your body needs rest"}]},
+    Monday: {name:"Strength A",icon:"💪",type:"strength",time:"4:00 PM",exercises:[{n:"Squats",s:"3 × 12"},{n:"Push-ups",s:"3 × 10"},{n:"Dumbbell Rows",s:"3 × 12"},{n:"Reverse Lunges",s:"3 × 10 each"},{n:"Shoulder Press",s:"3 × 10"},{n:"Plank",s:"3 × 30 sec"}]},
+    Tuesday: {name:"Cardio",icon:"🚶",type:"cardio",time:"4:00 PM",exercises:[{n:"45 min brisk walk, jog, or stationary bike",s:""},{n:"Keep pace where you can talk but feel slightly winded",s:""},{n:"Aim for 4,000–5,000 steps minimum",s:""}]},
+    Wednesday: {name:"Strength B",icon:"💪",type:"strength",time:"4:00 PM",exercises:[{n:"Romanian Deadlifts",s:"3 × 12"},{n:"Push-ups (wide grip)",s:"3 × 10"},{n:"Bent-Over Rows",s:"3 × 12"},{n:"Step-Ups",s:"3 × 10 each"},{n:"Tricep Dips (chair)",s:"3 × 10"},{n:"Dead Bug Core",s:"3 × 10"}]},
+    Thursday: {name:"Cardio + Kids",icon:"🚶",type:"cardio",time:"4:00 PM",exercises:[{n:"45 min brisk walk, jog, or bike ride — bring the kids!",s:""},{n:"Family walk around the neighborhood",s:""},{n:"Playground visit counts — chase the kids!",s:""}]},
+    Friday: {name:"Strength A",icon:"💪",type:"strength",time:"2:05 PM",exercises:[{n:"Squats",s:"3 × 12"},{n:"Push-ups",s:"3 × 10"},{n:"Dumbbell Rows",s:"3 × 12"},{n:"Reverse Lunges",s:"3 × 10 each"},{n:"Shoulder Press",s:"3 × 10"},{n:"Plank",s:"3 × 30 sec"}]},
+    Saturday: {name:"Active Family Day",icon:"🏃",type:"family",time:"9:00 AM",exercises:[{n:"Option A: Family bike ride",s:""},{n:"Option B: Hike or nature trail walk",s:""},{n:"Option C: Backyard games with the kids",s:""},{n:"Option D: Swimming or splash pad",s:""},{n:"Option E: Park visit with lots of walking",s:""}]}
+  },
+  // SCHEDULES (common patterns, only dinner times/breakfasts vary)
+  scheduleTemplate: {
+    Sunday: [
+      ["7:00 AM","Wake up — REST DAY","Drink 16 oz water. No alarm needed today."],
+      ["7:30 AM","🥞 Breakfast","[BREAKFAST]"],
+      ["8:00 AM","Family breakfast together","Slow morning. Sit together, no phones."],
+      ["9:00 AM","🥗 MEAL PREP — Block 1","Start meal prep. 2 hours before church."],
+      ["11:00 AM","Stop prep — get ready","Get family ready for church."],
+      ["11:00 AM","⚠️ START SLOW COOKER","If today's dinner is slow cooker, start NOW."],
+      ["12:00 PM","⛪ CHURCH","2-hour service."],
+      ["2:00 PM","Church ends","Head home."],
+      ["2:30 PM","🥗 MEAL PREP — Block 2","Finish remaining prep tasks."],
+      ["6:00 PM","🍽️ Family dinner","[DINNER]"],
+      ["7:30 PM","Family time","Games, TV, relax."],
+      ["8:30 PM","Pack Monday","Prep tomorrow's breakfast, pack lunch, lay out clothes."],
+      ["9:00 PM","BEDTIME","Tomorrow starts early. Protect your sleep."]
+    ],
+    Weekday: [
+      ["4:00 AM","Wake up","Drink 16 oz water. Don't check phone yet."],
+      ["4:05 AM","🥞 Breakfast","[BREAKFAST]"],
+      ["4:30 AM","Eat + finish packing","Kids' bags should be packed from last night."],
+      ["4:45 AM","Leave for work","Lunch, snacks, water, phone charged."],
+      ["5:00 AM","Work begins","Supervisor shift starts."],
+      ["7:00 AM","Kids wake up","Husband gets kids ready for school."],
+      ["10:00 AM","☕ Snack","[SNACK]"],
+      ["12:00 PM","🥙 Lunch","Leftovers packed from last night."],
+      ["2:00 PM","Home from work","Change, regroup before pickup."],
+      ["3:00 PM","🚗 School pickup","Drive to school."],
+      ["4:00 PM","[WORKOUT]","35–45 min workout."],
+      ["4:45 PM","Shower + recover","Drink water. You did it."],
+      ["5:00 PM","🍎 Afternoon snack","[PM_SNACK]"],
+      ["5:30 PM","Start dinner","[DINNER_START]"],
+      ["6:00 PM","🍽️ Family dinner","[DINNER]"],
+      ["7:00 PM","Family time","Homework, activities, relax."],
+      ["8:00 PM","Kids to bed","School nights — in bed by 8pm."],
+      ["8:30 PM","Tomorrow prep","Pack lunch, lay out clothes, prep breakfast."],
+      ["9:00 PM","BEDTIME","4am is 7 hours away. Phone down."]
+    ],
+    Friday: [
+      ["4:00 AM","Wake up","Drink 16 oz water."],
+      ["4:05 AM","🥞 Breakfast","[BREAKFAST]"],
+      ["4:30 AM","Eat + pack up","Husband has kids today."],
+      ["5:00 AM","Work begins","Last day of work week!"],
+      ["10:00 AM","☕ Snack","[SNACK]"],
+      ["12:00 PM","🥙 Lunch","Leftovers packed from last night."],
+      ["2:00 PM","Home from work","No pickup — husband has kids."],
+      ["2:05 PM","💪 STRENGTH A","Full workout window — 35–40 min."],
+      ["3:00 PM","Shower + recover","Week done!"],
+      ["5:30 PM","Start dinner","[DINNER_START]"],
+      ["6:00 PM","🍽️ Family dinner","[DINNER] — TGIF!"],
+      ["7:00 PM","Family time","Movie night? Games? Relax."],
+      ["8:30 PM","Tomorrow prep (light)","Pack lunch, lay out clothes."],
+      ["10:00 PM","Bedtime","Sleep in tomorrow."]
+    ],
+    Saturday: [
+      ["7:00 AM","Sleep in","No alarm. Drink water."],
+      ["7:30 AM","🥞 Breakfast","[BREAKFAST]"],
+      ["8:00 AM","Family breakfast","Sit down together. Slow morning."],
+      ["9:00 AM","🏃 ACTIVE FAMILY DAY","60+ min family activity."],
+      ["10:30 AM","🛒 WALMART — Next week's groceries","Next week's shopping list."],
+      ["12:00 PM","Home + put groceries away","Fridge and pantry stocked."],
+      ["12:30 PM","🥙 Lunch","Leftovers or simple at home."],
+      ["2:00 PM","Afternoon free","Rest, relax, family time, errands."],
+      ["5:30 PM","Start dinner","[DINNER_START]"],
+      ["6:00 PM","🍽️ Family dinner","[DINNER]"],
+      ["7:30 PM","Relax","Family movie, games, quiet time."],
+      ["8:30 PM","Tomorrow prep","Week done! Great work."],
+      ["10:00 PM","Bedtime","Sleep in tomorrow — it's Sunday."]
+    ]
+  },
+  // ═══ WEEK MEALS DATA ═══
+  weeks: [
+    // WEEK 1
+    {
+      meals: [
+        {day:"Sunday",breakfast:"Bacon & Cheese Egg Muffins",dinner:"Slow Cooker Pot Roast",cuisine:"Comfort Food",method:"Slow Cooker",time:"8 hrs",cost:"3.80",snack:"Hard boiled egg + fruit",pmSnack:"Almonds + apple",
+         bIngr:["8 eggs","1/4 cup milk","6 strips bacon (cooked crispy, crumbled)","1 cup shredded cheddar","1 tsp garlic powder","Salt & pepper","Cooking spray"],
+         bSteps:["SUNDAY: Cook bacon until crispy. Drain and crumble.","Preheat oven to 350°F. Spray muffin tin.","Whisk eggs, milk, garlic powder, salt & pepper. Stir in bacon and cheddar.","Fill cups 3/4 full. Bake 18–20 min. Cool, refrigerate.","MORNING: Grab 2–3, microwave 40–50 seconds."],
+         bTip:"Make a double batch (24) — everyone's favorite and they disappear fastest.",
+         dIngr:["3 lb chuck roast","32 oz beef broth","1 can (14 oz) diced tomatoes","4 medium potatoes quartered","3 large carrots chunked","2 tsp garlic powder","1 tsp paprika","1 tsp Italian seasoning","Salt & pepper"],
+         dSteps:["START BEFORE LEAVING FOR MORNING ACTIVITIES. Season roast all over.","Place potatoes and carrots in slow cooker. Set roast on top. Pour broth and tomatoes over.","Cook LOW 8 hrs or HIGH 4–5 hrs until meat falls apart.","Shred or slice. Serve with veggies and broth as gravy."],
+         dTip:"Chuck roast gets more tender the longer it cooks.",
+         plate:"Big meat and carrot portion, small potato portion. Ladle plenty of broth."
+        },
+        {day:"Monday",breakfast:"Classic Protein Smoothie",dinner:"BBQ Pork Tenderloin + Mashed Potatoes + Green Beans",cuisine:"BBQ",method:"Oven 425°F",time:"35 min",cost:"3.10",snack:"Hard boiled egg + apple",pmSnack:"Greek yogurt + almonds",
+         bIngr:["1 scoop protein powder","1 banana (frozen)","1 cup almond milk","1 handful spinach","1/2 cup ice"],
+         bSteps:["Add almond milk first, then spinach, frozen banana, protein powder, ice.","Blend 45 seconds on high.","Pour into cup with lid for the car.","PREP: Portion banana + spinach into freezer bags Sunday."],
+         bTip:"Frozen bananas make it thick like a milkshake.",
+         dIngr:["2 lb pork tenderloin","1/2 cup BBQ sauce","1 tsp garlic powder","1 tsp paprika","Salt & pepper","5 medium potatoes","2 tbsp butter","1/4 cup milk","1 bag frozen green beans"],
+         dSteps:["Preheat oven 425°F. Line baking sheet with foil.","Rub spices on tenderloin, brush with BBQ sauce.","Roast 20–25 min to 145°F. Brush more sauce halfway.","Boil potatoes, mash with butter & milk. Cook green beans. Slice pork."],
+         dTip:"Pull pork at exactly 145°F and rest 5 min. Slight pink inside is safe and juicy.",
+         plate:"3–4 pork medallions, big green beans, small scoop mashed potatoes."
+        },
+        {day:"Tuesday",breakfast:"Classic Overnight Oats",dinner:"Ground Beef Taco Bowls",cuisine:"Mexican",method:"Stovetop",time:"25 min",cost:"2.60",snack:"String cheese + banana",pmSnack:"Cottage cheese + cucumber",
+         bIngr:["1/2 cup rolled oats","1/2 cup almond milk","1/4 cup Greek yogurt","1 tsp honey","1/2 tsp vanilla","Pinch of salt","Toppings: banana, berries, granola"],
+         bSteps:["Add oats to mason jar.","Add almond milk, yogurt, honey, vanilla, salt. Stir.","Seal. Refrigerate overnight (6+ hours).","Morning: stir, add toppings, eat cold from the jar."],
+         bTip:"The ultimate 4am breakfast. Already made. Zero brain power required.",
+         dIngr:["1.5 lb ground beef","1 packet taco seasoning","2/3 cup water","2 cups cooked rice","1 can black beans","1 cup Mexican cheese","1/2 cup sour cream","1 cup salsa","Shredded lettuce"],
+         dSteps:["Warm Sunday's prepped rice in microwave.","Brown beef, drain fat. Add taco seasoning + water. Simmer 3–4 min.","Warm black beans. Build bowls: rice, beef, beans, cheese, salsa, sour cream, lettuce.","Set up build-your-own station — kids customize their bowls."],
+         dTip:"Use prepped rice from Sunday to cut prep time to 15 minutes.",
+         plate:"Use lettuce as base instead of rice. Halve the sour cream. Salsa is nearly calorie-free."
+        },
+        {day:"Wednesday",breakfast:"Classic Egg Muffins",dinner:"Chicken Fried Rice",cuisine:"Asian",method:"Stovetop",time:"30 min",cost:"2.40",snack:"Hummus + baby carrots",pmSnack:"Hard boiled egg + grapes",
+         bIngr:["8 eggs","1/4 cup milk","1 cup shredded cheese","1/2 cup diced bell pepper","1/2 cup diced ham or sausage","1 tsp garlic powder","Salt & pepper"],
+         bSteps:["SUNDAY: Preheat 350°F. Spray muffin tin.","Whisk eggs, milk, spices. Stir in cheese, peppers, ham.","Fill cups 3/4 full. Bake 18–20 min. Cool, refrigerate.","MORNING: Grab 2–3, microwave 40–50 sec."],
+         bTip:"Make 24 on Sunday. They keep 5 days in fridge.",
+         dIngr:["1.5 lb chicken breast diced","3 cups cold cooked rice","3 eggs","2 cups frozen mixed veggies","3 tbsp soy sauce","1 tsp garlic powder","2 tbsp vegetable oil","Salt & pepper"],
+         dSteps:["Season chicken, cook in hot oil 5–6 min. Set aside.","Add oil over HIGH. Cook veggies 2 min. Scramble eggs, mix.","Add cold rice, press down, let crisp 1–2 min. Add chicken back.","Drizzle soy sauce. Stir-fry 2–3 min. Serve hot."],
+         dTip:"HIGH heat is the secret. Day-old cold rice works far better than fresh.",
+         plate:"Heavy on chicken and veggies, 1 cup rice max."
+        },
+        {day:"Thursday",breakfast:"Peanut Butter Banana Smoothie",dinner:"Cheeseburgers + Baked Fries",cuisine:"Comfort Food",method:"Stovetop + Oven",time:"40 min",cost:"3.20",snack:"Greek yogurt + granola",pmSnack:"String cheese + apple",
+         bIngr:["2 tbsp peanut butter","1 banana","1 cup almond milk","1 scoop protein powder","1/2 cup ice"],
+         bSteps:["Add almond milk and peanut butter first.","Add banana, protein powder, and ice.","Blend 45 seconds until thick and creamy.","Too thick? Add milk. Too thin? Add ice."],
+         bTip:"Peanut butter provides lasting energy for a long physical work shift.",
+         dIngr:["1.5 lb ground beef (80/20)","5 burger buns","5 slices cheddar","Lettuce, tomato, condiments","4 russet potatoes","2 tbsp olive oil","1 tsp garlic powder","1 tsp paprika","Salt & pepper"],
+         dSteps:["Preheat 425°F. Cut potatoes into wedges, toss with oil and spices. Bake 25–30 min.","Form 5 patties with thumb indent. Season generously.","Cook patties 3–4 min per side. Add cheese last minute. Toast buns.","Assemble with lettuce and condiments."],
+         dTip:"Never press burgers while cooking. The thumb indent keeps them flat.",
+         plate:"Open-faced or lettuce-wrapped burger. Small handful of baked fries."
+        },
+        {day:"Friday",breakfast:"Southwest Egg Muffins",dinner:"Baked Ziti with Ground Beef",cuisine:"Italian",method:"Oven 375°F",time:"45 min",cost:"2.80",snack:"Peanut butter + celery",pmSnack:"Cottage cheese + strawberries",
+         bIngr:["8 eggs","1/4 cup milk","1 cup Mexican cheese","1/2 cup black beans","1/4 cup salsa","1/2 tsp cumin","1/2 tsp garlic powder","Salt & pepper"],
+         bSteps:["SUNDAY: Preheat 350°F. Spray muffin tin.","Whisk eggs, milk, spices.","Stir in cheese, beans, salsa.","Fill cups 3/4 full. Bake 18–20 min. Cool, refrigerate.","MORNING: Grab 2–3, microwave 40 sec."],
+         bTip:"Black beans add fiber for a long work shift. Mild Mexican flavor, no heat.",
+         dIngr:["1 lb ziti/penne","1 lb ground beef","1 jar pasta sauce","1 can diced tomatoes","2 cups mozzarella","1/2 cup Parmesan","1 tsp garlic powder","1 tsp Italian seasoning","Salt & pepper"],
+         dSteps:["Preheat 375°F. Spray 9x13. Cook pasta 1–2 min less than package.","Brown beef, drain. Add spices, sauce, tomatoes. Simmer 4 min.","Mix pasta with sauce, pour into dish. Top with cheeses.","Cover with foil, bake 20 min. Uncover, bake 10 min. Rest 5 min."],
+         dTip:"Make double and freeze half — best freezer meal in the plan.",
+         plate:"1/2 plate salad, 1/4 plate ziti, extra ground beef on your portion."
+        },
+        {day:"Saturday",breakfast:"Berry Cheesecake Overnight Oats",dinner:"Grilled Salmon + Asparagus + Rice",cuisine:"American",method:"Stovetop",time:"30 min",cost:"4.50",snack:"Trail mix",pmSnack:"Fruit",
+         bIngr:["1/2 cup rolled oats","1/3 cup almond milk","1/3 cup Greek yogurt","1 tbsp cream cheese (softened)","1 tbsp honey","1/2 cup frozen berries","1/4 tsp vanilla"],
+         bSteps:["Mix yogurt and cream cheese until smooth.","Add oats, milk, honey, vanilla. Stir.","Place frozen berries on top — do NOT stir in.","Seal, refrigerate overnight. Berries create a sauce.","Morning: stir gently. Eat cold."],
+         bTip:"Tastes like dessert for breakfast. The double dairy makes it creamy and satisfying.",
+         dIngr:["2 lb salmon fillets (5 portions)","1 lb asparagus","2 cups cooked rice","3 tbsp butter","2 lemons","2 tsp garlic powder","1 tsp paprika","Salt & pepper","1 tbsp olive oil"],
+         dSteps:["Pat salmon dry. Season with garlic powder, paprika, salt & pepper.","Heat oil med-high. Cook salmon skin-side up 4 min. Flip. Add butter and lemon juice. Baste 3–4 min.","Cook asparagus in olive oil 4–5 min.","Serve over rice with fresh lemon."],
+         dTip:"Basting with butter is a restaurant technique. Salmon is done when it flakes.",
+         plate:"Salmon + asparagus is nearly perfect. Keep rice to 1/2 cup."
+        }
+      ],
+      shopping:[
+        {item:"Ground beef 80/20",qty:"3 lb",price:10.47},{item:"Pork tenderloin",qty:"2 lb",price:8.96},{item:"Chicken breasts",qty:"3 lb",price:6.97},{item:"Salmon fillets frozen",qty:"2 lb",price:9.98},{item:"Chuck roast",qty:"3 lb",price:11.97},{item:"Eggs",qty:"2 dozen",price:5.96},{item:"Mozzarella shredded (2 bags)",qty:"2 bags",price:9.96},{item:"Parmesan",qty:"8 oz",price:3.98},{item:"Mexican cheese",qty:"16 oz",price:4.98},{item:"Greek yogurt",qty:"32 oz",price:4.98},{item:"Butter",qty:"1 lb",price:4.48},{item:"Milk",qty:"1 gal",price:3.48},{item:"Sour cream",qty:"16 oz",price:1.98},{item:"String cheese",qty:"12-pk",price:4.98},{item:"Cottage cheese",qty:"24 oz",price:2.98},{item:"Bananas",qty:"1 bunch",price:1.47},{item:"Apples",qty:"3 lb bag",price:3.98},{item:"Asparagus",qty:"1 lb",price:2.98},{item:"Potatoes russet",qty:"5 lb",price:3.98},{item:"Baby carrots",qty:"1 lb",price:1.48},{item:"Broccoli frozen",qty:"12 oz",price:1.28},{item:"Green beans frozen",qty:"12 oz",price:1.28},{item:"Corn frozen",qty:"12 oz",price:1.28},{item:"Romaine lettuce",qty:"2 heads",price:2.96},{item:"Spinach",qty:"5 oz",price:2.98},{item:"Strawberries",qty:"1 lb",price:3.48},{item:"Mixed veggies frozen",qty:"3 lb",price:3.48},{item:"Whole wheat bread",qty:"1 loaf",price:2.98},{item:"Burger buns",qty:"8-pk",price:2.48},{item:"Flour tortillas",qty:"20-pk",price:3.48},{item:"Garlic bread frozen",qty:"1 loaf",price:2.48},{item:"Hummus",qty:"10 oz",price:2.98},{item:"Cream cheese",qty:"8 oz",price:2.48}
+      ],
+      prep: {
+        block1:["Cook a big batch of rice (enough for 3 dinners)","Hard boil 8–10 eggs (snacks + breakfast all week)","Make Protein Smoothie freezer bags × 3","Make Classic Egg Muffins batch (24) for Wed/Fri","Prep Berry Cheesecake Overnight Oats jar for Saturday"],
+        block2:["Make Classic Overnight Oats jar for Tuesday","Chop veggies for snacks: carrots, cucumber, celery","Pack Monday lunch (leftover or wrap)","Lay out Monday workout clothes","Thaw salmon for Saturday in fridge"]
+      }
+    },
+    // WEEK 2
+    {
+      meals: [
+        {day:"Sunday",breakfast:"Southwest Egg Muffins",dinner:"Slow Cooker Beef Stew + Biscuits",cuisine:"Comfort Food",method:"Slow Cooker",time:"8 hrs",cost:"3.20",snack:"Hard boiled egg + fruit",pmSnack:"Almonds",
+         bIngr:["8 eggs","1/4 cup milk","1 cup Mexican cheese","1/2 cup black beans","1/4 cup salsa","1/2 tsp cumin","1/2 tsp garlic powder","Salt & pepper"],
+         bSteps:["Preheat 350°F. Spray muffin tin.","Whisk eggs, milk, spices. Stir in cheese, beans, salsa.","Fill 3/4 full. Bake 18–20 min.","Grab 2–3, microwave 40 sec."],bTip:"Black beans add filling fiber.",
+         dIngr:["2 lb chuck roast cubed","2 cartons beef broth","1 can diced tomatoes","4 potatoes cubed","3 large carrots chunked","1 tsp garlic powder","1 tsp Italian seasoning","2 tbsp flour","Salt & pepper","1 can refrigerated biscuits"],
+         dSteps:["START MORNING. Toss beef in flour, salt & pepper. Place veggies in slow cooker, beef on top.","Pour broth and tomatoes over. Add seasonings.","Cook LOW 8 hrs or HIGH 4–5 hrs.","Bake biscuits per package. Serve stew in deep bowls."],
+         dTip:"Coating beef in flour naturally thickens the stew.",plate:"Big bowl of stew, 1 biscuit. The broth fills you up."
+        },
+        {day:"Monday",breakfast:"Berry Spinach Smoothie",dinner:"Slow Cooker Chicken Tacos",cuisine:"Mexican",method:"Slow Cooker",time:"6 hrs",cost:"2.20",snack:"String cheese + apple",pmSnack:"Greek yogurt + granola",
+         bIngr:["1 scoop protein powder","1 cup frozen berries","1 handful spinach","1 cup almond milk","1/2 cup ice"],
+         bSteps:["Add milk, spinach, berries, protein, ice. Blend 45 sec."],bTip:"Berries mask the spinach completely.",
+         dIngr:["2 lb chicken thighs","1 packet taco seasoning","1 can diced tomatoes","1/2 cup chicken broth","Tortillas","Cheese, salsa, sour cream, lettuce"],
+         dSteps:["START SLOW COOKER at 4:30am.","Add chicken, seasoning, tomatoes, broth.","Cook LOW 6 hrs. Shred chicken.","Warm tortillas. Set up taco bar."],
+         dTip:"Cheapest and easiest dinner in the plan.",plate:"2–3 tacos on corn tortillas. Load with lettuce and salsa."
+        },
+        {day:"Tuesday",breakfast:"Peanut Butter Banana Oats",dinner:"Beef & Broccoli Stir Fry",cuisine:"Asian",method:"Stovetop",time:"25 min",cost:"2.70",snack:"Hummus + carrots",pmSnack:"Cottage cheese + fruit",
+         bIngr:["1/2 cup rolled oats","1/2 cup almond milk","2 tbsp peanut butter","1 banana sliced","1 tsp honey"],
+         bSteps:["Make jar Sunday: oats, milk, PB, honey. Stir.","Refrigerate overnight.","Morning: top with banana slices."],bTip:"PB makes it filling enough for a physical work shift.",
+         dIngr:["1.5 lb flank steak sliced thin","3 cups broccoli","3 tbsp soy sauce","2 tbsp teriyaki sauce","1 tsp garlic powder","1 tsp cornstarch","2 tbsp oil","Cooked rice"],
+         dSteps:["Partially freeze beef 30 min for slicing. Toss with soy, garlic, cornstarch.","Microwave broccoli 3 min, drain.","Heat oil HIGH. Cook beef 1 min undisturbed, stir-fry 2 min. Remove.","Stir-fry broccoli 2 min. Return beef. Add teriyaki. Serve over rice."],
+         dTip:"Slice against the grain and use HIGH heat.",plate:"Big beef and broccoli, 1/2 cup rice."
+        },
+        {day:"Wednesday",breakfast:"Veggie Egg Muffins",dinner:"Chicken Parmesan + Spaghetti",cuisine:"Italian",method:"Stovetop + Oven",time:"45 min",cost:"2.90",snack:"Hard boiled egg + grapes",pmSnack:"String cheese + celery",
+         bIngr:["8 eggs","1/4 cup milk","1 cup cheese","1/2 cup diced veggies","1 tsp garlic powder","Salt & pepper"],
+         bSteps:["Same method as classic muffins with extra veggies.","Bake 18–20 min at 350°F.","Microwave 40 sec each morning."],bTip:"Sneak in extra vegetables. Kids won't notice.",
+         dIngr:["5 chicken breasts pounded thin","1 cup Italian breadcrumbs","1/2 cup Parmesan","2 eggs beaten","1 jar pasta sauce","1.5 cups mozzarella","1 lb spaghetti","2 tbsp olive oil"],
+         dSteps:["Preheat 400°F. Cook spaghetti.","Pound chicken to 1/2 inch. Dip in egg then breadcrumb/Parmesan.","Sear in oiled skillet 3 min per side. Top with sauce then mozzarella.","Bake 15 min to 165°F. Serve over spaghetti."],
+         dTip:"Pounding to even thickness is key — uneven = overcooked and undercooked.",plate:"One piece chicken parm, 1/2 cup spaghetti, big salad."
+        },
+        {day:"Thursday",breakfast:"Classic Protein Smoothie",dinner:"Slow Cooker Pulled Pork + Coleslaw Buns",cuisine:"BBQ",method:"Slow Cooker",time:"8 hrs",cost:"2.70",snack:"Greek yogurt + banana",pmSnack:"Almonds + apple",
+         bIngr:["1 scoop protein powder","1 banana (frozen)","1 cup almond milk","1 handful spinach","1/2 cup ice"],
+         bSteps:["Dump freezer bag in blender + 1 cup milk. Blend 45 sec."],bTip:"Frozen bananas make it thick like a milkshake.",
+         dIngr:["3 lb pork shoulder","1 tsp garlic powder","1 tsp paprika","1 tsp brown sugar","1/2 tsp cumin","Salt & pepper","1/2 cup chicken broth","3/4 cup BBQ sauce","Burger buns","Coleslaw mix, light mayo, vinegar, sugar"],
+         dSteps:["START BEFORE WORK. Rub spices on pork. Place in slow cooker with broth.","Cook LOW 8 hrs or HIGH 5 hrs.","Make coleslaw: 3 tbsp mayo, 1 tbsp vinegar, 1 tsp sugar. Toss. Refrigerate.","Shred pork, stir in BBQ sauce. Cook LOW 30 more min. Serve on buns with coleslaw."],
+         dTip:"Make extra — use leftovers for pulled pork bowls or nachos.",plate:"Open-faced on one bun half piled with coleslaw."
+        },
+        {day:"Friday",breakfast:"Classic Egg Muffins",dinner:"Baked Pork Chops + Sweet Potatoes + Corn",cuisine:"Comfort Food",method:"Oven 400°F",time:"40 min",cost:"2.80",snack:"Peanut butter + celery",pmSnack:"Cottage cheese + berries",
+         bIngr:["8 eggs","1/4 cup milk","1 cup cheese","1/2 cup diced peppers","1/2 cup ham","1 tsp garlic powder"],
+         bSteps:["Grab 2–3 from fridge, microwave 40–50 sec."],bTip:"Made Sunday — zero morning effort.",
+         dIngr:["5 bone-in pork chops","1 tsp garlic powder","1 tsp paprika","Salt & pepper","1 tbsp olive oil","4 large sweet potatoes","2 tbsp butter","1 bag frozen corn"],
+         dSteps:["Preheat 400°F. Pierce sweet potatoes, microwave 8–10 min.","Pat chops dry. Rub spices. Sear 2–3 min per side.","Transfer to oven, bake 12–15 min to 145°F. REST 5 min.","Cook corn. Serve."],
+         dTip:"Bone-in chops stay juicier. Always rest pork.",plate:"One chop, 1/2 sweet potato, big corn."
+        },
+        {day:"Saturday",breakfast:"Classic Overnight Oats",dinner:"Shrimp Stir Fry + Egg Rolls + Rice",cuisine:"Asian",method:"Stovetop + Oven",time:"30 min",cost:"3.90",snack:"Trail mix",pmSnack:"Fruit",
+         bIngr:["1/2 cup rolled oats","1/2 cup almond milk","1/4 cup Greek yogurt","1 tsp honey","1/2 tsp vanilla","Toppings"],
+         bSteps:["Grab from fridge. Stir. Add toppings. Eat cold."],bTip:"Zero morning effort.",
+         dIngr:["1 lb frozen shrimp","3 cups frozen mixed veggies","3 tbsp soy sauce","1 tbsp teriyaki sauce","1 tsp garlic powder","2 tbsp oil","Cooked rice","1 box frozen egg rolls"],
+         dSteps:["Start egg rolls in oven per package.","Pat shrimp COMPLETELY dry. Microwave veggies 3 min.","Heat oil HIGH. Cook shrimp 1–2 min per side until pink. Remove.","Stir-fry veggies 2 min. Return shrimp. Add sauces. Serve over rice with egg rolls."],
+         dTip:"Shrimp is done when it curls into a C shape — O shape = overcooked.",plate:"Big stir fry, 1/2 cup rice, 1 egg roll."
+        }
+      ],
+      shopping:[
+        {item:"Chicken thighs boneless",qty:"2 lb",price:5.98},{item:"Flank or sirloin steak",qty:"2 lb",price:11.96},{item:"Chicken breasts for Parm",qty:"5 pcs",price:7.48},{item:"Pork shoulder",qty:"3 lb",price:8.97},{item:"Bone-in pork chops",qty:"5-pk",price:7.48},{item:"Frozen shrimp",qty:"1 lb",price:7.98},{item:"Chuck roast for stew",qty:"2 lb",price:7.98},{item:"Eggs",qty:"1 dozen",price:2.98},{item:"Mozzarella",qty:"16 oz",price:4.98},{item:"Parmesan",qty:"8 oz",price:3.98},{item:"Greek yogurt",qty:"32 oz",price:4.98},{item:"Butter",qty:"1 lb",price:4.48},{item:"Milk",qty:"1 gal",price:3.48},{item:"Mac & cheese",qty:"3 boxes",price:2.67},{item:"String cheese",qty:"12-pk",price:4.98},{item:"Bananas",qty:"1 bunch",price:1.47},{item:"Apples",qty:"3 lb",price:3.98},{item:"Broccoli frozen (x2)",qty:"2 bags",price:2.56},{item:"Sweet potatoes",qty:"3 lb",price:3.98},{item:"Coleslaw mix",qty:"14 oz",price:1.98},{item:"Corn frozen",qty:"12 oz",price:1.28},{item:"Lemons",qty:"4-pk",price:1.98},{item:"Mixed veggies frozen",qty:"3 lb",price:3.48},{item:"Spinach",qty:"5 oz",price:2.98},{item:"Strawberries",qty:"1 lb",price:3.48},{item:"Whole wheat bread",qty:"1 loaf",price:2.98},{item:"Corn tortillas",qty:"30-pk",price:2.98},{item:"Egg roll wrappers",qty:"1 pk",price:2.98},{item:"Refrigerated biscuits",qty:"2 cans",price:2.48},{item:"Hummus",qty:"10 oz",price:2.98}
+      ],
+      prep:{block1:["Cook big batch of rice","Hard boil 8–10 eggs","Make Veggie Egg Muffins batch (24)","Make PB Banana Overnight Oats for Tuesday","Make Classic Overnight Oats for Saturday"],block2:["Prep Berry Spinach Smoothie bags for Monday","Start Slow Cooker Pulled Pork tonight if needed","Chop veggies for snacks","Pack Monday lunch","Lay out Monday workout clothes"]}
+    },
+    // WEEK 3
+    {
+      meals:[
+        {day:"Sunday",breakfast:"Classic Egg Muffins",dinner:"Whole Roasted Chicken + Roasted Veggies",cuisine:"Comfort Food",method:"Oven 425°F",time:"1 hr 30 min",cost:"2.80",snack:"Hard boiled egg",pmSnack:"Almonds",
+         bIngr:["8 eggs","1/4 cup milk","1 cup cheese","1/2 cup peppers","1/2 cup ham","Garlic powder, salt & pepper"],bSteps:["Grab from fridge, microwave 40 sec."],bTip:"Made fresh today during prep.",
+         dIngr:["1 whole chicken (4–5 lb)","2 tbsp butter softened","1 tsp garlic powder","1 tsp paprika","1 tsp Italian seasoning","Salt & pepper","4 potatoes quartered","3 large carrots chunked","2 tbsp olive oil"],
+         dSteps:["Preheat 425°F. Mix butter with spices. Pat chicken COMPLETELY DRY.","Rub spiced butter all over and under breast skin. Toss veggies in oil.","Place veggies in pan, chicken breast-up on top. Roast 1 hr 15–30 min to 165°F.","REST 15 min before carving."],
+         dTip:"Whole chicken is Walmart's best value protein. Save carcass for broth.",plate:"Mix of white and dark meat, plenty of roasted veggies."
+        },
+        {day:"Monday",breakfast:"PB Banana Smoothie",dinner:"Teriyaki Chicken + Rice + Broccoli",cuisine:"Asian",method:"Stovetop",time:"30 min",cost:"2.50",snack:"String cheese + apple",pmSnack:"Greek yogurt + granola",
+         bIngr:["2 tbsp peanut butter","1 banana","1 cup almond milk","1 scoop protein powder","1/2 cup ice"],bSteps:["Blend 45 seconds."],bTip:"Highest energy breakfast option.",
+         dIngr:["1.5 lb chicken sliced thin","1/3 cup teriyaki sauce","1 tbsp soy sauce","1 tsp garlic powder","3 cups frozen broccoli","2 tbsp oil","2 cups cooked rice"],
+         dSteps:["Season chicken, cook in oiled skillet 5–6 min.","Pour teriyaki and soy over chicken. Simmer 2 min.","Microwave broccoli 4 min. Serve over rice."],
+         dTip:"With Sunday's prepped rice this takes 20 minutes total.",plate:"Big chicken and broccoli, 1/2 cup rice."
+        },
+        {day:"Tuesday",breakfast:"Berry Cheesecake Oats",dinner:"Turkey Meatball Subs",cuisine:"Italian",method:"Oven 400°F",time:"40 min",cost:"2.30",snack:"Hummus + carrots",pmSnack:"Cottage cheese + fruit",
+         bIngr:["1/2 cup oats","1/3 cup almond milk","1/3 cup yogurt","1 tbsp cream cheese","1 tbsp honey","1/2 cup frozen berries"],bSteps:["Grab from fridge. Stir gently. Eat cold."],bTip:"Tastes like dessert.",
+         dIngr:["1.5 lb ground turkey","1/2 cup Italian breadcrumbs","1 egg","1 tsp garlic powder","1 tsp Italian seasoning","1 jar pasta sauce","5 sub rolls","1.5 cups mozzarella"],
+         dSteps:["Preheat 400°F. Mix turkey, breadcrumbs, egg, spices — don't overmix. Roll 1.5 inch balls.","Bake 18–20 min to 165°F. Warm sauce, add meatballs, simmer 5 min.","Load into sub rolls. Top with mozzarella. Broil 2–3 min."],
+         dTip:"Wet hands prevent sticking. Don't overmix — makes tough meatballs.",plate:"One sub with 3–4 meatballs plus big salad."
+        },
+        {day:"Wednesday",breakfast:"Bacon & Cheese Egg Muffins",dinner:"BBQ Chicken Drumsticks + Mac & Cheese + Coleslaw",cuisine:"BBQ",method:"Oven 400°F",time:"50 min",cost:"2.60",snack:"Hard boiled egg + grapes",pmSnack:"String cheese + apple",
+         bIngr:["8 eggs","1/4 cup milk","6 strips bacon","1 cup cheddar","Garlic powder, salt & pepper"],bSteps:["Grab from fridge, microwave 40 sec."],bTip:"Everyone's favorite version.",
+         dIngr:["10 chicken drumsticks","3/4 cup BBQ sauce","Garlic powder, paprika, salt & pepper","3 boxes mac & cheese","1 bag coleslaw mix","3 tbsp light mayo","1 tbsp apple cider vinegar","1 tsp sugar"],
+         dSteps:["Preheat 400°F. Pat drumsticks dry. Season, brush with BBQ.","Bake 35 min. Brush more sauce, bake 10 more min to 165°F.","Make coleslaw: mayo, vinegar, sugar. Toss. Refrigerate.","Cook mac & cheese last 10 min. Serve 2 drumsticks per person."],
+         dTip:"Pat dry before seasoning = crispy skin.",plate:"2 drumsticks without skin, small mac, big coleslaw."
+        },
+        {day:"Thursday",breakfast:"Berry Spinach Smoothie",dinner:"Pork Carnitas Tacos",cuisine:"Mexican",method:"Slow Cooker",time:"6–8 hrs",cost:"2.50",snack:"Greek yogurt + banana",pmSnack:"Almonds + fruit",
+         bIngr:["1 scoop protein powder","1 cup frozen berries","1 handful spinach","1 cup almond milk","1/2 cup ice"],bSteps:["Blend 45 sec."],bTip:"Berries mask the spinach.",
+         dIngr:["3 lb pork shoulder","1 tsp garlic powder","1 tsp cumin","1 tsp paprika","1/2 tsp oregano","Salt & pepper","1/2 cup chicken broth","Corn tortillas","Cheese, salsa, sour cream, lime"],
+         dSteps:["START SLOW COOKER before work. Rub spices on pork. Add broth.","Cook LOW 8 hrs or HIGH 5 hrs.","Shred pork. OPTIONAL: Broil on sheet 3–4 min for crispy edges.","Warm tortillas in dry skillet. Set up taco bar."],
+         dTip:"Broiling turns good tacos into great ones — crispy carnitas in 4 extra min.",plate:"2–3 tacos on corn tortillas. Light on sour cream."
+        },
+        {day:"Friday",breakfast:"PB Banana Oats",dinner:"Beef Chili + Cornbread",cuisine:"Comfort Food",method:"Stovetop + Oven",time:"45 min",cost:"2.60",snack:"PB + celery",pmSnack:"Cottage cheese + berries",
+         bIngr:["1/2 cup oats","1/2 cup almond milk","2 tbsp peanut butter","1 banana","1 tsp honey"],bSteps:["Grab from fridge. Top with banana."],bTip:"PB keeps you full all morning.",
+         dIngr:["1.5 lb ground beef","2 cans beans","1 can (28 oz) diced tomatoes","1 can tomato sauce","Chili powder, garlic powder, cumin, paprika","2 boxes cornbread mix","Cheese and sour cream"],
+         dSteps:["Preheat 375°F. Prepare cornbread per box.","Brown beef, drain. Add spices 1 min. Add tomatoes, sauce, beans.","Boil, then simmer 20–25 min.","Serve topped with cheese and sour cream with cornbread."],
+         dTip:"Double this and freeze half — lifesaver on a busy week.",plate:"Big bowl chili, 1 piece cornbread, light cheese."
+        },
+        {day:"Saturday",breakfast:"Classic Protein Smoothie",dinner:"Baked Tilapia + Rice + Green Beans",cuisine:"American",method:"Oven 400°F",time:"25 min",cost:"3.20",snack:"Trail mix",pmSnack:"Fruit",
+         bIngr:["1 scoop protein powder","1 banana","1 cup almond milk","Spinach","1/2 cup ice"],bSteps:["Blend 45 sec."],bTip:"Quick and filling.",
+         dIngr:["2 lb tilapia fillets","3 tbsp butter melted","2 lemons","1 tsp garlic powder","1 tsp paprika","Salt & pepper","1 bag frozen green beans","2 cups cooked rice"],
+         dSteps:["Preheat 400°F. Line baking dish with foil.","Place tilapia in dish. Brush with butter, season, squeeze lemon.","Bake 12–15 min until fish flakes.","Cook green beans. Serve over rice with more lemon."],
+         dTip:"Tilapia is the mildest fish — even picky eaters like it. Call it 'lemon butter fish.'",plate:"2 fillets, big green beans, 1/2 cup rice."
+        }
+      ],
+      shopping:[{item:"Chicken breasts/thighs",qty:"3 lb",price:6.97},{item:"Ground turkey",qty:"1.5 lb",price:7.47},{item:"Chicken drumsticks",qty:"5 lb",price:5.98},{item:"Pork shoulder for carnitas",qty:"3 lb",price:8.97},{item:"Ground beef",qty:"1.5 lb",price:5.24},{item:"Tilapia fillets frozen",qty:"2 lb",price:6.98},{item:"Whole chicken",qty:"4–5 lb",price:6.97},{item:"Eggs",qty:"1 dozen",price:2.98},{item:"Mozzarella",qty:"16 oz",price:4.98},{item:"Mexican cheese",qty:"16 oz",price:4.98},{item:"Greek yogurt",qty:"32 oz",price:4.98},{item:"Sour cream",qty:"16 oz",price:1.98},{item:"Butter",qty:"1 lb",price:4.48},{item:"Milk",qty:"1 gal",price:3.48},{item:"String cheese",qty:"12-pk",price:4.98},{item:"Bacon",qty:"1 lb",price:5.98},{item:"Bananas",qty:"1 bunch",price:1.47},{item:"Apples",qty:"3 lb",price:3.98},{item:"Broccoli frozen",qty:"12 oz",price:1.28},{item:"Green beans frozen",qty:"12 oz",price:1.28},{item:"Corn frozen",qty:"12 oz",price:1.28},{item:"Coleslaw mix",qty:"14 oz",price:1.98},{item:"Spinach",qty:"5 oz",price:2.98},{item:"Strawberries",qty:"1 lb",price:3.48},{item:"Mixed veggies frozen",qty:"3 lb",price:3.48},{item:"Whole wheat bread",qty:"1 loaf",price:2.98},{item:"Sub rolls",qty:"6-pk",price:2.98},{item:"Flour tortillas",qty:"20-pk",price:3.48},{item:"Corn tortillas",qty:"30-pk",price:2.98},{item:"Hummus",qty:"10 oz",price:2.98}],
+      prep:{block1:["Cook big batch of rice","Hard boil 8–10 eggs","Make Classic Egg Muffins (24)","Make Berry Cheesecake Oats for Tuesday","Make PB Banana Oats for Friday"],block2:["Prep PB Banana Smoothie bags for Monday","Start carnitas in slow cooker before bed (cooks overnight for Thursday)","Chop veggies for snacks","Pack Monday lunch","Lay out Monday workout clothes"]}
+    },
+    // WEEK 4
+    {
+      meals:[
+        {day:"Sunday",breakfast:"PB Banana Oats",dinner:"Chicken & Dumplings",cuisine:"Comfort Food",method:"Stovetop",time:"1 hr",cost:"2.80",snack:"Hard boiled egg",pmSnack:"Almonds",
+         bIngr:["1/2 cup oats","1/2 cup almond milk","2 tbsp PB","1 banana","1 tsp honey"],bSteps:["Made night before. Grab, top with banana."],bTip:"Filling and easy.",
+         dIngr:["1.5 lb chicken thighs","2 cartons chicken broth","2 cups frozen mixed veggies","Garlic powder, Italian seasoning, salt & pepper","1 can refrigerated biscuits","2 tbsp butter","1/4 cup flour"],
+         dSteps:["Simmer chicken in broth with spices 20 min. Shred, return. Add veggies.","Mix butter and flour paste, stir into soup to thicken.","Cut biscuits into quarters, place on top. Cover — DO NOT LIFT LID — cook 12–15 min.","Dumplings are done when fluffy. Serve in deep bowls."],
+         dTip:"DO NOT lift the lid while dumplings cook. Steam cooks them. Lifting = dense gummy dumplings.",plate:"Big bowl broth, chicken, veggies. 1–2 dumplings max."
+        },
+        {day:"Monday",breakfast:"Classic Oats",dinner:"Classic Lasagna + Garlic Bread + Salad",cuisine:"Italian",method:"Oven 350°F Reheat",time:"Reheat",cost:"2.90",snack:"String cheese + apple",pmSnack:"Greek yogurt + granola",
+         bIngr:["1/2 cup oats","1/2 cup almond milk","1/4 cup yogurt","1 tsp honey","Toppings"],bSteps:["Grab from fridge. Add toppings. Eat cold."],bTip:"Zero morning effort.",
+         dIngr:["Lasagna made Sunday (already in fridge)","Frozen garlic bread","Side salad ingredients"],
+         dSteps:["Pull lasagna from fridge 30 min early.","Preheat 350°F. Cover with foil. Bake 30 min.","Uncover last 5 min to re-melt cheese.","Bake garlic bread per package. Serve with big salad."],
+         dTip:"Making lasagna Sunday and reheating Monday — layers firm up and flavor deepens. Best version of lasagna.",plate:"One smaller slice with HUGE side salad."
+        },
+        {day:"Tuesday",breakfast:"Southwest Egg Muffins",dinner:"Turkey Burgers + Sweet Potato Fries",cuisine:"Comfort Food",method:"Stovetop + Oven",time:"35 min",cost:"2.60",snack:"Hummus + carrots",pmSnack:"Cottage cheese + fruit",
+         bIngr:["8 eggs","1/4 cup milk","Mexican cheese","Black beans","Salsa","Cumin, garlic powder"],bSteps:["Grab from fridge. Microwave 40 sec."],bTip:"Made Sunday.",
+         dIngr:["1.5 lb ground turkey","1 tsp garlic powder","1 tsp Worcestershire","Salt & pepper","5 whole wheat buns","Lettuce, tomato","3 large sweet potatoes","2 tbsp olive oil","1 tsp paprika"],
+         dSteps:["Preheat 425°F. Cut sweet potatoes into wedges. Toss with oil, paprika, salt. Bake 25–30 min.","Mix turkey with garlic, Worcestershire, salt & pepper. Form patties with thumb indent.","Cook in skillet 5–6 min per side to 165°F.","Serve on buns with sweet potato fries."],
+         dTip:"Worcestershire keeps turkey moist. Cook to exactly 165°F — not more.",plate:"Open-faced or lettuce-wrapped. Small handful fries."
+        },
+        {day:"Wednesday",breakfast:"Classic Protein Smoothie",dinner:"Sheet Pan Chicken Fajitas",cuisine:"Mexican",method:"Oven 425°F",time:"30 min",cost:"2.70",snack:"Hard boiled egg + grapes",pmSnack:"String cheese + celery",
+         bIngr:["Protein powder, banana, almond milk, spinach, ice"],bSteps:["Dump bag in blender, add milk, blend 45 sec."],bTip:"Frozen banana makes it thick.",
+         dIngr:["1.5 lb chicken strips","3 bell peppers sliced","2 tbsp olive oil","1 packet fajita seasoning","Tortillas","Cheese, salsa, sour cream, lime"],
+         dSteps:["Preheat 425°F. Toss chicken and peppers with oil and seasoning.","Spread single layer. Roast 20–22 min, stirring once.","Warm tortillas. Serve with toppings and lime."],
+         dTip:"Sheet pan = no standing and stirring. Oven char is as good as a skillet.",plate:"2–3 fajitas on corn tortillas. Eat lots of peppers."
+        },
+        {day:"Thursday",breakfast:"Berry Cheesecake Oats",dinner:"Pork Fried Rice",cuisine:"Asian",method:"Stovetop",time:"25 min",cost:"2.40",snack:"Greek yogurt + banana",pmSnack:"Almonds + apple",
+         bIngr:["1/2 cup oats","Almond milk, yogurt, cream cheese, honey, berries"],bSteps:["Grab from fridge. Stir gently. Eat cold."],bTip:"Dessert for breakfast.",
+         dIngr:["1.5 lb pork tenderloin diced","3 cups cold rice","3 eggs","2 cups frozen mixed veggies","3 tbsp soy sauce","1 tsp garlic powder","2 tbsp oil"],
+         dSteps:["Season pork, cook in hot oil. Set aside.","Cook veggies 2 min. Scramble eggs, mix.","Add cold rice, let crisp. Add pork back.","Drizzle soy sauce. Stir-fry 2–3 min."],
+         dTip:"Cold day-old rice from Sunday works far better than fresh.",plate:"1 cup rice max, heavy on protein and veggies."
+        },
+        {day:"Friday",breakfast:"Veggie Egg Muffins",dinner:"BBQ Baby Back Ribs + Baked Potato",cuisine:"BBQ",method:"Oven 275°F then 425°F",time:"3 hrs",cost:"4.20",snack:"PB + celery",pmSnack:"Cottage cheese + berries",
+         bIngr:["8 eggs","1/4 cup milk","Cheese, veggies, garlic powder"],bSteps:["Grab from fridge. Microwave 40 sec."],bTip:"Extra veggies snuck in.",
+         dIngr:["3 lb baby back ribs","3/4 cup BBQ sauce","Garlic powder, paprika, brown sugar, salt & pepper","5 baking potatoes"],
+         dSteps:["START AT 3:30pm. Preheat 275°F. Remove silverskin. Rub spices, wrap in foil.","Bake 2 hrs 30 min at 275°F.","Unwrap. Brush BBQ sauce. Increase to 425°F. Bake uncovered 15–20 min.","Microwave potatoes 8–10 min. Slice ribs and serve."],
+         dTip:"Start ribs before workout — they cook while you exercise.",plate:"4–5 rib bones, 1/2 baked potato. Friday splurge!"
+        },
+        {day:"Saturday",breakfast:"PB Banana Smoothie",dinner:"Lemon Butter Salmon + Asparagus",cuisine:"American",method:"Stovetop",time:"25 min",cost:"4.50",snack:"Trail mix",pmSnack:"Fruit",
+         bIngr:["2 tbsp PB","1 banana","1 cup almond milk","Protein powder","Ice"],bSteps:["Blend 45 sec."],bTip:"Quick and filling.",
+         dIngr:["2 lb salmon fillets","3 tbsp butter","2 lemons","1 tsp garlic powder","Salt & pepper","1 lb asparagus","1 tbsp olive oil"],
+         dSteps:["Pat salmon dry. Season.","Heat oil med-high. Cook 4 min skin-side up. Flip. Add butter. Baste with lemon butter 3–4 min.","Cook asparagus in olive oil 4–5 min.","Serve with fresh lemon over everything."],
+         dTip:"Basting with butter is a restaurant technique. Best weight-loss plate in the book.",plate:"Salmon + asparagus — have as much as you want. Skip rice to cut calories."
+        }
+      ],
+      shopping:[{item:"Ground beef for lasagna",qty:"1.5 lb",price:5.24},{item:"Ground turkey",qty:"1.5 lb",price:7.47},{item:"Chicken strips for fajitas",qty:"1.5 lb",price:5.48},{item:"Pork tenderloin",qty:"1.5 lb",price:6.72},{item:"Baby back ribs",qty:"3 lb rack",price:12.97},{item:"Salmon fillets frozen",qty:"2 lb",price:9.98},{item:"Chicken thighs boneless",qty:"1.5 lb",price:4.49},{item:"Eggs",qty:"1 dozen",price:2.98},{item:"Ricotta cheese",qty:"32 oz",price:4.98},{item:"Mozzarella",qty:"16 oz",price:4.98},{item:"Parmesan",qty:"8 oz",price:3.98},{item:"Greek yogurt",qty:"32 oz",price:4.98},{item:"Butter",qty:"1 lb",price:4.48},{item:"Milk",qty:"1 gal",price:3.48},{item:"String cheese",qty:"12-pk",price:4.98},{item:"Bananas",qty:"1 bunch",price:1.47},{item:"Apples",qty:"3 lb",price:3.98},{item:"Asparagus",qty:"1 lb",price:2.98},{item:"Potatoes russet",qty:"5 lb",price:3.98},{item:"Sweet potatoes",qty:"3 lb",price:3.98},{item:"Bell peppers",qty:"3-pk",price:3.48},{item:"Broccoli frozen",qty:"12 oz",price:1.28},{item:"Lemons",qty:"4-pk",price:1.98},{item:"Mixed veggies frozen",qty:"3 lb",price:3.48},{item:"Spinach",qty:"5 oz",price:2.98},{item:"Strawberries",qty:"1 lb",price:3.48},{item:"Lasagna noodles",qty:"1 box",price:1.98},{item:"Garlic bread frozen",qty:"1 loaf",price:2.48},{item:"Whole wheat burger buns",qty:"8-pk",price:2.98},{item:"Flour tortillas",qty:"20-pk",price:3.48},{item:"Refrigerated biscuits",qty:"1 can",price:1.28},{item:"Hummus",qty:"10 oz",price:2.98}],
+      prep:{block1:["Cook big batch of rice","Hard boil 8–10 eggs","Make Southwest Egg Muffins (24) for Tue/Fri","Make Classic Overnight Oats for Monday","Make Berry Cheesecake Oats for Thursday"],block2:["MAKE LASAGNA TONIGHT — bake, refrigerate, reheat Monday","Chop veggies for snacks","Pack Monday lunch","Lay out Monday workout clothes"]}
+    },
+    // WEEK 5
+    {
+      meals:[
+        {day:"Sunday",breakfast:"Classic Egg Muffins",dinner:"Slow Cooker Beef Bulgogi Bowls",cuisine:"Asian",method:"Slow Cooker",time:"6–8 hrs",cost:"3.00",snack:"Hard boiled egg",pmSnack:"Almonds",
+         bIngr:["Eggs, milk, cheese, peppers, ham, garlic powder"],bSteps:["Grab from fridge. Microwave 40 sec."],bTip:"Fresh batch made today.",
+         dIngr:["2 lb sirloin sliced thin","3 tbsp soy sauce","2 tbsp brown sugar","2 tbsp teriyaki sauce","1 tsp garlic powder","1 tsp sesame oil","1/2 cup beef broth","Cooked rice","3 cups broccoli"],
+         dSteps:["Slice beef thin against grain. Mix soy, sugar, teriyaki, garlic, sesame oil.","Toss beef in sauce. Add to slow cooker with broth. Cook LOW 6–8 hrs.","Microwave broccoli 4 min. Serve beef and juices over rice with broccoli."],
+         dTip:"Slow cooker breaks down even tough beef into tender bulgogi.",plate:"Big beef and broccoli, 1/2 cup rice."
+        },
+        {day:"Monday",breakfast:"Bacon & Cheese Egg Muffins",dinner:"Steak + Mashed Potatoes + Corn",cuisine:"Comfort Food",method:"Stovetop",time:"35 min",cost:"4.80",snack:"String cheese + apple",pmSnack:"Greek yogurt + granola",
+         bIngr:["Eggs, milk, bacon, cheddar, garlic powder"],bSteps:["Grab from fridge. Microwave 40 sec."],bTip:"Made Sunday.",
+         dIngr:["2 lb ribeye or NY strip","2 tbsp vegetable oil","2 tbsp butter","Salt & pepper","6 potatoes","4 tbsp butter","1/2 cup milk","1 bag frozen corn"],
+         dSteps:["Bring steaks out 20–30 min early. Pat COMPLETELY DRY. Season VERY generously.","Heat oil in cast iron over HIGH until smoking. Cook 3–4 min — don't move. Flip. Add butter, baste 3–4 min.","REST 5–8 min. Boil and mash potatoes. Cook corn. Slice against grain."],
+         dTip:"Dry surface + smoking hot pan + don't move = perfect sear. Resting is most important step.",plate:"4–6 oz steak, 1/2 cup mashed potatoes, big corn."
+        },
+        {day:"Tuesday",breakfast:"Classic Protein Smoothie",dinner:"Pork Street Tacos + Rice + Beans",cuisine:"Mexican",method:"Slow Cooker",time:"6–8 hrs",cost:"2.50",snack:"Hummus + carrots",pmSnack:"Cottage cheese + fruit",
+         bIngr:["Protein powder, banana, almond milk, spinach, ice"],bSteps:["Dump bag, add milk, blend 45 sec."],bTip:"Quick at 4am.",
+         dIngr:["2 lb pork tenderloin","1 packet taco seasoning","1/2 cup chicken broth","1 can diced tomatoes","Small corn tortillas","Cheese, salsa, sour cream, lime","1 cup rice","1 can black beans"],
+         dSteps:["START SLOW COOKER before work. Season pork, add broth and tomatoes.","Cook LOW 6–8 hrs. Shred in slow cooker.","Warm corn tortillas in dry skillet. Warm beans.","Serve 2–3 tacos per person with rice and beans."],
+         dTip:"Street taco-sized tortillas naturally control portions. Squeeze lime over everything.",plate:"2–3 street tacos, small rice, portion of beans."
+        },
+        {day:"Wednesday",breakfast:"Classic Oats",dinner:"Baked Chicken Thighs + Pasta + Salad",cuisine:"Italian",method:"Oven 425°F",time:"45 min",cost:"2.60",snack:"Hard boiled egg + grapes",pmSnack:"String cheese + celery",
+         bIngr:["Oats, almond milk, yogurt, honey, toppings"],bSteps:["Grab from fridge. Add toppings."],bTip:"Zero effort.",
+         dIngr:["5 bone-in chicken thighs","Garlic powder, Italian seasoning, paprika, salt & pepper","1 lb pasta","1 jar pasta sauce","1/2 cup Parmesan","Side salad"],
+         dSteps:["Preheat 425°F. Pat thighs dry. Season skin generously.","Roast 35–40 min to 165°F. No flipping.","Cook pasta. Warm sauce. Toss with Parmesan.","Serve chicken alongside pasta with big salad."],
+         dTip:"Bone-in thighs at 425°F develop incredibly crispy skin with no effort.",plate:"One thigh no skin, 1/2 cup pasta, big salad as main filler."
+        },
+        {day:"Thursday",breakfast:"Southwest Egg Muffins",dinner:"Korean Ground Beef Bowls",cuisine:"Asian",method:"Stovetop",time:"20 min",cost:"2.60",snack:"Greek yogurt + banana",pmSnack:"Almonds + fruit",
+         bIngr:["Eggs, milk, Mexican cheese, beans, salsa, cumin"],bSteps:["Grab from fridge. Microwave 40 sec."],bTip:"Made Sunday.",
+         dIngr:["1.5 lb ground beef","3 tbsp soy sauce","2 tbsp brown sugar","1 tsp garlic powder","1 tsp sesame oil","1/4 tsp ground ginger","2 tbsp oil","Cooked rice","3 cups frozen broccoli"],
+         dSteps:["Brown ground beef. Drain fat.","Mix soy sauce, brown sugar, garlic, sesame oil, ginger. Pour over beef. Simmer 2–3 min.","Microwave broccoli 4 min. Serve beef over rice with broccoli."],
+         dTip:"Fastest dinner in 7 weeks — 20 minutes total. Pre-mix sauce Sunday.",plate:"Big beef drained of fat, big broccoli, 1/2 cup rice."
+        },
+        {day:"Friday",breakfast:"Berry Spinach Smoothie",dinner:"Homemade BBQ Chicken Pizza",cuisine:"BBQ",method:"Oven 425°F",time:"35 min",cost:"2.40",snack:"PB + celery",pmSnack:"Cottage cheese + berries",
+         bIngr:["Protein powder, frozen berries, spinach, almond milk, ice"],bSteps:["Blend 45 sec."],bTip:"Berries mask the spinach.",
+         dIngr:["2 cans pizza dough","1.5 cups shredded chicken","1/2 cup BBQ sauce","2 cups mozzarella","1/2 cup Mexican cheese","1/4 cup Parmesan"],
+         dSteps:["Preheat 425°F. Spray baking sheets. Roll out dough.","Pre-bake dough 5 min — critical for crispy crust. Spread BBQ sauce.","Toss chicken with extra BBQ. Scatter over crusts. Top with cheeses.","Bake 12–15 min until golden and bubbly."],
+         dTip:"Pre-baking 5 min = crispy pizza. Skip it = soggy center.",plate:"2 slices max. Pair with large green salad."
+        },
+        {day:"Saturday",breakfast:"Berry Cheesecake Oats",dinner:"Fish Tacos + Coleslaw + Rice",cuisine:"Mexican",method:"Stovetop",time:"30 min",cost:"3.50",snack:"Trail mix",pmSnack:"Fruit",
+         bIngr:["Oats, almond milk, yogurt, cream cheese, honey, berries"],bSteps:["Grab from fridge. Stir. Eat cold."],bTip:"Dessert for breakfast.",
+         dIngr:["2 lb tilapia or cod","Garlic powder, paprika, salt & pepper","2 tbsp olive oil","Tortillas","1 bag coleslaw mix","3 tbsp mayo","1 tbsp lime juice","1 tsp sugar","Salsa","Cooked rice"],
+         dSteps:["Make coleslaw: mayo, lime, sugar, salt & pepper. Toss. Refrigerate 30 min.","Season fish. Cook in skillet med-high 3–4 min per side. Break into chunks.","Warm tortillas. Build tacos: fish, coleslaw, salsa, lime.","Serve with rice."],
+         dTip:"The coleslaw on top is essential. Make it at least 30 min ahead.",plate:"2–3 tacos, small rice, load up on coleslaw."
+        }
+      ],
+      shopping:[{item:"Ribeye or NY strip",qty:"2 lb",price:16.96},{item:"Pork tenderloin",qty:"2 lb",price:8.96},{item:"Chicken thighs bone-in",qty:"5 lb",price:7.98},{item:"Ground beef",qty:"1.5 lb",price:5.24},{item:"Tilapia or cod frozen",qty:"2 lb",price:6.98},{item:"Sirloin for bulgogi",qty:"2 lb",price:10.98},{item:"Rotisserie chicken (pizza)",qty:"1",price:5.98},{item:"Eggs",qty:"1 dozen",price:2.98},{item:"Mozzarella",qty:"16 oz",price:4.98},{item:"Mexican cheese",qty:"16 oz",price:4.98},{item:"Parmesan",qty:"8 oz",price:3.98},{item:"Greek yogurt",qty:"32 oz",price:4.98},{item:"Sour cream",qty:"16 oz",price:1.98},{item:"Butter",qty:"1 lb",price:4.48},{item:"Milk",qty:"1 gal",price:3.48},{item:"String cheese",qty:"12-pk",price:4.98},{item:"Bananas",qty:"1 bunch",price:1.47},{item:"Apples",qty:"3 lb",price:3.98},{item:"Potatoes russet",qty:"5 lb",price:3.98},{item:"Broccoli frozen (x2)",qty:"2 bags",price:2.56},{item:"Corn frozen",qty:"12 oz",price:1.28},{item:"Coleslaw mix",qty:"14 oz",price:1.98},{item:"Spinach",qty:"5 oz",price:2.98},{item:"Strawberries",qty:"1 lb",price:3.48},{item:"Mixed veggies frozen",qty:"3 lb",price:3.48},{item:"Whole wheat bread",qty:"1 loaf",price:2.98},{item:"Corn tortillas",qty:"30-pk",price:2.98},{item:"Flour tortillas",qty:"20-pk",price:3.48},{item:"Pizza dough",qty:"2 cans",price:3.36},{item:"Hummus",qty:"10 oz",price:2.98}],
+      prep:{block1:["Cook big batch of rice","Hard boil 8–10 eggs","Make Classic Egg Muffins (24)","Make Berry Cheesecake Oats for Saturday","Prep Classic Protein Smoothie bags for Tuesday"],block2:["Make Bacon & Cheese Egg Muffins for Monday","Thaw steak for Monday in fridge","Chop veggies for snacks","Pack Monday lunch","Lay out Monday workout clothes"]}
+    },
+    // WEEK 6
+    {
+      meals:[
+        {day:"Sunday",breakfast:"Berry Spinach Smoothie",dinner:"Slow Cooker Chicken Tortilla Soup",cuisine:"Mexican",method:"Slow Cooker",time:"6–8 hrs",cost:"2.50",snack:"Hard boiled egg",pmSnack:"Almonds",
+         bIngr:["Protein powder, frozen berries, spinach, almond milk, ice"],bSteps:["Blend 45 sec."],bTip:"Quick.",
+         dIngr:["1.5 lb chicken thighs","2 cans diced tomatoes","1 can black beans","1 can corn","1 carton chicken broth","1 packet taco seasoning","1 tsp garlic powder","Tortilla chips, cheese, sour cream"],
+         dSteps:["START MORNING during prep. Add all ingredients to slow cooker.","Cook LOW 6–8 hrs or HIGH 3–4 hrs.","Shred chicken, stir everything together.","Serve topped with crushed chips, cheese, sour cream."],
+         dTip:"The whole house smells amazing all day.",plate:"Big bowl soup. Small handful chips, light cheese and sour cream."
+        },
+        {day:"Monday",breakfast:"Classic Egg Muffins",dinner:"Honey Garlic Pork Chops + Green Beans + Rice",cuisine:"Comfort Food",method:"Stovetop",time:"35 min",cost:"2.90",snack:"String cheese + apple",pmSnack:"Greek yogurt + granola",
+         bIngr:["Eggs, milk, cheese, peppers, ham, garlic powder"],bSteps:["Grab from fridge. Microwave 40 sec."],bTip:"Made Sunday.",
+         dIngr:["5 boneless pork chops","3 tbsp honey","2 tbsp soy sauce","1 tsp garlic powder","1 tbsp butter","Salt & pepper","1 bag frozen green beans","2 cups cooked rice"],
+         dSteps:["Mix honey, soy sauce, garlic powder for glaze.","Season chops. Cook in butter med-high 4–5 min per side to 145°F.","Pour glaze over. Cook 1–2 min, spooning glaze until sticky.","REST 5 min. Cook green beans. Serve over rice."],
+         dTip:"Sweet-salty-savory honey garlic glaze is universally loved.",plate:"One chop with glaze, big green beans, small rice."
+        },
+        {day:"Tuesday",breakfast:"PB Banana Smoothie",dinner:"Hawaiian Chicken + Rice + Broccoli",cuisine:"Asian",method:"Stovetop",time:"35 min",cost:"2.70",snack:"Hummus + carrots",pmSnack:"Cottage cheese + fruit",
+         bIngr:["PB, banana, almond milk, protein powder, ice"],bSteps:["Blend 45 sec."],bTip:"Lasting energy.",
+         dIngr:["1.5 lb chicken thighs diced","1 can pineapple chunks (save juice!)","3 tbsp soy sauce","2 tbsp teriyaki","1 tsp garlic powder","1 tbsp brown sugar","2 tbsp oil","Rice","Frozen broccoli"],
+         dSteps:["Cook chicken. Drain pineapple — SAVE juice.","Add pineapple, cook 2 min undisturbed to caramelize.","Mix soy, teriyaki, brown sugar, 2 tbsp pineapple juice. Pour over. Simmer 3–4 min.","Microwave broccoli. Serve over rice."],
+         dTip:"Caramelizing pineapple creates amazing depth. Save that juice!",plate:"Chicken, pineapple, broccoli over 1/2 cup rice."
+        },
+        {day:"Wednesday",breakfast:"Classic Oats",dinner:"Ground Beef Enchiladas",cuisine:"Mexican",method:"Oven 375°F",time:"45 min",cost:"2.70",snack:"Hard boiled egg + grapes",pmSnack:"String cheese + celery",
+         bIngr:["Oats, almond milk, yogurt, honey, toppings"],bSteps:["Grab from fridge. Add toppings."],bTip:"Zero effort.",
+         dIngr:["1.5 lb ground beef","1 packet taco seasoning","2 cans enchilada sauce","10 flour tortillas","2 cups Mexican cheese","1 can black beans","Sour cream"],
+         dSteps:["Preheat 375°F. Spray 9x13. Brown beef, season. Mix in beans.","Pour thin sauce layer in dish. Warm tortillas 30 sec.","Fill, roll seam-down. Pour remaining sauce. Top with cheese.","Cover, bake 25 min. Uncover 5 min. Serve with sour cream."],
+         dTip:"Warming tortillas prevents cracking. Beans stretch beef and add fiber.",plate:"2 enchiladas, light sour cream, big salad."
+        },
+        {day:"Thursday",breakfast:"Bacon & Cheese Egg Muffins",dinner:"Baked Rigatoni with Italian Sausage",cuisine:"Italian",method:"Oven 375°F",time:"50 min",cost:"2.90",snack:"Greek yogurt + banana",pmSnack:"Almonds + fruit",
+         bIngr:["Eggs, milk, bacon, cheddar, garlic powder"],bSteps:["Grab from fridge. Microwave 40 sec."],bTip:"Everyone's favorite.",
+         dIngr:["1 lb rigatoni","1 lb mild Italian turkey sausage","1 jar pasta sauce","1 can diced tomatoes","2 cups mozzarella","1/2 cup ricotta","Garlic powder, Italian seasoning"],
+         dSteps:["Preheat 375°F. Cook rigatoni 1 min less than package.","Brown sausage, add spices, sauce, tomatoes. Simmer 5 min.","Combine in 9x13. Drop ricotta spoonfuls throughout — don't mix.","Top with mozzarella. Cover 20 min. Uncover 10 min. Rest 5 min."],
+         dTip:"Turkey sausage is leaner with equal flavor. Ricotta dollops create creamy pockets.",plate:"1/2 plate salad, moderate rigatoni, extra sausage."
+        },
+        {day:"Friday",breakfast:"Classic Protein Smoothie",dinner:"BBQ Smoked Sausage + Roasted Potatoes + Corn",cuisine:"BBQ",method:"Oven 425°F",time:"40 min",cost:"2.80",snack:"PB + celery",pmSnack:"Cottage cheese + berries",
+         bIngr:["Protein powder, banana, almond milk, spinach, ice"],bSteps:["Blend 45 sec."],bTip:"Quick and filling.",
+         dIngr:["2 lb smoked sausage sliced","5 potatoes cubed","2 tbsp olive oil","Garlic powder, paprika, salt & pepper","1 bag frozen corn","1/4 cup BBQ sauce"],
+         dSteps:["Preheat 425°F. Toss potatoes with oil and spices. Roast 20 min.","Add sausage, drizzle BBQ. Roast 15 more min.","Cook corn. Serve from the pan."],
+         dTip:"One pan, one cleanup. Sausage is pre-cooked — just heating and caramelizing.",plate:"Good sausage and potatoes with big corn. Drink extra water (sodium)."
+        },
+        {day:"Saturday",breakfast:"Veggie Egg Muffins",dinner:"Baked Cod + Asparagus + Quinoa",cuisine:"American",method:"Oven 400°F",time:"30 min",cost:"3.40",snack:"Trail mix",pmSnack:"Fruit",
+         bIngr:["Eggs, milk, cheese, extra veggies, garlic powder"],bSteps:["Grab from fridge. Microwave 40 sec."],bTip:"Extra veggies snuck in.",
+         dIngr:["2 lb cod fillets","2 tbsp olive oil","2 lemons","Garlic powder, paprika, salt & pepper","1 lb asparagus","1.5 cups quinoa","3 cups water","2 tbsp butter"],
+         dSteps:["Preheat 400°F. Boil quinoa with salt, reduce, cover 15 min. Fluff, stir in butter.","Toss asparagus with oil on one side of sheet. Place cod on other. Season, squeeze lemon.","Bake everything 12–15 min until cod flakes.","Serve cod over quinoa with asparagus and fresh lemon."],
+         dTip:"Quinoa has more protein than rice. Cod is meatier than tilapia.",plate:"Cod + asparagus + quinoa. Nearly perfect plate."
+        }
+      ],
+      shopping:[{item:"Boneless pork chops",qty:"5-pk",price:7.48},{item:"Chicken thighs",qty:"5 lb bag",price:7.98},{item:"Ground beef",qty:"1.5 lb",price:5.24},{item:"Turkey Italian sausage",qty:"1 lb",price:4.98},{item:"Smoked turkey sausage",qty:"2 lb",price:5.98},{item:"Cod fillets frozen",qty:"2 lb",price:7.98},{item:"Chicken thighs for soup",qty:"1.5 lb",price:4.49},{item:"Eggs",qty:"1 dozen",price:2.98},{item:"Mozzarella",qty:"16 oz",price:4.98},{item:"Ricotta",qty:"15 oz",price:3.48},{item:"Mexican cheese",qty:"16 oz",price:4.98},{item:"Greek yogurt",qty:"32 oz",price:4.98},{item:"Sour cream",qty:"16 oz",price:1.98},{item:"Butter",qty:"1 lb",price:4.48},{item:"Milk",qty:"1 gal",price:3.48},{item:"String cheese",qty:"12-pk",price:4.98},{item:"Bananas",qty:"1 bunch",price:1.47},{item:"Apples",qty:"3 lb",price:3.98},{item:"Asparagus",qty:"1 lb",price:2.98},{item:"Potatoes russet",qty:"5 lb",price:3.98},{item:"Pineapple chunks canned",qty:"20 oz",price:2.28},{item:"Broccoli frozen (x2)",qty:"2 bags",price:2.56},{item:"Green beans frozen",qty:"12 oz",price:1.28},{item:"Corn frozen",qty:"12 oz",price:1.28},{item:"Corn canned",qty:"15 oz",price:0.88},{item:"Lemons",qty:"4-pk",price:1.98},{item:"Spinach",qty:"5 oz",price:2.98},{item:"Strawberries",qty:"1 lb",price:3.48},{item:"Rigatoni pasta",qty:"1 lb",price:1.48},{item:"Quinoa",qty:"16 oz",price:4.98},{item:"Whole wheat bread",qty:"1 loaf",price:2.98},{item:"Flour tortillas",qty:"20-pk",price:3.48},{item:"Diced green chiles",qty:"7 oz",price:1.28},{item:"Tortilla chips",qty:"16 oz",price:2.98},{item:"Hummus",qty:"10 oz",price:2.98}],
+      prep:{block1:["Cook big batch of rice","Hard boil 8–10 eggs","Make Classic Egg Muffins for Monday","Make Bacon & Cheese Muffins for Thursday","Make Classic Overnight Oats for Wednesday"],block2:["Make Veggie Egg Muffins for Saturday","Prep PB Banana Smoothie bags for Tuesday","Chop veggies for snacks","Pack Monday lunch","Lay out Monday workout clothes"]}
+    },
+    // WEEK 7
+    {
+      meals:[
+        {day:"Sunday",breakfast:"PB Banana Smoothie",dinner:"Slow Cooker Pot Roast with Rich Gravy",cuisine:"Comfort Food",method:"Slow Cooker",time:"8 hrs",cost:"3.80",snack:"Hard boiled egg",pmSnack:"Almonds",
+         bIngr:["PB, banana, almond milk, protein powder, ice"],bSteps:["Blend 45 sec."],bTip:"Quick start to Sunday.",
+         dIngr:["3 lb chuck roast","32 oz beef broth","1 can cream of mushroom soup","4 potatoes quartered","3 carrots chunked","Garlic powder, paprika, Worcestershire, salt & pepper","2 tbsp flour + 1 tbsp butter for gravy"],
+         dSteps:["START MORNING during prep. Season roast.","Place veggies in slow cooker, roast on top. Whisk broth, mushroom soup, Worcestershire. Pour over.","Cook LOW 8 hrs until meat falls apart.","GRAVY: Ladle 2 cups liquid into saucepan. Whisk in flour + butter. Simmer 3–4 min."],
+         dTip:"Cream of mushroom soup creates rich gravy. Best pot roast in the whole 7-week plan.",plate:"Big meat and veggies, moderate gravy."
+        },
+        {day:"Monday",breakfast:"PB Banana Oats",dinner:"One-Pan Chicken Piccata + Pasta",cuisine:"Italian",method:"Stovetop",time:"35 min",cost:"2.80",snack:"String cheese + apple",pmSnack:"Greek yogurt + granola",
+         bIngr:["Oats, almond milk, PB, banana, honey"],bSteps:["Grab from fridge. Top with banana."],bTip:"PB keeps you full.",
+         dIngr:["1.5 lb chicken breast thin","1/4 cup flour","2 tbsp butter","2 tbsp olive oil","1/2 cup chicken broth","Juice of 2 lemons","2 tbsp capers (optional)","Salt & pepper","1 lb linguine"],
+         dSteps:["Cook pasta. SAVE 1/2 cup pasta water.","Season chicken, dredge in flour. Cook in butter+oil 3–4 min per side. Remove.","Add broth and lemon to pan. Scrape ALL browned bits — this IS the sauce. Simmer 2 min.","Return chicken. Toss pasta with sauce and splash of pasta water."],
+         dTip:"Scraping browned bits = restaurant quality sauce. Every bit of brown = flavor.",plate:"One piece chicken, 1/2 cup pasta, lots of lemon sauce, big salad."
+        },
+        {day:"Tuesday",breakfast:"Berry Cheesecake Oats",dinner:"BBQ Chicken Thighs + Roasted Potatoes + Corn",cuisine:"BBQ",method:"Oven 400°F",time:"45 min",cost:"2.80",snack:"Hummus + carrots",pmSnack:"Cottage cheese + fruit",
+         bIngr:["Oats, almond milk, yogurt, cream cheese, honey, berries"],bSteps:["Grab from fridge. Stir gently. Eat cold."],bTip:"Tastes like dessert.",
+         dIngr:["5 bone-in chicken thighs","3/4 cup BBQ sauce","Garlic powder, paprika, salt & pepper","5 potatoes cubed","2 tbsp olive oil","1 bag frozen corn"],
+         dSteps:["Preheat 400°F. Toss potatoes with oil and spices. Spread on half of sheet.","Season thighs, brush BBQ. Place on other half.","Roast 30 min. Brush more sauce. Roast 10 more min to 165°F.","Cook corn. Potatoes absorb chicken drippings!"],
+         dTip:"One pan, one cleanup. Potatoes absorb drippings = incredible flavor.",plate:"One thigh no skin, moderate potatoes, big corn."
+        },
+        {day:"Wednesday",breakfast:"Classic Protein Smoothie",dinner:"Slow Cooker Green Chile Chicken Burritos",cuisine:"Mexican",method:"Slow Cooker",time:"6–8 hrs",cost:"2.60",snack:"Hard boiled egg + grapes",pmSnack:"String cheese + celery",
+         bIngr:["Protein powder, banana, almond milk, spinach, ice"],bSteps:["Blend 45 sec."],bTip:"Thick like a milkshake.",
+         dIngr:["2 lb chicken breasts","1 can green chiles (mild)","1 can diced tomatoes","1 packet taco seasoning","1/2 cup chicken broth","Large flour tortillas","Cheese, sour cream, salsa","1 cup rice","1 can black beans"],
+         dSteps:["START before work. Add chicken, chiles, tomatoes, seasoning, broth.","Cook LOW 6–8 hrs. Shred chicken, stir back in.","Warm tortillas. Build burritos: chicken, rice, beans, cheese.","OPTIONAL: Sear rolled burritos in dry skillet for crispy exterior."],
+         dTip:"Searing the rolled burrito creates restaurant-quality crispy outside.",plate:"One burrito, small salad. Beans add filling fiber."
+        },
+        {day:"Thursday",breakfast:"Classic Egg Muffins",dinner:"Baked Salmon Patties + Coleslaw + Rice",cuisine:"American",method:"Stovetop",time:"30 min",cost:"3.00",snack:"Greek yogurt + banana",pmSnack:"Almonds + fruit",
+         bIngr:["Eggs, milk, cheese, peppers, ham, garlic powder"],bSteps:["Grab from fridge. Microwave 40 sec."],bTip:"Made Sunday.",
+         dIngr:["2 large cans salmon drained","2 eggs","1/2 cup Italian breadcrumbs","Garlic powder, paprika, lemon juice, salt & pepper","1 bag coleslaw mix","3 tbsp light mayo","1 tbsp lemon juice","Cooked rice"],
+         dSteps:["Make coleslaw: mayo + lemon, toss with coleslaw. Refrigerate.","Drain salmon well. Mix with eggs, breadcrumbs, spices, lemon. Form 10 patties.","Spray, cook 3–4 min per side until golden. OR bake 400°F 12 min.","Serve 2 patties over rice with coleslaw."],
+         dTip:"Canned salmon is one of the most underrated budget proteins.",plate:"2 patties, big coleslaw, 1/2 cup rice."
+        },
+        {day:"Friday",breakfast:"Bacon & Cheese Egg Muffins",dinner:"Pork Fried Rice with Egg",cuisine:"Asian",method:"Stovetop",time:"25 min",cost:"2.40",snack:"PB + celery",pmSnack:"Cottage cheese + berries",
+         bIngr:["Eggs, milk, bacon, cheddar, garlic powder"],bSteps:["Grab from fridge. Microwave 40 sec."],bTip:"Made Sunday.",
+         dIngr:["1.5 lb pork tenderloin diced","3 cups cold rice","4 eggs","2 cups frozen mixed veggies","3 tbsp soy sauce","1 tsp garlic powder","1 tsp sesame oil","2 tbsp oil"],
+         dSteps:["Season pork, cook in hot oil. Remove.","Oil over HIGH. Cook veggies 2 min. Scramble eggs, mix.","Add cold rice, press, crisp 1–2 min. Add pork back.","Drizzle soy and sesame oil. Stir-fry 2–3 min."],
+         dTip:"Sesame oil at end (not for cooking) is the authentic finishing touch.",plate:"1 cup rice max, heavy on pork and veggies."
+        },
+        {day:"Saturday",breakfast:"Southwest Egg Muffins",dinner:"Garlic Butter Shrimp Pasta",cuisine:"Italian",method:"Stovetop",time:"25 min",cost:"3.60",snack:"Trail mix",pmSnack:"Fruit",
+         bIngr:["Eggs, milk, Mexican cheese, beans, salsa, cumin"],bSteps:["Grab from fridge. Microwave 40 sec."],bTip:"Made Sunday.",
+         dIngr:["1 lb frozen shrimp thawed, dried","1 lb linguine","4 tbsp butter","1 tsp garlic powder","1/2 cup Parmesan","2 lemons","Salt & pepper","2 cups frozen broccoli"],
+         dSteps:["Cook pasta. SAVE 1/2 cup pasta water. Cook broccoli.","Pat shrimp dry. Melt butter med-high. Cook 1–2 min per side until pink.","Add pasta + splash of pasta water. Toss — starchy water makes silky sauce.","Add broccoli. Squeeze lemons. Top with Parmesan."],
+         dTip:"Reserved starchy pasta water is the secret to coating everything. Never skip saving it.",plate:"Moderate pasta, lots of shrimp, big broccoli."
+        }
+      ],
+      shopping:[{item:"Chicken breasts",qty:"3 lb",price:6.97},{item:"Bone-in chicken thighs",qty:"5-pk",price:5.98},{item:"Chicken for burritos",qty:"2 lb",price:5.98},{item:"Canned salmon (2 large)",qty:"2 cans",price:7.96},{item:"Pork tenderloin",qty:"1.5 lb",price:6.72},{item:"Frozen shrimp",qty:"1 lb",price:7.98},{item:"Chuck roast",qty:"3 lb",price:11.97},{item:"Eggs",qty:"1 dozen",price:2.98},{item:"Mozzarella",qty:"16 oz",price:4.98},{item:"Parmesan",qty:"8 oz",price:3.98},{item:"Mexican cheese",qty:"16 oz",price:4.98},{item:"Greek yogurt",qty:"32 oz",price:4.98},{item:"Sour cream",qty:"16 oz",price:1.98},{item:"Butter",qty:"1 lb",price:4.48},{item:"Milk",qty:"1 gal",price:3.48},{item:"String cheese",qty:"12-pk",price:4.98},{item:"Bananas",qty:"1 bunch",price:1.47},{item:"Apples",qty:"3 lb",price:3.98},{item:"Potatoes russet",qty:"5 lb",price:3.98},{item:"Bell peppers",qty:"3-pk",price:3.48},{item:"Broccoli frozen (x2)",qty:"2 bags",price:2.56},{item:"Corn frozen",qty:"12 oz",price:1.28},{item:"Coleslaw mix",qty:"14 oz",price:1.98},{item:"Lemons",qty:"4-pk",price:1.98},{item:"Spinach",qty:"5 oz",price:2.98},{item:"Strawberries",qty:"1 lb",price:3.48},{item:"Mixed veggies frozen",qty:"3 lb",price:3.48},{item:"Linguine/spaghetti",qty:"1 lb",price:1.48},{item:"Corn tortillas",qty:"30-pk",price:2.98},{item:"Flour tortillas",qty:"20-pk",price:3.48},{item:"Whole wheat bread",qty:"1 loaf",price:2.98},{item:"Italian breadcrumbs",qty:"15 oz",price:1.98},{item:"Cream of mushroom soup",qty:"1 can",price:1.28},{item:"Hummus",qty:"10 oz",price:2.98}],
+      prep:{block1:["Cook big batch of rice","Hard boil 8–10 eggs","Make Classic Egg Muffins for Thursday","Make Bacon & Cheese Muffins for Friday","Make PB Banana Oats for Monday","Make Berry Cheesecake Oats for Tuesday"],block2:["Prep Classic Protein Smoothie bags for Wednesday","Make PB Banana Smoothie bags for Sunday","Chop veggies for snacks","Pack Monday lunch","Lay out Monday workout clothes"]}
+    }
+  ],
+  pantry:[
+    {item:"White rice (10 lb bag)",price:6.98},{item:"Pasta variety — spaghetti, ziti, rigatoni, linguine (5 lb)",price:7.40},{item:"Rolled oats — not instant (42 oz)",price:3.98},{item:"Granola (18 oz)",price:3.98},{item:"Peanut butter (40 oz)",price:4.98},{item:"Low-sodium soy sauce",price:2.48},{item:"BBQ sauce (18 oz)",price:2.48},{item:"Teriyaki sauce",price:2.48},{item:"Jarred pasta sauce (3 jars)",price:5.94},{item:"Salsa (24 oz jar)",price:2.98},{item:"Enchilada sauce (2 cans)",price:2.56},{item:"Black beans (6 cans)",price:5.28},{item:"Pinto beans (2 cans)",price:1.76},{item:"Diced tomatoes (8 cans)",price:7.04},{item:"Tomato sauce (4 cans)",price:2.96},{item:"Chicken broth (3 cartons)",price:5.94},{item:"Beef broth (2 cartons)",price:3.96},{item:"Taco/fajita seasoning (8 packets)",price:7.52},{item:"Garlic powder (large)",price:1.98},{item:"Paprika (large)",price:1.98},{item:"Italian seasoning",price:1.98},{item:"Chili powder",price:1.98},{item:"Cumin",price:1.98},{item:"Salt & pepper (large)",price:2.98},{item:"Olive oil (16 oz)",price:4.98},{item:"Vegetable oil (48 oz)",price:3.98},{item:"Protein powder (2 lb tub)",price:18.98},{item:"Almond milk (2 half-gallons)",price:5.96},{item:"Cornbread mix (2 boxes)",price:1.96},{item:"Italian breadcrumbs (15 oz)",price:1.98},{item:"Cornstarch",price:1.28},{item:"Brown sugar",price:1.98},{item:"Honey",price:3.98},{item:"Sesame oil (small bottle)",price:2.98},{item:"Worcestershire sauce",price:2.28},{item:"Tortilla chips (16 oz)",price:2.98},{item:"Almonds (16 oz bag)",price:6.98},{item:"Light popcorn (6-pk)",price:2.98},{item:"Cream cheese (8 oz)",price:2.48}
+  ]
+};
+
+// ═══ STATE ═══
+let currentWeek = 0;
+let currentDay = 0;
+let currentTab = 'today';
+let checkedItems = {};
+try { checkedItems = JSON.parse(localStorage.getItem('fk_checked')||'{}'); } catch(e) { checkedItems = {}; }
+
+function saveChecks(){try{localStorage.setItem('fk_checked',JSON.stringify(checkedItems));}catch(e){}}
+
+// ═══ NAVIGATION ═══
+function showTab(tab){
+  currentTab=tab;
+  Array.from(document.querySelectorAll('.nav button')).forEach((b,i)=>b.classList.toggle('active',['today','overview','shop','prep','recipes','pantry'][i]===tab));
+  Array.from(document.querySelectorAll('.panel')).forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
+  render();
+}
+window.showTab=showTab;
+
+function setWeek(w){
+  currentWeek=w-1;currentDay=0;
+  Array.from(document.querySelectorAll('.week-bar button')).forEach((b,i)=>b.classList.toggle('active',i===currentWeek));
+  render();
+}
+window.setWeek=setWeek;
+
+function setDay(d){currentDay=d;render();}
+window.setDay=setDay;
+
+// ═══ RENDER ═══
+function render(){
+  try{
+  if(currentTab==='today') renderToday();
+  else if(currentTab==='overview') renderOverview();
+  else if(currentTab==='shop') renderShop();
+  else if(currentTab==='prep') renderPrep();
+  else if(currentTab==='recipes') renderRecipes();
+  else if(currentTab==='pantry') renderPantry();
+  }catch(e){
+    var p=document.getElementById('panelToday');
+    p.innerHTML='<div class="card" style="color:red;padding:20px"><h3>Error</h3><pre style="white-space:pre-wrap;font-size:12px">'+e.message+'\n\n'+e.stack+'</pre></div>';
+    p.style.display='block';
+  }
+}
+
+function renderToday(){
+  const w=DATA.weeks[currentWeek];
+  const m=w.meals[currentDay];
+  const dayName=DATA.days[currentDay];
+  const wo=DATA.workouts[dayName];
+  let h='';
+
+  // Day strip
+  h+='<div class="day-strip">';
+  DATA.days.forEach((d,i)=>{
+    const cls=i===currentDay?'active':'';
+    const sun=i===0?'sunday':'';
+    h+=`<div class="day-btn ${cls} ${sun}" onclick="setDay(${i})"><div class="dow">${d.slice(0,3)}</div><div class="dname">${w.meals[i].dinner.split('+')[0].split(' ').slice(0,3).join(' ')}</div></div>`;
+  });
+  h+='</div>';
+
+  // Today header
+  h+=`<div style="text-align:center;margin:8px 0 14px"><span style="font-family:Georgia,'Times New Roman',serif;font-size:1.4em">${dayName}</span><br><span style="color:var(--mid);font-size:.85em">Week ${currentWeek+1}: ${DATA.weekNames[currentWeek]}</span></div>`;
+
+  // Quick glance
+  h+=`<div class="card" style="background:linear-gradient(135deg,var(--light-sage),var(--white))">`;
+  h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">`;
+  h+=`<div><span class="card-label label-breakfast">Breakfast</span><div style="font-weight:600;font-size:.92em">${m.breakfast}</div></div>`;
+  h+=`<div><span class="card-label label-dinner">Dinner</span><div style="font-weight:600;font-size:.92em">${m.dinner}</div></div>`;
+  h+=`</div>`;
+  h+=`<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">`;
+  h+=`<span class="meta-tag">${wo.icon} ${wo.name}</span>`;
+  h+=`<span class="meta-tag">💰 $${m.cost}/person</span>`;
+  h+=`<span class="meta-tag">⏱ ${m.time}</span>`;
+  h+=`<span class="meta-tag">🍳 ${m.method}</span>`;
+  h+=`</div></div>`;
+
+  // Schedule
+  h+=`<div class="card"><span class="card-label label-schedule">Daily Schedule</span>`;
+  h+=`<div class="collapse-trigger open" onclick="toggleCollapse(this)"><h3>⏰ ${dayName}'s Schedule</h3></div>`;
+  h+=`<div class="collapse-body open"><table class="sched-table">`;
+  let sched;
+  if(dayName==='Sunday') sched=DATA.scheduleTemplate.Sunday;
+  else if(dayName==='Friday') sched=DATA.scheduleTemplate.Friday;
+  else if(dayName==='Saturday') sched=DATA.scheduleTemplate.Saturday;
+  else sched=DATA.scheduleTemplate.Weekday;
+  sched.forEach(([time,event,detail])=>{
+    let ev=event.replace('[BREAKFAST]',m.breakfast).replace('[DINNER]',m.dinner).replace('[WORKOUT]',`${wo.icon} ${wo.name}`);
+    let det=detail.replace('[BREAKFAST]',m.breakfast).replace('[DINNER]',m.dinner).replace('[DINNER_START]',`${m.dinner} — ${m.method}, ~${m.time}`).replace('[SNACK]',m.snack||'').replace('[PM_SNACK]',m.pmSnack||'');
+    const hl=(ev.includes('dinner')||ev.includes('🍽️'))?'sched-highlight':'';
+    h+=`<tr class="${hl}"><td class="time">${time}</td><td><div class="event">${ev}</div><div class="details">${det}</div></td></tr>`;
+  });
+  h+=`</table></div></div>`;
+
+  // Breakfast recipe
+  h+=renderRecipeCard(m,'breakfast');
+  // Workout
+  h+=renderWorkoutCard(wo,dayName);
+  // Dinner recipe
+  h+=renderRecipeCard(m,'dinner');
+
+  document.getElementById('panelToday').innerHTML=h;
+}
+
+function renderRecipeCard(m, type){
+  const isB = type==='breakfast';
+  const label = isB ? 'Breakfast' : 'Dinner';
+  const cls = isB ? 'label-breakfast' : 'label-dinner';
+  const name = isB ? m.breakfast : m.dinner;
+  const ingr = isB ? m.bIngr : m.dIngr;
+  const steps = isB ? m.bSteps : m.dSteps;
+  const tip = isB ? m.bTip : m.dTip;
+  const plate = isB ? '' : m.plate;
+
+  let h=`<div class="card"><span class="card-label ${cls}">${label} Recipe</span>`;
+  h+=`<div class="collapse-trigger" onclick="toggleCollapse(this)"><h3>${isB?'🥞':'🍽️'} ${name}</h3></div>`;
+  h+=`<div class="collapse-body">`;
+  if(!isB){
+    h+=`<div class="meta-row"><span class="meta-tag">${m.cuisine}</span><span class="meta-tag">${m.method}</span><span class="meta-tag">⏱ ${m.time}</span><span class="meta-tag">💰 $${m.cost}/person</span><span class="meta-tag">Serves 5</span></div>`;
+  }
+  h+=`<h4 style="font-size:.85em;font-weight:700;color:var(--forest);margin:8px 0 4px">INGREDIENTS</h4><ul class="ingredients">`;
+  ingr.forEach(i=>h+=`<li>${i}</li>`);
+  h+=`</ul><h4 style="font-size:.85em;font-weight:700;color:var(--forest);margin:8px 0 4px">INSTRUCTIONS</h4><ol class="steps">`;
+  steps.forEach(s=>h+=`<li>${s}</li>`);
+  h+=`</ol>`;
+  if(tip) h+=`<div class="tip">💡 ${tip}</div>`;
+  if(plate) h+=`<div class="weight-plate">⚖️ <strong>Your Weight Loss Plate:</strong> ${plate}</div>`;
+  h+=`</div></div>`;
+  return h;
+}
+
+function renderWorkoutCard(wo,dayName){
+  const colors={rest:'#F3E5F5',strength:'#E3F2FD',cardio:'#E8F5E9',family:'#FFF8E1'};
+  let h=`<div class="card" style="border-left:4px solid ${wo.type==='strength'?'#1565C0':wo.type==='cardio'?'#2E7D32':wo.type==='family'?'#F57F17':'#7B1FA2'}">`;
+  h+=`<span class="card-label label-workout">${wo.icon} Workout</span>`;
+  h+=`<div class="collapse-trigger" onclick="toggleCollapse(this)"><h3>${wo.icon} ${wo.name}</h3></div>`;
+  h+=`<div class="collapse-body">`;
+  if(wo.time) h+=`<div class="meta-row"><span class="meta-tag">⏱ ${wo.time}</span><span class="meta-tag">${wo.type==='strength'?'35–40 min':wo.type==='cardio'?'45 min':'60+ min'}</span></div>`;
+  wo.exercises.forEach(e=>{
+    h+=`<div class="exercise-row"><span class="ename">${e.n}</span><span class="esets">${e.s}</span></div>`;
+  });
+  const tips={Sunday:"Sunday is full meal prep day. The activity IS the cooking. Rest your muscles.",Monday:"Rest 60 sec between sets. Focus on form over speed.",Tuesday:"Great day to push the stroller or walk with a friend.",Wednesday:"Strength B focuses on back, hamstrings, and triceps.",Thursday:"Thursday cardio is the one to do with your family.",Friday:"Same as Monday. Track if you can do more reps — that's progress.",Saturday:"This doesn't feel like a workout but it absolutely counts. 60+ min of family movement."};
+  h+=`<div class="tip">💡 ${tips[dayName]}</div>`;
+  h+=`</div></div>`;
+  return h;
+}
+
+function renderOverview(){
+  const w=DATA.weeks[currentWeek];
+  const b=DATA.weekBudgets[currentWeek];
+  let h=`<div class="section-title">Week ${currentWeek+1}: ${DATA.weekNames[currentWeek]}</div>`;
+
+  // Budget summary
+  h+=`<div class="card"><h3>💰 Week ${currentWeek+1} Budget</h3>`;
+  h+=`<div class="budget-row"><span class="bl">Fresh groceries</span><span class="br">$${b.fresh.toFixed(2)}</span></div>`;
+  h+=`<div class="budget-row"><span class="bl">All 7 dinners (family of 5)</span><span class="br">$${b.dinners.toFixed(2)}</span></div>`;
+  h+=`<div class="budget-row"><span class="bl">Average dinner cost/person</span><span class="br">$${b.avg}/meal</span></div>`;
+  if(currentWeek===0) h+=`<div class="budget-row"><span class="bl">One-time pantry (all 7 weeks)</span><span class="br">$159.34</span></div>`;
+  h+=`<div class="budget-row total"><span class="bl">Total Week ${currentWeek+1} Spend</span><span class="br">$${(currentWeek===0?b.fresh+159.34:b.fresh).toFixed(2)}</span></div>`;
+  h+=`</div>`;
+
+  // Overview grid
+  h+=`<div class="card"><h3>🗓 Meal Overview</h3>`;
+  h+=`<div class="overview-grid">`;
+  DATA.days.forEach(d=>h+=`<div class="ov-head">${d.slice(0,3)}</div>`);
+  w.meals.forEach((m,i)=>{
+    h+=`<div class="ov-cell" onclick="currentTab='today';showTab('today');setDay(${i})">`;
+    h+=`<div class="ov-day">${DATA.days[i].slice(0,3)}</div>`;
+    h+=`<div class="ov-dinner">${m.dinner.split('+')[0].trim()}</div>`;
+    h+=`<div class="ov-bfast">🥞 ${m.breakfast.split(' ').slice(0,3).join(' ')}</div>`;
+    h+=`<div class="ov-cost">$${m.cost}</div>`;
+    h+=`</div>`;
+  });
+  h+=`</div></div>`;
+
+  // Full week schedule quick reference
+  h+=`<div class="card"><h3>📋 Quick Reference</h3>`;
+  h+=`<table class="sched-table">`;
+  w.meals.forEach((m,i)=>{
+    const wo=DATA.workouts[DATA.days[i]];
+    h+=`<tr style="cursor:pointer" onclick="currentTab='today';showTab('today');setDay(${i})"><td class="time" style="width:80px">${DATA.days[i].slice(0,3)}</td><td><div class="event">${m.dinner}</div><div class="details">🥞 ${m.breakfast} · ${wo.icon} ${wo.name} · 💰 $${m.cost}</div></td></tr>`;
+  });
+  h+=`</table></div>`;
+
+  document.getElementById('panelOverview').innerHTML=h;
+}
+
+function renderShop(){
+  const w=DATA.weeks[currentWeek];
+  const key=`shop_w${currentWeek}`;
+  let h=`<div class="section-title">🛒 Week ${currentWeek+1} Shopping List</div>`;
+
+  // Progress
+  const checked=w.shopping.filter((_,i)=>checkedItems[key+'_'+i]).length;
+  const pct=Math.round(checked/w.shopping.length*100);
+  h+=`<div class="card"><div style="display:flex;justify-content:space-between;font-size:.85em;font-weight:600"><span>${checked} of ${w.shopping.length} items</span><span>${pct}% done</span></div>`;
+  h+=`<div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>`;
+  h+=`<div style="text-align:right;font-size:.78em;color:var(--mid)">Tap items as you put them in the cart</div></div>`;
+
+  h+=`<div class="card">`;
+  w.shopping.forEach((item,i)=>{
+    const ck=checkedItems[key+'_'+i]?'checked':'';
+    h+=`<div class="shop-item ${ck}"><label><input type="checkbox" ${ck} onchange="toggleShopItem('${key}_${i}',this)"><span>${item.item}</span></label><span class="qty">${item.qty}</span><span class="price">$${item.price.toFixed(2)}</span></div>`;
+  });
+  const total=w.shopping.reduce((s,i)=>s+i.price,0);
+  h+=`<div class="shop-total">Total: $${total.toFixed(2)}</div>`;
+  h+=`</div>`;
+
+  h+=`<div style="text-align:center;padding:10px"><button onclick="clearShopChecks('${key}')" style="padding:10px 20px;border-radius:var(--radius);border:2px solid var(--sand);background:var(--white);cursor:pointer;font-family:inherit;font-weight:600;color:var(--mid)">Reset Checklist</button></div>`;
+
+  document.getElementById('panelShop').innerHTML=h;
+}
+
+function toggleShopItem(key,el){
+  if(el.checked) checkedItems[key]=true; else delete checkedItems[key];
+  saveChecks();render();
+}
+function clearShopChecks(prefix){
+  Object.keys(checkedItems).filter(k=>k.startsWith(prefix)).forEach(k=>delete checkedItems[k]);
+  saveChecks();render();
+}
+
+function renderPrep(){
+  const w=DATA.weeks[currentWeek];
+  const key=`prep_w${currentWeek}`;
+  let h=`<div class="section-title">🥗 Sunday Prep — Week ${currentWeek+1}</div>`;
+
+  h+=`<div class="card" style="background:linear-gradient(135deg,#FFF8E1,var(--white))"><p style="font-size:.88em;color:var(--mid)">Everything you prep on Sunday so the week runs smoothly. Split into two blocks: before church (9–11am) and after church (2:30pm+).</p></div>`;
+
+  // Block 1
+  h+=`<div class="card"><h3>🌅 Block 1 — Before Church (9:00–11:00am)</h3><div class="prep-block">`;
+  w.prep.block1.forEach((item,i)=>{
+    const ck=checkedItems[key+'_b1_'+i]?'checked':'';
+    h+=`<div class="prep-item ${ck}"><input type="checkbox" ${ck} onchange="togglePrepItem('${key}_b1_${i}',this)"><span onclick="this.previousElementSibling.click()">${item}</span></div>`;
+  });
+  h+=`</div></div>`;
+
+  // Block 2
+  h+=`<div class="card"><h3>🌆 Block 2 — After Church (2:30pm+)</h3><div class="prep-block">`;
+  w.prep.block2.forEach((item,i)=>{
+    const ck=checkedItems[key+'_b2_'+i]?'checked':'';
+    h+=`<div class="prep-item ${ck}"><input type="checkbox" ${ck} onchange="togglePrepItem('${key}_b2_${i}',this)"><span onclick="this.previousElementSibling.click()">${item}</span></div>`;
+  });
+  h+=`</div></div>`;
+
+  // What you'll have ready
+  h+=`<div class="card" style="border-left:4px solid var(--forest)"><h3>✅ After Sunday Prep You'll Have Ready</h3>`;
+  h+=`<ul style="font-size:.88em;color:var(--mid);list-style:none;padding:0">`;
+  h+=`<li style="padding:4px 0">🍚 Cooked rice batch — ready for fried rice, bowls, sides all week</li>`;
+  h+=`<li style="padding:4px 0">🥚 Hard boiled eggs — grab-and-go snacks and breakfast additions</li>`;
+  h+=`<li style="padding:4px 0">🫙 Overnight oats jars — grab from fridge, 0 prep mornings</li>`;
+  h+=`<li style="padding:4px 0">🥤 Smoothie freezer bags — dump in blender, 45 sec, done</li>`;
+  h+=`<li style="padding:4px 0">🧁 Egg muffins — 40-second microwave, out the door</li>`;
+  h+=`<li style="padding:4px 0">🥕 Snack veggies chopped — ready in containers</li>`;
+  h+=`</ul></div>`;
+
+  h+=`<div style="text-align:center;padding:10px"><button onclick="clearPrepChecks('${key}')" style="padding:10px 20px;border-radius:var(--radius);border:2px solid var(--sand);background:var(--white);cursor:pointer;font-family:inherit;font-weight:600;color:var(--mid)">Reset Prep Checklist</button></div>`;
+
+  document.getElementById('panelPrep').innerHTML=h;
+}
+
+function togglePrepItem(key,el){
+  if(el.checked) checkedItems[key]=true; else delete checkedItems[key];
+  saveChecks();render();
+}
+function clearPrepChecks(prefix){
+  Object.keys(checkedItems).filter(k=>k.startsWith(prefix)).forEach(k=>delete checkedItems[k]);
+  saveChecks();render();
+}
+
+function renderRecipes(){
+  const w=DATA.weeks[currentWeek];
+  let h=`<div class="section-title">📖 Week ${currentWeek+1} Recipes</div>`;
+
+  // Search
+  h+=`<div style="margin-bottom:14px"><input type="text" id="recipeSearch" placeholder="Search recipes..." oninput="filterRecipes()" style="width:100%;padding:10px 14px;border-radius:var(--radius);border:2px solid var(--sand);font-size:.9em;font-family:inherit;background:var(--white)"></div>`;
+
+  w.meals.forEach((m,i)=>{
+    h+=`<div class="recipe-card-wrap" data-search="${(m.dinner+' '+m.breakfast+' '+m.cuisine).toLowerCase()}">`;
+    h+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:start"><div><span class="card-label label-dinner">${DATA.days[i]} Dinner</span><h3>${m.dinner}</h3></div><div style="text-align:right"><span class="meta-tag">${m.cuisine}</span><br><span style="font-weight:700;color:var(--coral);font-size:.9em">$${m.cost}</span></div></div>`;
+    h+=`<div class="meta-row"><span class="meta-tag">${m.method}</span><span class="meta-tag">⏱ ${m.time}</span><span class="meta-tag">Serves 5</span></div>`;
+
+    h+=`<h4 style="font-size:.85em;font-weight:700;color:var(--forest);margin:10px 0 4px">INGREDIENTS</h4><ul class="ingredients">`;
+    m.dIngr.forEach(ing=>h+=`<li>${ing}</li>`);
+    h+=`</ul><h4 style="font-size:.85em;font-weight:700;color:var(--forest);margin:8px 0 4px">INSTRUCTIONS</h4><ol class="steps">`;
+    m.dSteps.forEach(s=>h+=`<li>${s}</li>`);
+    h+=`</ol>`;
+    if(m.dTip) h+=`<div class="tip">💡 ${m.dTip}</div>`;
+    if(m.plate) h+=`<div class="weight-plate">⚖️ <strong>Your Plate:</strong> ${m.plate}</div>`;
+    h+=`</div></div>`;
+  });
+
+  document.getElementById('panelRecipes').innerHTML=h;
+}
+
+function filterRecipes(){
+  const q=document.getElementById('recipeSearch').value.toLowerCase();
+  Array.from(document.querySelectorAll('.recipe-card-wrap')).forEach(el=>{
+    el.style.display=el.dataset.search.includes(q)?'block':'none';
+  });
+}
+
+function renderPantry(){
+  let h=`<div class="section-title">🏪 One-Time Pantry List</div>`;
+  h+=`<div class="card"><p style="font-size:.88em;color:var(--mid);margin-bottom:12px">Buy these on the Saturday before Week 1. They cover all 7 weeks.</p>`;
+  DATA.pantry.forEach(p=>{
+    h+=`<div class="pantry-item"><span class="pi-name">${p.item}</span><span class="pi-price">$${p.price.toFixed(2)}</span></div>`;
+  });
+  const total=DATA.pantry.reduce((s,p)=>s+p.price,0);
+  h+=`<div class="shop-total">Pantry Total: $${total.toFixed(2)}</div>`;
+  h+=`</div>`;
+
+  // 7-week totals
+  h+=`<div class="card"><h3>💰 7-Week Budget Summary</h3>`;
+  let grandTotal=159.34;
+  DATA.weekBudgets.forEach((b,i)=>{
+    h+=`<div class="budget-row"><span class="bl">Week ${i+1}: ${DATA.weekNames[i]}</span><span class="br">$${b.fresh.toFixed(2)}</span></div>`;
+    grandTotal+=b.fresh;
+  });
+  h+=`<div class="budget-row"><span class="bl">One-time pantry</span><span class="br">$159.34</span></div>`;
+  h+=`<div class="budget-row total"><span class="bl">7-Week Grand Total</span><span class="br">$${grandTotal.toFixed(2)}</span></div>`;
+  h+=`<div style="font-size:.82em;color:var(--mid);margin-top:8px;text-align:center">That's $${(grandTotal/49).toFixed(2)} per dinner · $${(grandTotal/7).toFixed(2)} per week average</div>`;
+  h+=`</div>`;
+
+  document.getElementById('panelPantry').innerHTML=h;
+}
+
+// ═══ UTILS ═══
+function toggleCollapse(el){
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('open');
+}
+window.toggleCollapse=toggleCollapse;
+window.toggleShopItem=toggleShopItem;
+window.clearShopChecks=clearShopChecks;
+window.togglePrepItem=togglePrepItem;
+window.clearPrepChecks=clearPrepChecks;
+window.filterRecipes=filterRecipes;
+
+// Initial render with safety
+try { render(); } catch(e) {
+  document.getElementById('panelToday').innerHTML='<div class="card" style="color:red"><h3>Error loading</h3><p>'+e.message+'</p><p>Line: '+(e.stack||'')+'</p></div>';
+  document.getElementById('panelToday').classList.add('active');
+}
+
+}); // end DOMContentLoaded
+</script>
+</body>
+</html>
