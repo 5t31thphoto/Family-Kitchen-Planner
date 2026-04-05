@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no,maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#2D5016">
+<title>The Family Kitchen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#FAF6F0;--card:#FFFFFF;--card2:#F5F0E8;--green:#2D5016;--green2:#4A7C2E;--green3:#6B9B4A;--green-light:#E8F0E0;--green-pale:#F2F7ED;--brown:#5C3D2E;--brown2:#8B6914;--warm:#D4A574;--warm-light:#FDF4E8;--coral:#D4654A;--coral-light:#FDE8E4;--blue:#3B6FA0;--blue-light:#E3F0FA;--text:#2C2016;--text2:#6B5D4F;--text3:#9B8E80;--border:rgba(92,61,46,0.08);--shadow:0 1px 3px rgba(44,32,22,0.06),0 4px 12px rgba(44,32,22,0.04);--r:20px;--rs:12px;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--nav-h:68px}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.55;min-height:100dvh;padding-bottom:calc(var(--nav-h) + var(--safe-bottom) + 12px);overflow-x:hidden}
+.hdr{background:linear-gradient(145deg,#2D5016 0%,#3D6B20 60%,#4A7C2E 100%);color:#fff;padding:calc(var(--safe-top) + 14px) 20px 16px;position:relative;overflow:hidden}
+.hdr::after{content:'';position:absolute;top:-40%;right:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(255,255,255,0.06) 0%,transparent 70%);border-radius:50%}
+.hdr h1{font-family:'Playfair Display',Georgia,serif;font-size:1.5em;font-weight:700;position:relative;z-index:1}
+.hdr .sub{font-size:.72em;opacity:.7;margin-top:3px;position:relative;z-index:1}
+.wk-bar{display:flex;align-items:center;gap:6px;padding:14px 16px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:90}
+.wk-bar .wl{font-weight:700;font-size:.7em;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-right:4px}
+.wk-btn{width:36px;height:36px;border-radius:50%;border:2px solid var(--border);background:var(--bg);font-weight:700;font-size:.8em;cursor:pointer;color:var(--text2);transition:all .2s}
+.wk-btn.on{background:var(--green);color:#fff;border-color:var(--green);transform:scale(1.1);box-shadow:0 2px 8px rgba(45,80,22,0.3)}
+.wk-theme{flex:1;text-align:right;font-family:'Playfair Display',serif;font-size:.85em;color:var(--green2);font-weight:700}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;padding:6px 0 calc(6px + var(--safe-bottom));z-index:100;box-shadow:0 -2px 12px rgba(0,0,0,0.04)}
+.bnav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border:none;background:transparent;cursor:pointer;color:var(--text3);font-size:.6em;font-weight:600;font-family:inherit;transition:color .15s;letter-spacing:.3px}
+.bnav button .ni{font-size:1.8em;line-height:1.2;transition:transform .15s}
+.bnav button.on{color:var(--green)}.bnav button.on .ni{transform:scale(1.15)}
+.pnl{display:none;padding:12px 16px 20px;max-width:480px;margin:0 auto;animation:fadeUp .25s ease}
+.pnl.on{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.hero{background:linear-gradient(135deg,var(--green) 0%,var(--green2) 100%);border-radius:var(--r);padding:20px;color:#fff;margin-bottom:14px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;bottom:-30px;right:-20px;width:120px;height:120px;background:rgba(255,255,255,0.05);border-radius:50%}
+.hero .hero-label{font-size:.65em;text-transform:uppercase;letter-spacing:1.5px;opacity:.7;font-weight:600}
+.hero .hero-meal{font-family:'Playfair Display',serif;font-size:1.4em;margin-top:6px;font-weight:700;line-height:1.3}
+.hero .hero-sub{font-size:.8em;opacity:.8;margin-top:6px}
+.hero .hero-cost{position:absolute;top:18px;right:18px;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);padding:4px 12px;border-radius:20px;font-size:.75em;font-weight:700}
+.days{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.days::-webkit-scrollbar{display:none}
+.dbtn{flex:none;width:48px;text-align:center;padding:8px 0;border-radius:var(--rs);border:2px solid transparent;background:var(--card);cursor:pointer;transition:all .2s}
+.dbtn .dd{font-size:.55em;font-weight:700;text-transform:uppercase;color:var(--text3);letter-spacing:.5px}
+.dbtn .dn{font-size:.95em;font-weight:700;color:var(--text);margin-top:1px}
+.dbtn.on{background:var(--green);border-color:var(--green);box-shadow:0 2px 8px rgba(45,80,22,0.25)}
+.dbtn.on .dd,.dbtn.on .dn{color:#fff}
+.cd{background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.cd h3{font-family:'Playfair Display',serif;font-size:1.05em;color:var(--text);margin-bottom:8px;line-height:1.3}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:.6em;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:20px}
+.badge-bf{background:var(--warm-light);color:var(--brown2)}
+.badge-din{background:var(--green-pale);color:var(--green)}
+.badge-sc{background:var(--coral-light);color:var(--coral)}
+.badge-sched{background:#E3F2FD;color:#1565C0}
+.badge-work{background:#EDE7F6;color:#5E35B1}
+.badge-prep{background:#FFF8E1;color:#F57F17}
+.meta{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.pill{font-size:.68em;padding:4px 10px;border-radius:20px;background:var(--card2);color:var(--text2);font-weight:600}
+.pill-protein{background:var(--green-pale);color:var(--green)}
+.srow{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.srow:last-child{border-bottom:none}
+.srow .st{font-weight:700;color:var(--green);min-width:50px;font-size:.75em;padding-top:1px}
+.srow .se{flex:1}.srow .se strong{font-size:.82em;display:block;color:var(--text)}.srow .se span{font-size:.72em;color:var(--text3);display:block;margin-top:1px}
+.srow.alert{background:var(--coral-light);border-radius:var(--rs);padding:10px;margin:2px -10px;border-bottom:none}
+.srow.hl{background:var(--green-pale);border-radius:var(--rs);padding:10px;margin:2px -10px;border-bottom:none}
+.r-quick{background:var(--warm-light);border-radius:var(--rs);padding:10px 14px;font-size:.85em;font-weight:600;color:var(--brown);margin:8px 0;border-left:4px solid var(--warm)}
+.ing{columns:2;column-gap:14px;list-style:none;margin:8px 0;font-size:.82em}
+.ing li{padding:3px 0 3px 16px;break-inside:avoid;position:relative;color:var(--text2)}
+.ing li::before{content:'•';position:absolute;left:2px;color:var(--green3);font-weight:800}
+.stp{counter-reset:s;list-style:none;margin:8px 0}
+.stp li{font-size:.82em;padding:8px 0 8px 36px;position:relative;border-bottom:1px solid var(--border);color:var(--text2)}
+.stp li:last-child{border-bottom:none}
+.stp li::before{counter-increment:s;content:counter(s);position:absolute;left:0;width:26px;height:26px;background:var(--green);color:#fff;border-radius:50%;text-align:center;line-height:26px;font-size:.72em;font-weight:700}
+.tip{background:var(--warm-light);border-left:4px solid var(--warm);padding:10px 14px;border-radius:0 var(--rs) var(--rs) 0;font-size:.8em;margin:10px 0;color:var(--brown)}
+.plate{background:var(--green-pale);border-left:4px solid var(--green3);padding:10px 14px;border-radius:0 var(--rs) var(--rs) 0;font-size:.8em;margin:10px 0;color:var(--green)}
+.acc{cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:4px 0;user-select:none}
+.acc::after{content:'';width:8px;height:8px;border-right:2px solid var(--text3);border-bottom:2px solid var(--text3);transform:rotate(45deg);transition:transform .2s;flex-shrink:0}
+.acc.open::after{transform:rotate(-135deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .35s ease}.acc-body.open{max-height:9000px}
+.shop-prog{height:8px;background:var(--card2);border-radius:4px;overflow:hidden;margin:10px 0}
+.shop-fill{height:100%;background:linear-gradient(90deg,var(--green3),var(--green));border-radius:4px;transition:width .4s}
+.shop-count{font-size:.75em;color:var(--text3);text-align:right;margin-bottom:8px}
+.si{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.si input{width:22px;height:22px;accent-color:var(--green);cursor:pointer;flex-shrink:0}
+.si .sn{flex:1;font-size:.85em;transition:opacity .2s}
+.si .sp{font-size:.82em;font-weight:700;color:var(--coral);min-width:50px;text-align:right}
+.si.done .sn{opacity:.35;text-decoration:line-through}
+.shop-cat{font-weight:700;font-size:.7em;text-transform:uppercase;letter-spacing:1px;color:var(--green);padding:14px 0 6px}
+.stotal{display:flex;justify-content:space-between;padding:14px 0;font-weight:700;color:var(--green);border-top:2px solid var(--green);margin-top:4px}
+.prep-i{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.prep-i input{margin-top:2px;width:22px;height:22px;accent-color:var(--green);cursor:pointer;flex-shrink:0}
+.prep-i label{font-size:.85em;cursor:pointer;flex:1;transition:opacity .2s}
+.prep-i.done label{opacity:.35;text-decoration:line-through}
+.prep-prog{display:flex;align-items:center;gap:8px;font-size:.75em;color:var(--text3);margin-bottom:6px}
+.prep-prog .pp-bar{flex:1;height:6px;background:var(--card2);border-radius:3px;overflow:hidden}
+.prep-prog .pp-fill{height:100%;background:var(--green3);border-radius:3px;transition:width .3s}
+.ov-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.ov-card{background:var(--card);border-radius:var(--rs);padding:12px;border:2px solid var(--border);cursor:pointer;transition:all .15s}
+.ov-card:active{transform:scale(0.97)}
+.ov-card .ov-day{font-weight:700;color:var(--green);font-size:.65em;text-transform:uppercase;letter-spacing:.8px}
+.ov-card .ov-din{font-family:'Playfair Display',serif;font-size:.85em;color:var(--text);margin:4px 0 2px;line-height:1.3}
+.ov-card .ov-bf{font-size:.72em;color:var(--text3)}
+.ov-card .ov-cost{font-size:.72em;color:var(--coral);font-weight:700;margin-top:4px}
+.ov-card.sun{border-color:var(--green-light);background:var(--green-pale)}
+.ov-card.fri{border-color:#FFF3E0;background:var(--warm-light)}
+.ov-card.sat{border-color:var(--green-light);background:#F2F7ED}
+.brow{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:.85em}
+.brow .bl{color:var(--text2)}.brow .br{font-weight:700}
+.brow.tot{border-top:2px solid var(--green);border-bottom:none;padding-top:14px;font-size:.95em}.brow.tot .br{color:var(--green)}
+/* EXERCISE */
+.ex-card{background:var(--blue-light);border-radius:var(--rs);padding:14px;margin-bottom:8px;border-left:4px solid var(--blue)}
+.ex-card .ex-name{font-weight:700;font-size:.9em;color:var(--text);margin-bottom:4px}
+.ex-card .ex-sets{font-size:.78em;font-weight:600;color:var(--blue);margin-bottom:4px}
+.ex-card .ex-desc{font-size:.78em;color:var(--text2);line-height:1.5}
+.ex-timer{display:flex;align-items:center;gap:10px;margin-top:12px;padding:12px;background:var(--card);border-radius:var(--rs);flex-wrap:wrap}
+.ex-timer .et-display{font-family:'DM Sans',monospace;font-size:2em;font-weight:700;color:var(--blue);min-width:80px}
+.ex-timer button{padding:8px 18px;border-radius:20px;border:none;font-weight:700;font-size:.8em;cursor:pointer;font-family:inherit}
+.et-start{background:var(--blue);color:#fff}
+.et-reset{background:var(--card2);color:var(--text2);margin-left:4px}
+/* COOK MODE */
+.cook-mode{position:fixed;inset:0;background:var(--bg);z-index:200;display:none;flex-direction:column}
+.cook-mode.on{display:flex}
+.cook-top{background:var(--green);color:#fff;padding:calc(var(--safe-top) + 12px) 16px 14px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:1}
+.cook-top .cook-close{width:36px;height:36px;border-radius:50%;border:none;background:rgba(255,255,255,0.15);color:#fff;font-size:1.2em;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.cook-top h2{font-family:'Playfair Display',serif;font-size:1.1em;flex:1}
+.cook-body{flex:1;padding:16px;overflow-y:auto}
+.cook-step{background:var(--card);border-radius:var(--r);padding:20px;margin-bottom:12px;box-shadow:var(--shadow)}
+.cook-step .cs-num{width:36px;height:36px;background:var(--green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;margin-bottom:10px}
+.cook-step p{font-size:.95em;line-height:1.6}
+.cook-btn{display:block;width:100%;padding:14px;border-radius:var(--r);border:none;background:var(--green);color:#fff;font-size:.9em;font-weight:700;cursor:pointer;font-family:inherit;margin-top:8px;transition:transform .1s}
+.cook-btn:active{transform:scale(0.97)}
+.sec{font-family:'Playfair Display',serif;font-size:1.15em;color:var(--text);margin:16px 0 10px}
+@media(min-width:500px){.ov-grid{grid-template-columns:repeat(3,1fr)}.days{justify-content:center}}
+/* THEME EDITOR */
+.theme-toggle{position:absolute;top:calc(var(--safe-top) + 16px);right:16px;width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.1);color:#fff;font-size:.75em;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;transition:all .2s;backdrop-filter:blur(4px)}
+.theme-toggle:hover{background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.4)}
+.theme-drawer{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;display:none;align-items:flex-end;justify-content:center;animation:fadeIn .2s}
+.theme-drawer.on{display:flex}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.theme-sheet{background:var(--card);border-radius:var(--r) var(--r) 0 0;width:100%;max-width:480px;max-height:85vh;overflow-y:auto;padding:20px 20px calc(20px + var(--safe-bottom));animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
+.theme-sheet h3{font-family:'Playfair Display',serif;font-size:1.1em;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.theme-sheet .close-theme{width:32px;height:32px;border-radius:50%;border:none;background:var(--card2);font-size:1em;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.theme-presets{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.theme-pre{border-radius:var(--rs);padding:12px;cursor:pointer;border:2px solid var(--border);transition:all .15s;text-align:center}
+.theme-pre:active{transform:scale(0.97)}
+.theme-pre.active{border-color:var(--green);box-shadow:0 0 0 2px var(--green)}
+.theme-pre .tp-name{font-weight:700;font-size:.8em;margin-bottom:6px}
+.theme-pre .tp-swatches{display:flex;gap:4px;justify-content:center}
+.theme-pre .tp-swatch{width:20px;height:20px;border-radius:50%;border:1px solid rgba(0,0,0,0.1)}
+.theme-custom{margin-top:14px}
+.theme-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border)}
+.theme-row label{flex:1;font-size:.82em;font-weight:600;color:var(--text2)}
+.theme-row input[type=color]{width:40px;height:32px;border:2px solid var(--border);border-radius:8px;cursor:pointer;padding:2px;background:var(--card)}
+.theme-reset{margin-top:14px;text-align:center}
+.theme-reset button{background:none;border:1px solid var(--border);border-radius:20px;padding:8px 20px;font-size:.78em;color:var(--text3);cursor:pointer;font-family:inherit}
+</style>
+</head>
+<body>
+<div class="hdr"><h1>🍳 The Family Kitchen</h1><div class="sub">7-Week Planner · Family of 5 · $3–$5/Person</div><button class="theme-toggle" onclick="openTheme()" title="Theme">🎨</button></div>
+<div class="theme-drawer" id="themeDrawer" onclick="if(event.target===this)closeTheme()">
+<div class="theme-sheet">
+<h3>Color Theme <button class="close-theme" onclick="closeTheme()">✕</button></h3>
+<div class="theme-presets" id="themePresets"></div>
+<div class="theme-custom">
+<div style="font-weight:700;font-size:.78em;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:8px">Custom Colors</div>
+<div class="theme-row"><label>Background</label><input type="color" id="tc-bg" onchange="customTheme()"></div>
+<div class="theme-row"><label>Cards</label><input type="color" id="tc-card" onchange="customTheme()"></div>
+<div class="theme-row"><label>Primary (header, buttons)</label><input type="color" id="tc-green" onchange="customTheme()"></div>
+<div class="theme-row"><label>Accent (prices, alerts)</label><input type="color" id="tc-coral" onchange="customTheme()"></div>
+<div class="theme-row"><label>Text</label><input type="color" id="tc-text" onchange="customTheme()"></div>
+</div>
+<div class="theme-reset"><button onclick="applyPreset('default');closeTheme()">Reset to Default</button></div>
+</div>
+</div>
+<div class="wk-bar" id="wkBar"></div>
+<div class="pnl on" id="p-today"></div>
+<div class="pnl" id="p-week"></div>
+<div class="pnl" id="p-shop"></div>
+<div class="pnl" id="p-recipes"></div>
+<div class="bnav" id="bnav"></div>
+<div class="cook-mode" id="cookMode"><div class="cook-top"><button class="cook-close" onclick="closeCook()">✕</button><h2 id="cookTitle"></h2></div><div class="cook-body" id="cookBody"></div></div>
+<script>
+const WT=["Classic Family Favorites","Global Mix","Budget Stretchers","Comfort & Hearty","Fan Favorites Remix","Southern & Slow","Around the World"];
+const DAYS=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],DN=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+// ===== WORKOUTS WITH DESCRIPTIONS =====
+const WO={
+Sun:{type:"Rest + Meal Prep",note:"Light movement only today. Your body recovers while you prep the week.",exercises:[
+{name:"Gentle Walk",sets:"20–30 min",desc:"Easy pace around the neighborhood or on a treadmill. No rushing — this is recovery. Breathe deeply, enjoy the fresh air. Bring the kids if they want to come."},
+{name:"Full Body Stretch",sets:"10 min",desc:"Touch your toes (hold 20 sec), quad stretch (pull heel to glute, 20 sec each), shoulder rolls (10 forward, 10 back), neck tilts side to side, seated spinal twist. Hold each stretch — don't bounce."}]},
+Mon:{type:"Upper Body Strength",note:"After school pickup. 30–40 min in the garage or living room.",exercises:[
+{name:"Push-Ups",sets:"3 × 12",desc:"Hands shoulder-width apart on the floor. Lower your chest to the ground, elbows at 45 degrees (not flared out). Push back up. Keep your body in a straight line — don't let your hips sag. Modified version: do these from your knees if needed."},
+{name:"Dumbbell Rows",sets:"3 × 10 each arm",desc:"Hold a dumbbell in one hand, put the other hand and knee on a chair or bench. Pull the weight straight up to your hip like you're starting a lawnmower. Squeeze your shoulder blade at the top. Lower slowly. Do all 10 on one side, then switch."},
+{name:"Shoulder Press",sets:"3 × 10",desc:"Stand with a dumbbell in each hand at shoulder height, palms facing forward. Press straight up overhead until arms are fully extended. Lower back to shoulders slowly. Keep your core tight — don't arch your back."},
+{name:"Tricep Dips",sets:"3 × 12",desc:"Sit on the edge of a sturdy chair, hands gripping the seat beside your hips. Slide your butt off the chair and lower yourself by bending your elbows to 90 degrees. Push back up. Keep your back close to the chair."},
+{name:"Plank Hold",sets:"3 × 30 sec",desc:"Forearms on the ground, elbows under shoulders. Body in a straight line from head to heels. Squeeze your abs and glutes. Don't let your hips drop or pike up. Breathe steadily. If 30 sec is easy, go to 45."}]},
+Tue:{type:"Cardio + Core",note:"After school pickup. 30–40 min. Get your heart rate up, then hit the abs.",exercises:[
+{name:"Brisk Walk or Jog",sets:"20 min",desc:"Start with 5 min walking to warm up. Then pick up the pace — you should be breathing hard but able to say short sentences. If jogging hurts your knees, power walk with big arm swings instead. Cool down with 2 min easy walking."},
+{name:"Bicycle Crunches",sets:"3 × 20",desc:"Lie on your back, hands behind your head. Bring your right elbow to your left knee while extending your right leg. Alternate sides in a pedaling motion. Don't pull on your neck — let your abs do the work. Each left-right counts as 1 rep."},
+{name:"Russian Twists",sets:"3 × 15 each side",desc:"Sit on the floor, knees bent, feet slightly lifted. Lean back slightly. Clasp your hands together and twist your torso to touch the floor on your left, then right. That's 1 rep. For more challenge, hold a water bottle or light weight."},
+{name:"Leg Raises",sets:"3 × 12",desc:"Lie flat on your back, hands under your hips for support. Keeping legs straight, lift them together to 90 degrees, then lower slowly without touching the floor. If your lower back lifts off the ground, bend your knees slightly."},
+{name:"Mountain Climbers",sets:"3 × 15 each side",desc:"Start in a push-up position. Drive your right knee toward your chest, then quickly switch to your left knee. It's like running in place horizontally. Keep your hips level and your core tight. Go as fast as you can with good form."}]},
+Wed:{type:"Lower Body Strength",note:"After school pickup. 30–40 min. Legs and glutes today.",exercises:[
+{name:"Squats",sets:"3 × 15",desc:"Stand with feet shoulder-width apart. Push your hips back like sitting into a chair. Lower until your thighs are parallel to the floor. Keep your chest up and knees tracking over your toes. Drive through your heels to stand back up."},
+{name:"Walking Lunges",sets:"3 × 10 each leg",desc:"Step forward with your right foot and lower your back knee toward the floor. Both knees should be at about 90 degrees. Push off your front foot and step your left foot forward into the next lunge. Keep your torso upright."},
+{name:"Glute Bridges",sets:"3 × 15",desc:"Lie on your back, knees bent, feet flat on the floor hip-width apart. Push through your heels to lift your hips until your body forms a straight line from shoulders to knees. Squeeze your glutes hard at the top. Lower slowly."},
+{name:"Calf Raises",sets:"3 × 20",desc:"Stand on the edge of a step with your heels hanging off. Rise up onto your toes as high as you can, hold for 1 second, then lower your heels below the step level. Hold onto a wall for balance if needed."},
+{name:"Wall Sit",sets:"3 × 30 sec",desc:"Stand with your back flat against a wall. Slide down until your thighs are parallel to the floor, like sitting in an invisible chair. Keep your back pressed firmly against the wall. Hold. Your quads will burn — that means it's working."}]},
+Thu:{type:"Full Body Circuit",note:"After school pickup. 30–40 min. Fast-paced — keep moving between exercises.",exercises:[
+{name:"Burpees",sets:"3 × 8",desc:"Stand, then squat down and place your hands on the floor. Jump your feet back into a push-up position. Do a push-up (optional). Jump your feet back to your hands. Explode up into a jump with arms overhead. That's 1. Modified: step back instead of jumping."},
+{name:"Jumping Jacks",sets:"3 × 20",desc:"Stand with feet together, arms at your sides. Jump your feet out wide while raising your arms overhead. Jump back to starting position. Keep a steady rhythm. Land softly on the balls of your feet."},
+{name:"Dumbbell Squats",sets:"3 × 12",desc:"Hold a dumbbell in each hand at your sides (or one dumbbell at your chest in a goblet position). Perform a squat as described above. The added weight makes your legs and core work harder. Keep your chest up."},
+{name:"Push-Ups",sets:"3 × 10",desc:"Same form as Monday. Hands shoulder-width, lower your chest, push back up. If you're tired from the circuit, drop to your knees — no shame in that. Quality over quantity."},
+{name:"High Knees",sets:"3 × 20 each leg",desc:"Stand in place and run, driving your knees up to hip height with each step. Pump your arms like you're sprinting. This is a cardio burst — go fast! 20 each leg means 40 total knee drives per set."}]},
+Fri:{type:"Family Activity",note:"Everyone is home by 2pm! Get outside together. 45–60 min of fun movement.",exercises:[
+{name:"Family Bike Ride or Walk",sets:"30–45 min",desc:"Ride bikes around the neighborhood, walk to a nearby park, or hike a local trail together. Let the kids set the pace. The point is being active together, not hitting a heart rate target. Bring water bottles."},
+{name:"Backyard Games",sets:"15–20 min",desc:"Tag, catch, soccer, basketball, jump rope, obstacle course — whatever gets everyone moving and laughing. Challenge the kids to races. Let them win sometimes. This is bonding time that happens to be exercise."},
+{name:"Family Stretch Cool-Down",sets:"5 min",desc:"Sit in a circle and stretch together. Touch your toes, butterfly stretch (soles of feet together, press knees down), reach across your body for a shoulder stretch. Show the kids how to stretch properly — it's a life skill."}]},
+Sat:{type:"Active Family Day",note:"Morning activity before the Walmart run. 45–60 min of adventure.",exercises:[
+{name:"Family Walk or Hike",sets:"30–45 min",desc:"Find a local trail, walk through a park, or explore a new neighborhood together. Saturday morning walks are a great family tradition. Talk about the week. Plan something fun. Bring snacks and water."},
+{name:"Backyard Play or Sports",sets:"15–20 min",desc:"Toss a football, shoot hoops, play freeze tag, do relay races in the yard. Get creative — the kids will have ideas. This is exercise disguised as play. Everyone gets their heart rate up without it feeling like a workout."},
+{name:"Cool-Down Stretch",sets:"5 min",desc:"Same family stretch as Friday. Reach for the sky, fold forward, twist gently side to side. Deep breaths. You just moved your body as a family — that matters more than any gym session."}]}
+};
+
+// ===== BREAKFASTS =====
+const BF={S1:{n:"PB Banana Protein Shake",i:"🥤",t:"Smoothie",q:"Dump freezer bag + milk + protein powder. Blend 45 sec.",pr:"30g",c:"$0.90",tm:"2 min",ing:["1 frozen banana","1 tbsp peanut butter","1 scoop protein powder","1 cup milk","1 cup spinach","1 tbsp honey"],st:["Dump freezer bag into blender.","Add milk and protein powder.","Blend 45 seconds. Pour and go."],tip:"Kids love half-portions. PB keeps everyone full until lunch.",pl:"30g protein, under 350 cal."},S2:{n:"Berry Blast Protein Smoothie",i:"🥤",t:"Smoothie",q:"Berry bag + yogurt + protein powder. Blend 1 min.",pr:"28g",c:"$1.10",tm:"2 min",ing:["1 cup frozen berries","½ banana","½ cup Greek yogurt","1 scoop protein powder","¾ cup milk"],st:["Dump berry bag into blender.","Add yogurt, protein powder, milk.","Blend 60 seconds."],tip:"Kids think it's a milkshake.",pl:"28g protein."},S3:{n:"Tropical Green Smoothie",i:"🥤",t:"Smoothie",q:"Blend freezer bag + milk + protein powder. 45 sec.",pr:"27g",c:"$1.00",tm:"2 min",ing:["½ cup frozen mango","½ cup pineapple","2 cups spinach","1 scoop protein powder","1 cup milk"],st:["Dump tropical bag into blender.","Add milk and protein powder.","Blend 45–60 seconds."],tip:"Pineapple hides the spinach!",pl:"27g protein."},O1:{n:"PB Banana Power Oats",i:"🫙",t:"Oats",q:"Grab jar from fridge. Eat cold or microwave 60 sec.",pr:"22g",c:"$0.75",tm:"30 sec",ing:["½ cup oats","½ cup milk","¼ cup Greek yogurt","1 tbsp PB","1 tbsp chia seeds","½ banana","Honey, cinnamon"],st:["Sunday: mix everything in jar.","Top with banana. Seal.","Morning: grab and eat."],tip:"Make 4 jars Sunday.",pl:"22g protein."},O2:{n:"Berry Cheesecake Oats",i:"🫙",t:"Oats",q:"Grab jar. Stir and eat.",pr:"25g",c:"$0.85",tm:"30 sec",ing:["½ cup oats","¼ cup Greek yogurt","2 tbsp cream cheese","½ scoop protein powder","½ cup berries","Honey, granola"],st:["Sunday: mix oats, yogurt, cream cheese, protein powder.","Top berries + granola. Seal.","Morning: grab, stir, eat."],tip:"Tastes like dessert.",pl:"25g protein."},O3:{n:"Apple Cinnamon Crunch Oats",i:"🫙",t:"Oats",q:"Grab jar, add crunch topping, eat.",pr:"20g",c:"$0.70",tm:"30 sec",ing:["½ cup oats","¼ cup yogurt","½ apple diced","1 tbsp almond butter","Cinnamon","Granola + almonds"],st:["Sunday: mix oats + yogurt + almond butter + cinnamon.","Add apple. Seal.","Morning: add granola + almonds."],tip:"Tastes like apple pie!",pl:"20g protein."},M1:{n:"Bacon Cheddar Egg Muffins",i:"🧁",t:"Muffin",q:"Grab 2–3 from fridge, microwave 40–50 sec.",pr:"12g/ea",c:"$0.40",tm:"1 min",ing:["8 eggs","¼ cup milk","6 strips bacon crumbled","1 cup cheddar","Garlic powder"],st:["Cook + crumble bacon.","Whisk eggs + milk + seasonings. Add bacon + cheese.","Fill muffin tin ¾. Bake 350°F 18–20 min."],tip:"Make 24!",pl:"2 muffins = 24g protein."},M2:{n:"Southwest Black Bean Muffins",i:"🧁",t:"Muffin",q:"Grab 2–3, microwave 40–50 sec.",pr:"11g/ea",c:"$0.35",tm:"1 min",ing:["8 eggs","¼ cup milk","½ cup black beans","½ cup bell pepper","1 cup Mexican cheese","Cumin"],st:["Whisk eggs + milk + cumin.","Add beans + pepper. Top cheese.","Bake 350°F 18–20 min."],tip:"Most filling muffin.",pl:"2 = 22g protein."},M3:{n:"Ham & Swiss Egg Muffins",i:"🧁",t:"Muffin",q:"Grab 2–3, microwave 40–50 sec.",pr:"13g/ea",c:"$0.45",tm:"1 min",ing:["8 eggs","¼ cup milk","1 cup diced ham","1 cup Swiss cheese","Dijon mustard"],st:["Whisk eggs + milk + mustard.","Add ham. Top Swiss.","Bake 350°F 18–20 min."],tip:"Like a deli sandwich!",pl:"2 = 26g protein."},M4:{n:"Veggie Garden Egg Muffins",i:"🧁",t:"Muffin",q:"Grab 2–3, microwave 40–50 sec.",pr:"10g/ea",c:"$0.35",tm:"1 min",ing:["8 eggs","¼ cup milk","Zucchini, bell pepper, mushrooms","1 cup mozzarella","Italian seasoning"],st:["Sauté veggies 3–4 min.","Whisk eggs. Add veggies + cheese.","Bake 350°F 18–20 min."],tip:"Sneaky veggies!",pl:"2 = 20g protein."},H1:{n:"Dad's Scrambled Eggs + Toast",i:"🍳",t:"Hot Plate",q:"Scramble eggs with cheese + toast.",pr:"24g",c:"$0.80",tm:"5 min",ing:["2 eggs/person","Cheddar","Whole wheat toast","Butter"],st:["Crack eggs + milk + salt + pepper.","Scramble 2–3 min. Add cheese.","Toast bread. Serve."],tip:"Dad's specialty!",pl:"24g protein."},H2:{n:"Protein Pancakes + Turkey Sausage",i:"🥞",t:"Hot Plate",q:"Mix batter + protein powder. Griddle. Heat sausage.",pr:"32g",c:"$1.20",tm:"10 min",ing:["1 cup pancake mix","1 scoop protein powder","1 egg, ¾ cup milk","Turkey sausage links","Syrup"],st:["Mix batter + protein powder + egg + milk.","Cook 2 min/side. Heat sausage.","Stack + light syrup."],tip:"Protein powder fills everyone up!",pl:"32g protein."},H3:{n:"Breakfast Burritos",i:"🌯",t:"Hot Plate",q:"Eggs + beans + cheese in tortilla.",pr:"22g",c:"$0.85",tm:"5 min",ing:["2 eggs","Black beans","Mexican cheese","Flour tortilla","Salsa"],st:["Scramble eggs 2 min.","Warm beans + tortilla.","Layer, fold, wrap."],tip:"Freeze 10 Sunday!",pl:"22g protein."},G1:{n:"Yogurt Parfait + Granola",i:"🥣",t:"Grab & Go",q:"Scoop yogurt, top granola + banana. 60 sec.",pr:"18g",c:"$0.90",tm:"1 min",ing:["1 cup Greek yogurt","¼ cup granola","1 banana","Honey"],st:["Scoop yogurt. Top granola + banana. Honey."],tip:"Fastest real breakfast.",pl:"18g protein."},G2:{n:"PB Toast + Eggs + Fruit",i:"🍞",t:"Grab & Go",q:"Toast + PB, grab 2 eggs + apple.",pr:"22g",c:"$0.65",tm:"2 min",ing:["2 slices whole wheat","2 tbsp PB","2 hard-boiled eggs","Apple"],st:["Toast. Spread PB. Grab eggs + fruit. Go."],tip:"Hard-boiled eggs last 5 days!",pl:"22g protein."},G3:{n:"Cottage Cheese + Fruit",i:"🥣",t:"Grab & Go",q:"Scoop cottage cheese, top fruit + almonds.",pr:"24g",c:"$0.80",tm:"1 min",ing:["1 cup cottage cheese","½ cup berries","2 tbsp almonds","Honey"],st:["Scoop. Top. Drizzle. Eat."],tip:"Most protein per dollar.",pl:"24g protein."}};
+const BA={1:{Sun:"M1",Mon:"S1",Tue:"O1",Wed:"G2",Thu:"S2",Fri:"H1",Sat:"O2"},2:{Sun:"M2",Mon:"S3",Tue:"O2",Wed:"G3",Thu:"S1",Fri:"H3",Sat:"G1"},3:{Sun:"M3",Mon:"S2",Tue:"O3",Wed:"G2",Thu:"S3",Fri:"H1",Sat:"O1"},4:{Sun:"M4",Mon:"S1",Tue:"G1",Wed:"O2",Thu:"S2",Fri:"H2",Sat:"G3"},5:{Sun:"M1",Mon:"O3",Tue:"S3",Wed:"G2",Thu:"O1",Fri:"H3",Sat:"S2"},6:{Sun:"M2",Mon:"G1",Tue:"S1",Wed:"O3",Thu:"G3",Fri:"H1",Sat:"O2"},7:{Sun:"M3",Mon:"O2",Tue:"S2",Wed:"G2",Thu:"O1",Fri:"H2",Sat:"S3"}};
+
+// ===== DINNERS (same data) =====
+const DIN={1:[{n:"Slow Cooker Pot Roast",cu:"Comfort",m:"Slow Cooker",co:3.80,sc:1,ing:["3 lb chuck roast","5 potatoes, 4 carrots","2 cups beef broth","Worcestershire, garlic, paprika"],st:["Season + sear roast 3 min/side.","Layer veggies in slow cooker.","Pour broth. LOW 8 hrs.","Slice against grain."],tp:"Start 11am Sunday before church!",pl:"Palm-size portion + extra carrots."},{n:"BBQ Pork Tenderloin + Mashed Potatoes",cu:"BBQ",m:"Oven",co:3.10,ing:["2 lb pork tenderloin","BBQ sauce","5 potatoes, butter, milk","Frozen green beans"],st:["Season + brush BBQ. 400°F 20–25 min.","Boil + mash potatoes.","Steam green beans. Slice pork."],tp:"Lean, cheap, feeds the family.",pl:"3–4 medallions. Half mashed."},{n:"Ground Beef Taco Bowls",cu:"Mexican",m:"Stovetop",co:2.60,ing:["1.5 lb ground beef","Taco seasoning","Black beans, rice","Cheese, salsa, sour cream, lettuce"],st:["Brown beef + seasoning.","Warm rice + beans.","Build bowls."],tp:"Everyone builds their own!",pl:"Smaller rice, extra lettuce."},{n:"Chicken Fried Rice",cu:"Asian",m:"Stovetop",co:2.40,ing:["3 chicken breasts diced","3 cups day-old rice, 2 eggs","Frozen mixed veggies","Soy sauce, sesame oil"],st:["Cook chicken 5–6 min.","Scramble eggs. Fry rice.","Combine all + soy sauce."],tp:"Day-old rice fries best!",pl:"Extra chicken + veggies."},{n:"Cheeseburgers + Baked Fries",cu:"Comfort",m:"Stovetop/Oven",co:3.20,ing:["1.5 lb ground beef","Buns, cheddar, lettuce","4 potatoes, olive oil"],st:["425°F — bake fries 25 min.","Cook patties 4 min/side. Cheese.","Toast buns. Assemble."],tp:"Burger night!",pl:"Lettuce wrap option."},{n:"Baked Ziti",cu:"Italian",m:"Oven",co:2.80,ing:["1 lb ground beef","1 lb ziti, pasta sauce","Mozzarella, ricotta"],st:["Brown beef + sauce.","Layer ziti + meat + cheese.","375°F 25 min."],tp:"Leftovers are even better.",pl:"Smaller pasta."},{n:"Grilled Salmon + Asparagus",cu:"American",m:"Stovetop",co:4.50,ing:["2 lb salmon","1 lb asparagus","Butter, garlic, lemon, rice"],st:["Pan-sear salmon 4 min/side.","Sauté asparagus in butter.","Lemon over everything."],tp:"Saturday's treat!",pl:"Full salmon. Extra asparagus."}],2:[{n:"Beef Stew + Biscuits",cu:"Comfort",m:"Slow Cooker",co:3.20,sc:1,ing:["2 lb chuck cubed","Potatoes, carrots","Tomatoes, beef broth","Biscuits"],st:["Beef + veggies + broth. LOW 8 hrs.","Bake biscuits."],tp:"Classic comfort.",pl:"Extra veggies."},{n:"Chicken Tacos",cu:"Mexican",m:"Slow Cooker",co:2.20,sc:1,ing:["2 lb chicken","Taco seasoning, salsa","Black beans, tortillas"],st:["Chicken + salsa + seasoning. LOW 6–8 hrs.","Shred. Build tacos."],tp:"Easiest meal!",pl:"Lettuce wraps."},{n:"Beef & Broccoli Stir Fry",cu:"Asian",m:"Stovetop",co:2.70,ing:["2 lb flank steak sliced","Frozen broccoli, rice","Soy sauce, brown sugar, cornstarch"],st:["Stir-fry beef. Cook broccoli + sauce.","Serve over rice."],tp:"Rivals takeout!",pl:"Double broccoli."},{n:"Chicken Parmesan + Spaghetti",cu:"Italian",m:"Oven",co:2.90,ing:["5 chicken breasts","Breadcrumbs, eggs","Pasta sauce, mozzarella, spaghetti"],st:["Bread + pan-fry chicken.","Top sauce + cheese. 400°F 15 min."],tp:"Restaurant quality!",pl:"Full chicken. Less pasta."},{n:"Pulled Pork Buns",cu:"BBQ",m:"Slow Cooker",co:2.70,sc:1,ing:["3 lb pork shoulder","BBQ sauce, vinegar","Buns, coleslaw mix"],st:["Season pork + BBQ. LOW 8–10 hrs.","Shred. Pile on buns."],tp:"Feeds an army.",pl:"Open-face half bun."},{n:"Pork Chops + Sweet Potatoes",cu:"Comfort",m:"Oven",co:2.80,ing:["5 pork chops","Sweet potatoes, corn","Olive oil, garlic, paprika"],st:["Sheet pan 400°F 25–30 min.","Microwave corn."],tp:"One pan!",pl:"Full chop."},{n:"Shrimp Stir Fry + Egg Rolls",cu:"Asian",m:"Stovetop",co:3.90,ing:["1 lb frozen shrimp","Stir fry veggies, rice","Soy sauce, frozen egg rolls"],st:["Cook shrimp. Add veggies.","Bake egg rolls. Serve over rice."],tp:"Saturday treat!",pl:"Extra shrimp."}],3:[{n:"Whole Roasted Chicken",cu:"Comfort",m:"Oven",co:2.80,ing:["1 whole chicken","Potatoes, carrots","Butter, garlic, lemon"],st:["Rub with butter. 425°F 1 hr 15 min."],tp:"Best budget protein!",pl:"White meat + veggies."},{n:"Teriyaki Chicken + Rice",cu:"Asian",m:"Stovetop",co:2.50,ing:["3 chicken breasts","Teriyaki sauce","Rice, frozen broccoli"],st:["Cook chicken. Add teriyaki.","Steam broccoli. Serve over rice."],tp:"Faster than takeout.",pl:"Full chicken."},{n:"Turkey Meatball Subs",cu:"Italian",m:"Oven",co:2.30,ing:["1.5 lb ground turkey","Breadcrumbs, egg","Pasta sauce, sub rolls, mozzarella"],st:["Form meatballs. Bake 400°F 20 min.","Simmer in sauce. Fill rolls."],tp:"Kids love subs!",pl:"Half roll."},{n:"BBQ Drumsticks + Mac & Cheese",cu:"BBQ",m:"Oven",co:2.60,ing:["10 drumsticks, BBQ sauce","Mac & cheese boxes","Coleslaw mix"],st:["Bake 400°F 35 min. BBQ glaze.","Make mac & cheese + slaw."],tp:"Kids eat with their hands!",pl:"2 drumsticks (no skin)."},{n:"Pork Carnitas Tacos",cu:"Mexican",m:"Slow Cooker",co:2.50,sc:1,ing:["3 lb pork shoulder","Cumin, garlic, lime, broth","Tortillas, cilantro"],st:["Season pork. LOW 8 hrs. Shred.","Optional broil for crispy edges."],tp:"Broil = real carnitas!",pl:"Lettuce wraps."},{n:"Beef Chili + Cornbread",cu:"Comfort",m:"Stovetop",co:2.60,ing:["1.5 lb ground beef","Tomatoes, black beans","Chili powder, cumin","Cornbread mix"],st:["Brown beef. Add everything. Simmer 20–30 min.","Bake cornbread."],tp:"Ultimate budget meal.",pl:"Full bowl."},{n:"BBQ Chicken + Potato Bar",cu:"American",m:"Oven",co:3.20,ing:["10 chicken thighs, BBQ sauce","Potatoes","Butter, sour cream, cheese, broccoli"],st:["Bake thighs 400°F 40 min.","Microwave potatoes. Set up toppings."],tp:"Everyone builds their own!",pl:"Full thigh (no skin)."}],4:[{n:"Chicken & Dumplings",cu:"Comfort",m:"Stovetop",co:2.80,ing:["3 chicken breasts, broth","Frozen veggies","Biscuit dough, flour, butter"],st:["Poach + shred chicken.","Roux + broth + veggies. Drop biscuit pieces.","Simmer 15 min."],tp:"Pure comfort food.",pl:"Extra chicken."},{n:"Lasagna + Garlic Bread",cu:"Italian",m:"Oven",co:2.90,ing:["1 lb ground beef, noodles","Pasta sauce, ricotta","Mozzarella, Parmesan, garlic bread"],st:["MAKE SUNDAY. Layer everything.","375°F 45 min. MONDAY: reheat."],tp:"Zero-effort Monday!",pl:"One square + salad."},{n:"Turkey Burgers + Sweet Potato Fries",cu:"Comfort",m:"Stovetop/Oven",co:2.60,ing:["1.5 lb ground turkey","Buns, lettuce","Sweet potatoes, olive oil"],st:["Cut fries. 425°F 25 min.","Cook patties 5 min/side."],tp:"Kids can't tell!",pl:"Lettuce wrap."},{n:"Sheet Pan Chicken Fajitas",cu:"Mexican",m:"Oven",co:2.70,ing:["3 chicken breasts, bell peppers","Fajita seasoning","Tortillas, toppings"],st:["Toss chicken + peppers. 400°F 20–25 min.","Build fajitas."],tp:"One pan!",pl:"1 small tortilla."},{n:"Pork Fried Rice",cu:"Asian",m:"Stovetop",co:2.40,ing:["1.5 lb pork sliced","Day-old rice, 2 eggs","Frozen peas & carrots, soy sauce"],st:["Stir-fry pork. Scramble eggs.","Fry rice + veggies. Combine."],tp:"Double protein!",pl:"Extra pork."},{n:"BBQ Baby Back Ribs",cu:"BBQ",m:"Oven",co:4.20,ing:["2 racks ribs, BBQ sauce","Brown sugar, potatoes","Frozen corn"],st:["Foil wrap. 300°F 2.5 hrs.","BBQ glaze + broil. Bake potatoes."],tp:"FRIDAY: Dad starts at 3pm!",pl:"3–4 bones."},{n:"Lemon Butter Salmon",cu:"American",m:"Stovetop",co:4.50,ing:["2 lb salmon, asparagus","Butter, garlic, lemon, rice"],st:["Pan-sear salmon 4 min/side.","Sauté asparagus. Lemon."],tp:"Saturday premium.",pl:"Full salmon."}],5:[{n:"Beef Bulgogi Bowls",cu:"Asian",m:"Slow Cooker",co:3.00,sc:1,ing:["2 lb flank steak","Soy, sugar, sesame, garlic","Rice, stir fry veggies"],st:["Marinade over steak. LOW 6–7 hrs.","Build bowls."],tp:"Korean restaurant taste!",pl:"Double veggies."},{n:"Steak + Mashed Potatoes",cu:"Comfort",m:"Stovetop",co:4.80,ing:["2 lb sirloin","Potatoes, butter, milk","Corn, olive oil, garlic"],st:["Mash potatoes. Sear steak 4 min/side.","Rest 5 min. Slice."],tp:"Steak night splurge!",pl:"Full steak."},{n:"Pork Street Tacos",cu:"Mexican",m:"Slow Cooker",co:2.50,sc:1,ing:["2 lb pork, taco seasoning","Small tortillas","Beans, rice, cilantro, lime"],st:["Pork + seasoning. LOW 7–8 hrs. Shred.","Build small tacos."],tp:"Kids love small tacos!",pl:"Small tortillas."},{n:"Chicken Thighs + Pasta",cu:"Italian",m:"Oven",co:2.60,ing:["10 chicken thighs","Italian seasoning","Pasta, sauce, salad"],st:["Bake 400°F 35–40 min.","Cook pasta. Make salad."],tp:"Best value protein!",pl:"2 thighs (no skin)."},{n:"Korean Beef Bowls",cu:"Asian",m:"Stovetop",co:2.60,ing:["1.5 lb ground beef, rice","Soy, sugar, sesame, garlic","Stir fry veggies"],st:["Brown beef. Mix sauce. Simmer.","Steam veggies. Build bowls."],tp:"15 min!",pl:"Double veggies."},{n:"BBQ Chicken Pizza",cu:"BBQ",m:"Oven",co:2.40,ing:["2 pizza doughs, BBQ sauce","2 chicken breasts shredded","Mozzarella, cilantro"],st:["BBQ sauce base. Chicken + cheese.","450°F 12–15 min."],tp:"PIZZA NIGHT!",pl:"2 slices + salad."},{n:"Pork Tenderloin + Sweet Potatoes",cu:"American",m:"Oven",co:3.50,ing:["2 lb pork tenderloin","Sweet potatoes, green beans","Cumin, paprika"],st:["Sheet pan 400°F 25–30 min.","Steam green beans."],tp:"Minimal cleanup!",pl:"Full pork."}],6:[{n:"Chicken Tortilla Soup",cu:"Mexican",m:"Slow Cooker",co:2.50,sc:1,ing:["2 lb chicken","Tomatoes, beans, corn, broth","Taco seasoning","Chips, cheese, lime"],st:["Everything in slow cooker. LOW 6–8 hrs.","Shred. Top with chips."],tp:"Crush chips on top!",pl:"Full bowl."},{n:"Honey Garlic Pork Chops",cu:"Comfort",m:"Stovetop",co:2.90,ing:["5 pork chops","Honey, soy sauce, butter","Rice, green beans"],st:["Sear chops. Honey-soy glaze.","Steam green beans."],tp:"15-min dinner!",pl:"Full chop."},{n:"Hawaiian Chicken",cu:"Asian",m:"Stovetop",co:2.70,ing:["3 chicken breasts","Pineapple, teriyaki","Rice, broccoli"],st:["Cook chicken. Add pineapple + sauce.","Steam broccoli."],tp:"Tropical!",pl:"Full chicken."},{n:"Ground Beef Enchiladas",cu:"Mexican",m:"Oven",co:2.70,ing:["1.5 lb ground beef","Enchilada sauce, tortillas","Mexican cheese, black beans"],st:["Brown beef. Fill tortillas.","Pour sauce + cheese. 375°F 20 min."],tp:"15 min to assemble!",pl:"2 enchiladas."},{n:"Baked Rigatoni",cu:"Italian",m:"Oven",co:2.90,ing:["1 lb rigatoni, Italian sausage","Pasta sauce, mozzarella"],st:["Brown sausage. Cook pasta. Mix.","Top cheese. 375°F 20 min."],tp:"Crowd-pleaser.",pl:"Smaller serving."},{n:"BBQ Sausage + Potatoes",cu:"BBQ",m:"Oven",co:2.80,ing:["2 pkg smoked sausage","Potatoes, corn","BBQ sauce"],st:["Bake potatoes 15 min. Add sausage 15 more.","Corn."],tp:"5-min prep!",pl:"Full sausage."},{n:"BBQ Beef Short Ribs",cu:"American",m:"Slow Cooker",co:3.40,sc:1,ing:["3 lb short ribs, BBQ sauce","Broth, potatoes, butter, milk"],st:["Season ribs + BBQ. LOW 8 hrs.","Mash potatoes."],tp:"Start morning, come home to ribs!",pl:"Full ribs."}],7:[{n:"Pot Roast with Gravy",cu:"Comfort",m:"Slow Cooker",co:3.80,sc:1,ing:["3 lb chuck roast","Potatoes, carrots, broth","Worcestershire, cornstarch"],st:["Sear roast. Layer veggies. LOW 8 hrs.","Cornstarch gravy."],tp:"Gravy makes it!",pl:"Palm-size. Extra carrots."},{n:"Chicken Piccata + Pasta",cu:"Italian",m:"Stovetop",co:2.80,ing:["3 chicken breasts","Flour, butter, olive oil","Broth, lemon, capers, pasta"],st:["Dredge + pan-fry chicken.","Broth + lemon + capers sauce."],tp:"20-minute fancy dinner.",pl:"Full chicken. Less pasta."},{n:"BBQ Chicken Thighs + Potatoes",cu:"BBQ",m:"Oven",co:2.80,ing:["10 chicken thighs, BBQ sauce","Potatoes, corn"],st:["Sheet pan 400°F 40 min. Corn."],tp:"Potatoes crisp in drippings!",pl:"2 thighs (no skin)."},{n:"Green Chile Chicken Burritos",cu:"Mexican",m:"Slow Cooker",co:2.60,sc:1,ing:["2 lb chicken","Green enchilada sauce, chiles","Tortillas, rice, beans, cheese"],st:["Chicken + sauce + chiles. LOW 6–8 hrs.","Shred. Build burritos."],tp:"Mild tangy comfort.",pl:"Smaller tortilla."},{n:"Salmon Patties + Coleslaw",cu:"American",m:"Stovetop",co:3.00,ing:["2 cans salmon","Breadcrumbs, egg","Rice, coleslaw mix"],st:["Form patties. Pan-fry 3–4 min/side.","Mix coleslaw."],tp:"Budget omega-3s!",pl:"2 patties."},{n:"Pork Fried Rice",cu:"Asian",m:"Stovetop",co:2.40,ing:["1.5 lb pork, day-old rice","3 eggs, peas & carrots","Soy sauce, sesame oil"],st:["Stir-fry pork. Scramble eggs.","Fry rice. Combine."],tp:"Use leftover rice!",pl:"Extra pork."},{n:"Garlic Butter Shrimp Pasta",cu:"Italian",m:"Stovetop",co:3.60,ing:["1 lb shrimp, linguine","Butter, garlic, lemon","Broth, Parmesan, broccoli"],st:["Cook pasta. Butter + garlic + shrimp.","Broth + lemon. Toss. Broccoli."],tp:"End with a bang!",pl:"Full shrimp. Extra broccoli."}]};
+
+// ===== PANTRY =====
+const PANTRY=[{n:"White rice (10 lb)",p:6.98},{n:"Pasta variety (5 lb)",p:7.40},{n:"Rolled oats (42 oz)",p:3.98},{n:"Granola (18 oz)",p:3.98},{n:"Peanut butter (40 oz)",p:4.98},{n:"Soy sauce",p:2.48},{n:"BBQ sauce (18 oz)",p:2.48},{n:"Teriyaki sauce",p:2.48},{n:"Pasta sauce (3 jars)",p:5.94},{n:"Salsa (24 oz)",p:2.98},{n:"Enchilada sauce (2)",p:2.56},{n:"Black beans (6 cans)",p:5.28},{n:"Pinto beans (2)",p:1.76},{n:"Diced tomatoes (8)",p:7.04},{n:"Tomato sauce (4)",p:2.96},{n:"Chicken broth (3)",p:5.94},{n:"Beef broth (2)",p:3.96},{n:"Taco/fajita seasoning (8)",p:7.52},{n:"Garlic powder",p:1.98},{n:"Paprika",p:1.98},{n:"Italian seasoning",p:1.98},{n:"Chili powder",p:1.98},{n:"Cumin",p:1.98},{n:"Salt & pepper",p:2.98},{n:"Olive oil (16 oz)",p:4.98},{n:"Vegetable oil (48 oz)",p:3.98},{n:"Protein powder (2 lb)",p:18.98},{n:"Almond milk (2)",p:5.96},{n:"Cornbread mix (2)",p:1.96},{n:"Italian breadcrumbs",p:1.98},{n:"Cornstarch",p:1.28},{n:"Brown sugar",p:1.98},{n:"Honey",p:3.98},{n:"Sesame oil",p:2.98},{n:"Worcestershire",p:2.28},{n:"Tortilla chips",p:2.98},{n:"Almonds (16 oz)",p:6.98},{n:"Popcorn (6-pk)",p:2.98},{n:"Chia seeds (12 oz)",p:4.98},{n:"Maple syrup",p:3.98},{n:"Dijon mustard",p:2.48},{n:"Pancake mix",p:2.98}];
+
+// ===== WEEKLY SHOPPING WITH PRICES =====
+const WSHOP={
+1:[{n:"Ground beef 80/20 (3 lb)",p:10.47},{n:"Pork tenderloin (2 lb)",p:8.96},{n:"Chicken breasts (3 lb)",p:6.97},{n:"Salmon fillets frozen (2 lb)",p:9.98},{n:"Chuck roast (3 lb)",p:11.97},{n:"Bacon (1 lb)",p:5.98},{n:"Eggs (2 dozen)",p:5.96},{n:"Mozzarella shredded (2 bags)",p:9.96},{n:"Parmesan (8 oz)",p:3.98},{n:"Mexican cheese (16 oz)",p:4.98},{n:"Greek yogurt (32 oz)",p:4.98},{n:"Cottage cheese (24 oz)",p:2.98},{n:"Butter (1 lb)",p:4.48},{n:"Milk (1 gal)",p:3.48},{n:"Cream cheese (8 oz)",p:2.48},{n:"Cheddar shredded (16 oz)",p:4.98},{n:"String cheese (12-pk)",p:4.98},{n:"Bananas",p:1.47},{n:"Apples (3 lb)",p:3.98},{n:"Mixed berries frozen (1 lb)",p:3.48},{n:"Strawberries (1 lb)",p:3.48},{n:"Asparagus (1 lb)",p:2.98},{n:"Potatoes russet (5 lb)",p:3.98},{n:"Baby carrots (1 lb)",p:1.48},{n:"Broccoli frozen",p:1.28},{n:"Green beans frozen",p:1.28},{n:"Corn frozen",p:1.28},{n:"Spinach (5 oz)",p:2.98},{n:"Romaine lettuce (2)",p:2.96},{n:"Mixed veggies frozen (3 lb)",p:3.48},{n:"Whole wheat bread",p:2.98},{n:"Burger buns (8-pk)",p:2.48},{n:"Flour tortillas (20-pk)",p:3.48},{n:"Frozen garlic bread",p:2.48},{n:"Cereal family size",p:3.98},{n:"Frozen waffles",p:2.98},{n:"Turkey sausage links",p:3.98},{n:"Deli ham (8 oz)",p:3.48},{n:"Swiss cheese slices",p:3.48}],
+2:[{n:"Chicken thighs (2 lb)",p:5.98},{n:"Flank steak (2 lb)",p:11.96},{n:"Chicken breasts (5 pcs)",p:7.48},{n:"Pork shoulder (3 lb)",p:8.97},{n:"Pork chops (5-pk)",p:7.48},{n:"Frozen shrimp (1 lb)",p:7.98},{n:"Chuck roast (2 lb)",p:7.98},{n:"Eggs (2 dozen)",p:5.96},{n:"Mozzarella (16 oz)",p:4.98},{n:"Parmesan (8 oz)",p:3.98},{n:"Greek yogurt (32 oz)",p:4.98},{n:"Cottage cheese",p:2.98},{n:"Butter (1 lb)",p:4.48},{n:"Milk (1 gal)",p:3.48},{n:"Cream cheese",p:2.48},{n:"Mexican cheese",p:4.98},{n:"Bananas",p:1.47},{n:"Apples (3 lb)",p:3.98},{n:"Mixed berries frozen",p:3.48},{n:"Broccoli frozen (x2)",p:2.56},{n:"Sweet potatoes (3 lb)",p:3.98},{n:"Coleslaw mix",p:1.98},{n:"Corn frozen",p:1.28},{n:"Spinach",p:2.98},{n:"Mixed veggies frozen",p:3.48},{n:"Bell peppers (3)",p:2.97},{n:"Whole wheat bread",p:2.98},{n:"Flour tortillas",p:3.48},{n:"Hamburger buns",p:2.48},{n:"Cereal",p:3.98},{n:"Frozen waffles",p:2.98},{n:"Frozen egg rolls",p:4.48},{n:"Refrigerated biscuits",p:1.98}],
+3:[{n:"Whole chicken (4-5 lb)",p:7.48},{n:"Chicken breasts (3 lb)",p:6.97},{n:"Chicken drumsticks (5 lb)",p:7.45},{n:"Ground turkey (1.5 lb)",p:5.98},{n:"Pork shoulder (3 lb)",p:8.97},{n:"Ground beef (1.5 lb)",p:5.23},{n:"Chicken thighs (5 lb)",p:7.45},{n:"Eggs (2 dozen)",p:5.96},{n:"Mozzarella",p:4.98},{n:"Greek yogurt",p:4.98},{n:"Cottage cheese",p:2.98},{n:"Butter (1 lb)",p:4.48},{n:"Milk (1 gal)",p:3.48},{n:"Deli ham",p:3.48},{n:"Swiss cheese",p:3.48},{n:"Bananas",p:1.47},{n:"Apples (3 lb)",p:3.98},{n:"Mixed berries frozen",p:3.48},{n:"Potatoes (5 lb)",p:3.98},{n:"Carrots (2 lb)",p:1.98},{n:"Broccoli frozen",p:1.28},{n:"Corn frozen",p:1.28},{n:"Coleslaw mix",p:1.98},{n:"Spinach",p:2.98},{n:"Whole wheat bread",p:2.98},{n:"Sub rolls (5)",p:3.48},{n:"Flour tortillas",p:3.48},{n:"Mac & cheese (3 boxes)",p:2.67},{n:"Cereal",p:3.98},{n:"Frozen waffles",p:2.98}],
+4:[{n:"Chicken breasts (3 lb)",p:6.97},{n:"Ground beef (1 lb)",p:3.49},{n:"Ground turkey (1.5 lb)",p:5.98},{n:"Pork loin (1.5 lb)",p:6.72},{n:"Baby back ribs (2 racks)",p:16.98},{n:"Salmon fillets (2 lb)",p:9.98},{n:"Lasagna noodles",p:1.98},{n:"Ricotta cheese",p:2.98},{n:"Eggs (2 dozen)",p:5.96},{n:"Mozzarella (2 bags)",p:9.96},{n:"Parmesan",p:3.98},{n:"Greek yogurt",p:4.98},{n:"Cottage cheese",p:2.98},{n:"Butter (1 lb)",p:4.48},{n:"Milk (1 gal)",p:3.48},{n:"Mexican cheese",p:4.98},{n:"Bananas",p:1.47},{n:"Apples (3 lb)",p:3.98},{n:"Mixed berries frozen",p:3.48},{n:"Asparagus",p:2.98},{n:"Sweet potatoes (3 lb)",p:3.98},{n:"Potatoes (5 lb)",p:3.98},{n:"Bell peppers (3)",p:2.97},{n:"Romaine lettuce (2)",p:2.96},{n:"Corn frozen",p:1.28},{n:"Spinach",p:2.98},{n:"Whole wheat bread",p:2.98},{n:"Burger buns",p:2.48},{n:"Flour tortillas",p:3.48},{n:"Frozen garlic bread",p:2.48},{n:"Cereal",p:3.98},{n:"Frozen waffles",p:2.98},{n:"Biscuit dough",p:1.98},{n:"Turkey sausage",p:3.98}],
+5:[{n:"Flank steak (2 lb)",p:11.96},{n:"Sirloin steak (2 lb)",p:11.96},{n:"Chicken breasts (3 lb)",p:6.97},{n:"Pork loin (2 lb)",p:8.96},{n:"Ground beef (1.5 lb)",p:5.23},{n:"Chicken thighs (5 lb)",p:7.45},{n:"Pork tenderloin (2 lb)",p:8.96},{n:"Eggs (2 dozen)",p:5.96},{n:"Mozzarella",p:4.98},{n:"Parmesan",p:3.98},{n:"Greek yogurt",p:4.98},{n:"Cottage cheese",p:2.98},{n:"Butter (1 lb)",p:4.48},{n:"Milk (1 gal)",p:3.48},{n:"Mexican cheese",p:4.98},{n:"Bananas",p:1.47},{n:"Apples",p:3.98},{n:"Mixed berries frozen",p:3.48},{n:"Sweet potatoes (3 lb)",p:3.98},{n:"Potatoes (5 lb)",p:3.98},{n:"Broccoli frozen",p:1.28},{n:"Corn frozen",p:1.28},{n:"Green beans frozen",p:1.28},{n:"Romaine lettuce (2)",p:2.96},{n:"Spinach",p:2.98},{n:"Pizza dough (2)",p:3.96},{n:"Whole wheat bread",p:2.98},{n:"Flour tortillas",p:3.48},{n:"Cereal",p:3.98},{n:"Frozen waffles",p:2.98}],
+6:[{n:"Chicken breasts (2 lb)",p:4.64},{n:"Pork chops (5-pk)",p:7.48},{n:"Ground beef (1.5 lb)",p:5.23},{n:"Italian sausage (1 lb)",p:4.48},{n:"Smoked sausage (2 pkg)",p:6.96},{n:"Beef short ribs (3 lb)",p:11.97},{n:"Chicken thighs (3 lb)",p:4.47},{n:"Eggs (2 dozen)",p:5.96},{n:"Mozzarella",p:4.98},{n:"Parmesan",p:3.98},{n:"Greek yogurt",p:4.98},{n:"Cottage cheese",p:2.98},{n:"Butter (1 lb)",p:4.48},{n:"Milk (1 gal)",p:3.48},{n:"Mexican cheese",p:4.98},{n:"Sour cream",p:1.98},{n:"Bananas",p:1.47},{n:"Apples",p:3.98},{n:"Mixed berries frozen",p:3.48},{n:"Pineapple canned",p:1.68},{n:"Potatoes (5 lb)",p:3.98},{n:"Broccoli frozen (x2)",p:2.56},{n:"Corn frozen",p:1.28},{n:"Green beans frozen",p:1.28},{n:"Spinach",p:2.98},{n:"Bell peppers (3)",p:2.97},{n:"Whole wheat bread",p:2.98},{n:"Flour tortillas",p:3.48},{n:"Rigatoni (1 lb)",p:1.28},{n:"Cereal",p:3.98},{n:"Frozen waffles",p:2.98}],
+7:[{n:"Chuck roast (3 lb)",p:11.97},{n:"Chicken breasts (3 lb)",p:6.97},{n:"Chicken thighs (5 lb)",p:7.45},{n:"Pork loin (1.5 lb)",p:6.72},{n:"Frozen shrimp (1 lb)",p:7.98},{n:"Canned salmon (2)",p:7.96},{n:"Eggs (2 dozen)",p:5.96},{n:"Mozzarella",p:4.98},{n:"Parmesan",p:3.98},{n:"Greek yogurt",p:4.98},{n:"Cottage cheese",p:2.98},{n:"Butter (1 lb)",p:4.48},{n:"Milk (1 gal)",p:3.48},{n:"Sour cream",p:1.98},{n:"Swiss cheese",p:3.48},{n:"Deli ham",p:3.48},{n:"Bananas",p:1.47},{n:"Apples",p:3.98},{n:"Mixed berries frozen",p:3.48},{n:"Potatoes (5 lb)",p:3.98},{n:"Carrots (2 lb)",p:1.98},{n:"Broccoli frozen (x2)",p:2.56},{n:"Corn frozen",p:1.28},{n:"Coleslaw mix",p:1.98},{n:"Spinach",p:2.98},{n:"Asparagus",p:2.98},{n:"Lemons (4-pk)",p:1.98},{n:"Green chiles canned",p:0.98},{n:"Green enchilada sauce",p:1.68},{n:"Whole wheat bread",p:2.98},{n:"Flour tortillas",p:3.48},{n:"Angel hair pasta",p:1.28},{n:"Linguine",p:1.28},{n:"Capers",p:2.98},{n:"Cereal",p:3.98},{n:"Frozen waffles",p:2.98},{n:"Turkey sausage",p:3.98}]
+};
+
+// ===== STATE =====
+let W=1,D=0,TAB='today';
+const LS=(k,v)=>{try{if(v!==undefined){localStorage.setItem(k,JSON.stringify(v));return v}return JSON.parse(localStorage.getItem(k))||{}}catch(e){return{}}};
+function init(){let wb='<span class="wl">Week</span>';for(let i=1;i<=7;i++)wb+=`<button class="wk-btn${i===W?' on':''}" id="w${i}" onclick="setW(${i})">${i}</button>`;wb+='<span class="wk-theme" id="wkTheme">'+WT[0]+'</span>';document.getElementById('wkBar').innerHTML=wb;const tabs=[['today','📅','Today'],['week','🗓','Week'],['shop','🛒','Shop'],['recipes','📖','Recipes']];let bn='';tabs.forEach(([id,ic,lb])=>bn+=`<button class="${id===TAB?'on':''}" id="nav-${id}" onclick="setTab('${id}')"><span class="ni">${ic}</span>${lb}</button>`);document.getElementById('bnav').innerHTML=bn;render()}
+function setW(w){W=w;document.querySelectorAll('.wk-btn').forEach(b=>b.classList.remove('on'));document.getElementById('w'+w).classList.add('on');document.getElementById('wkTheme').textContent=WT[w-1];render()}
+function setTab(t){TAB=t;document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('on'));document.getElementById('p-'+t).classList.add('on');document.querySelectorAll('.bnav button').forEach(b=>b.classList.remove('on'));document.getElementById('nav-'+t).classList.add('on');render()}
+function render(){({today:rToday,week:rWeek,shop:rShop,recipes:rRecipes})[TAB]?.()}
+
+// ===== TODAY (includes prep + workout) =====
+function rToday(){
+  const bf=BF[BA[W][DAYS[D]]],din=DIN[W][D],wo=WO[DAYS[D]];
+  let h='<div class="days">';
+  DAYS.forEach((d,i)=>{h+=`<div class="dbtn ${i===D?'on':''}" onclick="D=${i};render()"><div class="dd">${d}</div><div class="dn">${DN[i].slice(0,3)}</div></div>`});
+  h+='</div>';
+  // Dinner hero
+  h+=`<div class="hero" onclick="document.getElementById('dinnerRecipe').scrollIntoView({behavior:'smooth'})" style="cursor:pointer"><div class="hero-label">Tonight's Dinner · tap for recipe ↓</div><div class="hero-meal">${din.n}</div><div class="hero-sub">${din.cu} · ${din.m}${din.sc?' · ⏰ Slow Cooker':''}</div><div class="hero-cost">$${din.co.toFixed(2)}/person</div></div>`;
+  // Breakfast
+  h+=`<div class="cd"><span class="badge badge-bf">${bf.i} Breakfast · ${bf.pr} protein</span><h3>${bf.n}</h3><div class="r-quick">${bf.q}</div><div class="meta"><span class="pill">⏱ ${bf.tm}</span><span class="pill pill-protein">💪 ${bf.pr}</span><span class="pill">${bf.c}</span></div><div class="acc" onclick="tog(this)">Ingredients & Steps</div><div class="acc-body"><ul class="ing">${bf.ing.map(x=>'<li>'+x+'</li>').join('')}</ul><ol class="stp">${bf.st.map(x=>'<li>'+x+'</li>').join('')}</ol><div class="tip">💡 ${bf.tip}</div><div class="plate">⚖️ ${bf.pl}</div></div></div>`;
+  // Schedule
+  h+=`<div class="cd"><span class="badge badge-sched">📋 Schedule</span>`;
+  getSched(D,bf,din).forEach(r=>{h+=`<div class="srow ${r.a?'alert':r.h?'hl':''}"><span class="st">${r.t}</span><div class="se"><strong>${r.e}</strong><span>${r.d}</span></div></div>`});
+  h+='</div>';
+  // PREP (Sunday only — inline)
+  if(DAYS[D]==='Sun'){
+    const pk='prep'+W,pc=LS(pk);
+    const b1=["Cook big batch of rice (3+ dinners)","Hard boil 10 eggs (snacks + breakfasts all week)","Make smoothie freezer bags for the week","Bake egg muffins — make 24 if possible","Prep overnight oats jars"];
+    const b2=["Chop snack veggies (carrots, cucumber, celery)","Pack Monday lunch containers","Lay out Monday workout clothes","Check slow cooker supplies for the week","Thaw Mon/Tue proteins in fridge"];
+    const all=[...b1,...b2],done=all.filter((_,i)=>pc[i]).length;
+    h+=`<div class="cd"><span class="badge badge-prep">🥗 Sunday Meal Prep</span><div class="prep-prog"><span>${done}/${all.length}</span><div class="pp-bar"><div class="pp-fill" id="prepFill" style="width:${all.length?done/all.length*100:0}%"></div></div></div>`;
+    h+=`<div class="shop-cat">🌅 Block 1 — Before Church (9–11am)</div>`;
+    b1.forEach((t,i)=>{h+=`<div class="prep-i${pc[i]?' done':''}" id="pi${i}"><input type="checkbox" ${pc[i]?'checked':''} onchange="togPrep(${i},this)"><label>${t}</label></div>`});
+    h+=`<div class="shop-cat">🌆 Block 2 — After Church (2:30pm+)</div>`;
+    b2.forEach((t,j)=>{const i=j+b1.length;h+=`<div class="prep-i${pc[i]?' done':''}" id="pi${i}"><input type="checkbox" ${pc[i]?'checked':''} onchange="togPrep(${i},this)"><label>${t}</label></div>`});
+    h+='</div>';
+  }
+  // WORKOUT
+  h+=`<div class="cd"><span class="badge badge-work">🏋️ ${wo.type}</span><h3>${wo.type}</h3><p style="font-size:.82em;color:var(--text2);margin-bottom:12px">${wo.note}</p>`;
+  wo.exercises.forEach(ex=>{
+    h+=`<div class="ex-card"><div class="ex-name">${ex.name}</div><div class="ex-sets">${ex.sets}</div><div class="ex-desc">${ex.desc}</div></div>`;
+  });
+  // Workout timer
+  h+=`<div class="ex-timer"><span class="et-display" id="woDisp">00:00</span><button class="et-start" id="woBtn" onclick="togWoTimer()">Start</button><input type="number" id="woMin" value="30" min="1" max="120" style="width:50px;padding:6px;border-radius:8px;border:1px solid var(--border);font-size:.9em;text-align:center"><span style="font-size:.75em;color:var(--text3)">min</span><button class="et-reset" onclick="resetWoTimer()">Reset</button>${muteBtn()}</div></div>`;
+  // Dinner full recipe
+  h+=`<div class="cd" id="dinnerRecipe"><span class="badge badge-din">🍽️ Dinner Recipe</span>${din.sc?'<span class="badge badge-sc" style="margin-left:6px">⏰ Slow Cooker</span>':''}<h3>${din.n}</h3><div class="meta"><span class="pill">${din.cu}</span><span class="pill">${din.m}</span><span class="pill">💰 $${din.co.toFixed(2)}</span></div><ul class="ing">${din.ing.map(x=>'<li>'+x+'</li>').join('')}</ul><ol class="stp">${din.st.map(x=>'<li>'+x+'</li>').join('')}</ol><div class="tip">💡 ${din.tp}</div><div class="plate">⚖️ ${din.pl}</div><button class="cook-btn" onclick="openCook(${W},${D})">🍳 Start Cooking Mode</button></div>`;
+  document.getElementById('p-today').innerHTML=h;
+}
+
+function getSched(d,bf,din){const day=DAYS[d];if(day==='Sun')return[{t:'7:00',e:'Wake up',d:'Rest day.'},{t:'7:30',e:bf.n,d:bf.q},{t:'9:00',e:'🥗 Meal Prep Block 1',d:'Before church.',h:1},{t:'11:00',e:'Get ready for church',d:''},...(din.sc?[{t:'11:00',e:'⚠️ Slow Cooker',d:din.n,a:1}]:[]),{t:'12:00',e:'⛪ Church',d:'2 hours.'},{t:'2:30',e:'🥗 Meal Prep Block 2',d:'Finish prep.',h:1},{t:'6:00',e:'🍽️ '+din.n,d:''},{t:'9:00',e:'Bedtime',d:''}];if(day==='Fri')return[{t:'4:00',e:'Wake up',d:''},{t:'4:15',e:bf.n,d:bf.q},...(din.sc?[{t:'4:30',e:'⚠️ Slow Cooker',d:din.n,a:1}]:[]),{t:'5:00',e:'Work',d:''},{t:'2:00',e:'Home — family time!',d:'',h:1},{t:'2:05',e:'🏋️ Family Activity',d:'Bike, walk, play together.',h:1},{t:'6:00',e:'🍽️ '+din.n,d:''},{t:'9:00',e:'Bedtime',d:''}];if(day==='Sat')return[{t:'7:00',e:'Wake up',d:''},{t:'7:30',e:bf.n,d:bf.q},{t:'8:30',e:'🏃 Family Activity',d:'Walk, hike, play.',h:1},{t:'10:30',e:'🛒 Walmart',d:'Bring the list!',a:1},{t:'6:00',e:'🍽️ '+din.n,d:''},{t:'9:30',e:'Bedtime',d:''}];const wo=['','Upper Body','Cardio+Core','Lower Body','Full Body'][DAYS.indexOf(day)];return[{t:'4:00',e:'Wake up',d:''},{t:'4:15',e:bf.n,d:bf.q},...(din.sc?[{t:'4:30',e:'⚠️ Slow Cooker',d:din.n,a:1}]:[]),{t:'5:00',e:'Work',d:''},{t:'7:00',e:'Dad + kids up',d:'Breakfast, lunches.'},{t:'3:00',e:'School pickup',d:''},{t:'4:00',e:'🏋️ '+wo,d:'30–40 min.',h:1},{t:'6:00',e:'🍽️ '+din.n,d:''},{t:'8:00',e:'Kids to bed',d:''},{t:'9:00',e:'Bedtime',d:''}]}
+
+// ===== WEEK OVERVIEW =====
+function rWeek(){let h=`<div class="sec">${WT[W-1]}</div><div class="ov-grid">`;DAYS.forEach((d,i)=>{const bf=BF[BA[W][d]],din=DIN[W][i],cls=d==='Sun'?'sun':d==='Fri'?'fri':d==='Sat'?'sat':'';h+=`<div class="ov-card ${cls}" onclick="D=${i};setTab('today')"><div class="ov-day">${DN[i]}</div><div class="ov-din">${din.n}${din.sc?' ⏰':''}</div><div class="ov-bf">${bf.i} ${bf.n}</div><div class="ov-cost">$${din.co.toFixed(2)}</div></div>`});h+='</div><div class="cd"><h3>Weekly Dinner Summary</h3>';let wt=0;DIN[W].forEach((d,i)=>{wt+=d.co*5;h+=`<div class="brow"><span class="bl"><strong>${DN[i].slice(0,3)}</strong> ${d.n}</span><span class="br" style="color:${d.co<=3?'var(--green)':d.co<=4?'var(--brown2)':'var(--coral)'}">$${d.co.toFixed(2)}</span></div>`});h+=`<div class="brow tot"><span class="bl">Week Total (family of 5)</span><span class="br">$${wt.toFixed(2)}</span></div></div>`;document.getElementById('p-week').innerHTML=h}
+
+// ===== SHOPPING (with pantry) =====
+function rShop(){
+  let h=`<div class="sec">🛒 Shopping Lists</div>`;
+  // Pantry section
+  const pck=LS('pantry');
+  const pDone=Object.values(pck).filter(Boolean).length;
+  const pTotal=PANTRY.reduce((s,x)=>s+x.p,0);
+    const pCheckedTotal=PANTRY.filter((_,i)=>pck[i]).reduce((s,x)=>s+x.p,0);
+  h+=`<div class="cd"><h3>🏪 One-Time Pantry List</h3><p style="font-size:.78em;color:var(--text3);margin-bottom:8px">Buy before Week 1. Lasts all 7 weeks.</p>`;
+  h+=`<div class="shop-count" id="pantryCount">${pDone} of ${PANTRY.length} items · $${pCheckedTotal.toFixed(2)} / $${pTotal.toFixed(2)}</div><div class="shop-prog"><div class="shop-fill" id="pantryFill" style="width:${PANTRY.length?pDone/PANTRY.length*100:0}%"></div></div>`;
+  h+=`<div class="acc" onclick="tog(this)">Show Pantry Items (${PANTRY.length})</div><div class="acc-body">`;
+  PANTRY.forEach((item,i)=>{
+    h+=`<div class="si${pck[i]?' done':''}" id="pi${i}"><input type="checkbox" ${pck[i]?'checked':''} onchange="togPantry(${i},this)"><span class="sn">${item.n}</span><span class="sp">$${item.p.toFixed(2)}</span></div>`;
+  });
+  h+=`<div class="stotal"><span>Pantry Total</span><span>$${pTotal.toFixed(2)}</span></div>`;
+  h+=`<div style="padding:8px 0;text-align:center"><button onclick="LS('pantry',{});rShop()" style="background:none;border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.75em;color:var(--text3);cursor:pointer;font-family:inherit">Clear Pantry</button></div>`;
+  h+='</div></div>';
+  // Weekly shopping with prices
+  const k='shop'+W,ch=LS(k);
+  const items=WSHOP[W];
+  const done=Object.values(ch).filter(Boolean).length;
+  const wTotal=items.reduce((s,x)=>s+x.p,0);
+  h+=`<div class="cd"><h3>🛒 Week ${W} Fresh Items</h3><p style="font-size:.78em;color:var(--text3);margin-bottom:8px">Buy Saturday before Week ${W}.</p>`;
+  const wCheckedTotal=items.filter((_,i)=>ch[i]).reduce((s,x)=>s+x.p,0);
+  h+=`<div class="shop-count" id="weekCount">${done} of ${items.length} items · $${wCheckedTotal.toFixed(2)} / $${wTotal.toFixed(2)}</div><div class="shop-prog"><div class="shop-fill" id="weekFill" style="width:${items.length?done/items.length*100:0}%"></div></div>`;
+  items.forEach((item,idx)=>{h+=`<div class="si${ch[idx]?' done':''}" id="wi${idx}"><input type="checkbox" ${ch[idx]?'checked':''} onchange="togWeek(${idx},this)"><span class="sn">${item.n}</span><span class="sp">$${item.p.toFixed(2)}</span></div>`});
+  h+=`<div class="stotal"><span>Week ${W} Fresh Total</span><span>$${wTotal.toFixed(2)}</span></div>`;
+  h+=`<div style="padding:8px 0;text-align:center"><button onclick="LS('shop'+W,{});rShop()" style="background:none;border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.75em;color:var(--text3);cursor:pointer;font-family:inherit">Clear Week ${W}</button></div></div>`;
+  document.getElementById('p-shop').innerHTML=h;
+}
+function togPantry(i,el){const d=LS('pantry');d[i]=el.checked;LS('pantry',d);document.getElementById('pi'+i).classList.toggle('done',el.checked);const all=PANTRY.length,dn=Object.values(LS('pantry')).filter(Boolean).length;document.getElementById('pantryFill').style.width=(dn/all*100)+'%';const checkedAmt=PANTRY.filter((_,j)=>LS('pantry')[j]).reduce((s,x)=>s+x.p,0);const total=PANTRY.reduce((s,x)=>s+x.p,0);document.getElementById('pantryCount').textContent=dn+' of '+all+' items · $'+checkedAmt.toFixed(2)+' / $'+total.toFixed(2)}
+function togWeek(i,el){const k='shop'+W,d=LS(k);d[i]=el.checked;LS(k,d);document.getElementById('wi'+i).classList.toggle('done',el.checked);const items=WSHOP[W],dn=Object.values(LS(k)).filter(Boolean).length;document.getElementById('weekFill').style.width=(dn/items.length*100)+'%';const checkedAmt=items.filter((_,j)=>LS(k)[j]).reduce((s,x)=>s+x.p,0);const total=items.reduce((s,x)=>s+x.p,0);document.getElementById('weekCount').textContent=dn+' of '+items.length+' items · $'+checkedAmt.toFixed(2)+' / $'+total.toFixed(2)}
+
+// ===== RECIPES =====
+function rRecipes(){let h=`<div class="sec">📖 Week ${W} Recipes</div><div class="cd"><h3>🌅 Breakfasts</h3>`;DAYS.forEach((d,i)=>{const bf=BF[BA[W][d]];h+=`<div class="acc" onclick="tog(this)"><span>${bf.i} <strong>${DN[i].slice(0,3)}</strong> ${bf.n} <span class="pill pill-protein" style="font-size:.55em;vertical-align:middle">💪${bf.pr}</span></span></div><div class="acc-body"><div class="r-quick">${bf.q}</div><ul class="ing">${bf.ing.map(x=>'<li>'+x+'</li>').join('')}</ul><ol class="stp">${bf.st.map(x=>'<li>'+x+'</li>').join('')}</ol><div class="tip">💡 ${bf.tip}</div><div class="plate">⚖️ ${bf.pl}</div></div>`});h+='</div><div class="cd"><h3>🍽️ Dinners</h3>';DIN[W].forEach((din,i)=>{h+=`<div class="acc" onclick="tog(this)"><span><strong>${DN[i].slice(0,3)}</strong> ${din.n} <span class="pill" style="font-size:.55em;vertical-align:middle">$${din.co.toFixed(2)}</span>${din.sc?'<span class="badge badge-sc" style="font-size:.45em;vertical-align:middle;margin-left:4px">⏰SC</span>':''}</span></div><div class="acc-body"><ul class="ing">${din.ing.map(x=>'<li>'+x+'</li>').join('')}</ul><ol class="stp">${din.st.map(x=>'<li>'+x+'</li>').join('')}</ol><div class="tip">💡 ${din.tp}</div><div class="plate">⚖️ ${din.pl}</div><button class="cook-btn" onclick="openCook(${W},${i})" style="margin:10px 0">🍳 Cook This</button></div>`});h+='</div>';document.getElementById('p-recipes').innerHTML=h}
+
+// ===== PREP TOGGLE =====
+function togPrep(i,el){const k='prep'+W,d=LS(k);d[i]=el.checked;LS(k,d);document.getElementById('pi'+i).classList.toggle('done',el.checked);const tot=document.querySelectorAll('.prep-i').length,dn=document.querySelectorAll('.prep-i.done').length;const f=document.getElementById('prepFill');if(f)f.style.width=(dn/tot*100)+'%';const c=document.querySelector('.prep-prog span');if(c)c.textContent=dn+'/'+tot}
+
+// ===== COOKING MODE =====
+function openCook(w,di){const din=DIN[w][di];const defMin=guessMinutes(din.st);document.getElementById('cookTitle').textContent=din.n;let h=`<div class="cd"><h3>Ingredients</h3><ul class="ing" style="columns:1">${din.ing.map(x=>'<li>'+x+'</li>').join('')}</ul></div>`;din.st.forEach((s,si)=>h+=`<div class="cook-step"><div class="cs-num">${si+1}</div><p>${s}</p></div>`);h+=`<div class="tip">💡 ${din.tp}</div><div class="plate">⚖️ ${din.pl}</div><div class="cook-step"><div class="cs-num">⏱</div><p style="font-weight:700">Kitchen Timer</p><div class="ex-timer"><span class="et-display" id="ckDisp">00:00</span><button class="et-start" id="ckBtn" onclick="togCkTimer()">Start</button><input type="number" id="ckMin" value="${defMin}" min="1" max="120" style="width:50px;padding:6px;border-radius:8px;border:1px solid var(--border);font-size:.9em;text-align:center"><span style="font-size:.75em;color:var(--text3)">min</span>${muteBtn()}</div></div>`;document.getElementById('cookBody').innerHTML=h;document.getElementById('cookMode').classList.add('on');document.body.style.overflow='hidden'}
+function closeCook(){document.getElementById('cookMode').classList.remove('on');document.body.style.overflow='';clearInterval(window._cti)}
+
+// ===== TIMERS =====
+// ===== ALARM SOUND SYSTEM =====
+let _muted=false,_audioCtx=null;
+// Unlock audio on ANY user tap (mobile requires user gesture)
+function ensureAudio(){
+  if(!_audioCtx){
+    _audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    // Play silent buffer to fully unlock on iOS
+    const buf=_audioCtx.createBuffer(1,1,22050);
+    const src=_audioCtx.createBufferSource();
+    src.buffer=buf;src.connect(_audioCtx.destination);src.start(0);
+  }
+  if(_audioCtx.state==='suspended')_audioCtx.resume();
+}
+document.addEventListener('touchstart',ensureAudio,{once:false});
+document.addEventListener('click',ensureAudio,{once:false});
+
+function _tone(freq,start,dur,vol,type){
+  const ctx=_audioCtx,osc=ctx.createOscillator(),g=ctx.createGain();
+  osc.type=type||'square';osc.frequency.value=freq;
+  g.gain.setValueAtTime(0.001,start);
+  g.gain.exponentialRampToValueAtTime(vol,start+0.012);
+  g.gain.setValueAtTime(vol*0.9,start+dur*0.75);
+  g.gain.exponentialRampToValueAtTime(0.001,start+dur);
+  osc.connect(g);g.connect(_audioCtx.destination);
+  osc.start(start);osc.stop(start+dur+0.01);
+}
+function _z(f,s,d,v){_tone(f,s,d,v*0.55,'square');_tone(f,s,d,v*0.45,'triangle')}
+function _bass(f,s,d,v){_tone(f,s,d,v,'triangle')}
+
+// WORKOUT — Epic victory anthem. You just conquered yourself.
+// A full 6-second heroic song: battle cry → rising march → triumphant climax
+function playWorkoutAlarm(){
+  if(_muted||!_audioCtx)return;
+  if(_audioCtx.state==='suspended')_audioCtx.resume();
+  const n=_audioCtx.currentTime;
+  // === PHASE 1: The battle cry (0-1s) — bold staccato power chords ===
+  _z(392,n,0.12,0.32);_z(392,n+0.14,0.06,0.28);_z(392,n+0.22,0.12,0.32); // G4 G4 G4
+  _bass(196,n,0.35,0.22); // G3 bass hit
+  _z(440,n+0.4,0.12,0.32);_z(440,n+0.54,0.06,0.28);_z(440,n+0.62,0.12,0.32); // A4 A4 A4
+  _bass(220,n+0.4,0.35,0.22); // A3
+  _z(493.88,n+0.8,0.12,0.34);_z(493.88,n+0.94,0.06,0.30); // B4 B4
+  _bass(246.94,n+0.8,0.25,0.22); // B3
+
+  // === PHASE 2: The rising march (1.1-2.8s) — ascending melody, building intensity ===
+  _z(523.25,n+1.15,0.2,0.34); // C5
+  _z(587.33,n+1.38,0.2,0.34); // D5
+  _z(659.25,n+1.61,0.2,0.34); // E5
+  _z(783.99,n+1.84,0.2,0.34); // G5
+  _bass(261.63,n+1.15,0.9,0.2); // C4 sustained bass
+  // Quick heroic turn
+  _z(880,n+2.1,0.14,0.34);    // A5
+  _z(783.99,n+2.26,0.14,0.34);// G5
+  _z(880,n+2.42,0.14,0.34);   // A5
+  _z(987.77,n+2.58,0.2,0.36); // B5 — reaching up!
+  _bass(330,n+2.1,0.7,0.2); // E4
+
+  // === PHASE 3: The triumph (2.9-4.5s) — big octave leap, full chord, held glory ===
+  // The leap!
+  _z(1046.50,n+2.9,0.15,0.36); // C6 — hit!
+  _z(1174.66,n+3.08,0.15,0.36);// D6
+  _z(1318.51,n+3.26,0.15,0.36);// E6
+  // === THE BIG CHORD — held for glory ===
+  _z(1567.98,n+3.5,2.0,0.38);  // G6 — soaring top note
+  _z(1174.66,n+3.5,2.0,0.28);  // D6
+  _z(987.77,n+3.5,2.0,0.25);   // B5
+  _z(783.99,n+3.5,2.0,0.22);   // G5
+  _bass(392,n+3.5,2.0,0.25);   // G4
+  _bass(196,n+3.5,2.0,0.2);    // G3 deep
+  _bass(98,n+3.5,1.8,0.15);    // G2 rumble
+
+  // Sparkle cascade during the hold
+  _tone(1567.98,n+3.7,0.1,0.1,'square');
+  _tone(1975.53,n+3.85,0.1,0.09,'square');
+  _tone(2349.32,n+4.0,0.1,0.08,'square');
+  _tone(2793.83,n+4.15,0.1,0.07,'square');
+  _tone(3135.96,n+4.3,0.15,0.06,'square');
+  // Final power hit
+  _z(1567.98,n+4.7,0.08,0.3);_z(1567.98,n+4.82,0.08,0.3);_z(1567.98,n+4.94,0.35,0.38);
+  _bass(196,n+4.94,0.4,0.28);
+  try{navigator.vibrate?.([80,40,80,40,80,40,80,40,150,80,150,80,500])}catch(e){}
+}
+
+// COOKING — The full extended item-get fanfare
+// Three ascending phrases building in intensity, then THE big sustained chord
+// na-na-na-na, NA-NA-NA-NA, NANANANANA NA NA NA NAHHHHH!
+function playCookAlarm(){
+  if(_muted||!_audioCtx)return;
+  if(_audioCtx.state==='suspended')_audioCtx.resume();
+  const n=_audioCtx.currentTime;
+  const s=0.11; // note spacing
+
+  // === PHRASE 1 (soft, low) — na na na na ===
+  _z(523.25,n,s,0.22);          // C5
+  _z(587.33,n+s,s,0.22);        // D5
+  _z(659.25,n+s*2,s,0.22);      // E5
+  _z(783.99,n+s*3,s*1.4,0.24);  // G5 (slightly held)
+  _bass(261.63,n,s*5,0.15);     // C4
+
+  // === PHRASE 2 (louder, higher) — NA NA NA NA ===
+  const p2=s*5+0.08;
+  _z(659.25,n+p2,s,0.28);       // E5
+  _z(783.99,n+p2+s,s,0.28);     // G5
+  _z(880,n+p2+s*2,s,0.28);      // A5
+  _z(1046.50,n+p2+s*3,s*1.4,0.30); // C6 (slightly held)
+  _bass(330,n+p2,s*5,0.18);     // E4
+
+  // === PHRASE 3 (full energy, highest) — NA NA NA NA NA ===
+  const p3=p2+s*5+0.08;
+  _z(880,n+p3,s*0.85,0.33);        // A5 — faster!
+  _z(987.77,n+p3+s*0.85,s*0.85,0.33);   // B5
+  _z(1046.50,n+p3+s*1.7,s*0.85,0.33);   // C6
+  _z(1174.66,n+p3+s*2.55,s*0.85,0.33);  // D6
+  _z(1318.51,n+p3+s*3.4,s*0.85,0.35);   // E6
+  _bass(440,n+p3,s*4.5,0.2);    // A4
+
+  // === BIG PAUSE then THE FINAL NOTES — NA... NA... NA... NAHHHHHH! ===
+  const p4=p3+s*4.5+0.2;
+  _z(1318.51,n+p4,0.18,0.35);      // E6
+  _z(1567.98,n+p4+0.22,0.18,0.35); // G6
+  _z(1760,n+p4+0.44,0.18,0.36);    // A6
+
+  // === THE HOLD — the glorious sustained resolution ===
+  const hold=p4+0.72;
+  _z(2093,n+hold,2.2,0.38);        // C7 — THE NOTE, soaring
+  _z(1567.98,n+hold,2.2,0.28);     // G6 — fifth
+  _z(1318.51,n+hold,2.2,0.24);     // E6 — third
+  _z(1046.50,n+hold,2.2,0.2);      // C6 — octave below
+  _bass(523.25,n+hold,2.2,0.22);   // C5
+  _bass(261.63,n+hold,2.0,0.18);   // C4
+  _bass(130.81,n+hold,1.8,0.12);   // C3 deep rumble
+
+  // Shimmer / fairy dust during the hold
+  _tone(2093,n+hold+0.15,0.08,0.09,'square');
+  _tone(2637,n+hold+0.35,0.08,0.08,'square');
+  _tone(2093,n+hold+0.55,0.08,0.08,'square');
+  _tone(2637,n+hold+0.75,0.08,0.07,'square');
+  _tone(3136,n+hold+0.95,0.08,0.06,'square');
+  _tone(2637,n+hold+1.15,0.08,0.06,'square');
+  _tone(3136,n+hold+1.35,0.08,0.05,'square');
+  _tone(4186,n+hold+1.55,0.15,0.04,'square'); // C8 — the fairy sparkle at the very top
+
+  try{navigator.vibrate?.([100,50,100,50,100,50,100,80,100,80,100,80,150,100,150,100,600])}catch(e){}
+}
+function toggleMute(){
+  _muted=!_muted;
+  document.querySelectorAll('.mute-btn').forEach(b=>{
+    b.textContent=_muted?'🔇 Muted':'🔔 Sound On';
+    b.style.background=_muted?'var(--coral-light)':'var(--green-pale)';
+    b.style.color=_muted?'var(--coral)':'var(--green)';
+  });
+}
+function guessMinutes(steps){
+  let max=0;
+  const all=steps.join(' ');
+  const matches=all.match(/(\d+)[\s–-]*(\d*)\s*min/gi)||[];
+  matches.forEach(m=>{
+    const nums=m.match(/\d+/g);
+    if(nums){const n=parseInt(nums[nums.length>1?1:0]);if(n>max&&n<=120)max=n;}
+  });
+  const hrMatch=all.match(/(\d+\.?\d*)\s*hr/i);
+  if(hrMatch){const h=parseFloat(hrMatch[1])*60;if(h>max&&h<=120)max=h;}
+  return max||15;
+}
+function muteBtn(){return `<button class="mute-btn" onclick="toggleMute()" style="padding:6px 14px;border-radius:20px;border:none;font-size:.72em;font-weight:700;cursor:pointer;font-family:inherit;background:${_muted?'var(--coral-light)':'var(--green-pale)'};color:${_muted?'var(--coral)':'var(--green)'}">${_muted?'🔇 Muted':'🔔 Sound On'}</button>`}
+
+let _wtr=false,_wts=0;
+function togWoTimer(){ensureAudio();const b=document.getElementById('woBtn'),d=document.getElementById('woDisp');if(!_wtr){_wts=parseInt(document.getElementById('woMin').value)*60;_wtr=true;b.textContent='Stop';b.style.background='var(--coral)';window._wti=setInterval(()=>{_wts--;if(_wts<=0){clearInterval(window._wti);_wtr=false;b.textContent='Done!';b.style.background='var(--green)';playWorkoutAlarm()}d.textContent=fmt(_wts)},1000)}else{clearInterval(window._wti);_wtr=false;b.textContent='Start';b.style.background='var(--blue)'}}
+function resetWoTimer(){clearInterval(window._wti);_wtr=false;_wts=0;const b=document.getElementById('woBtn'),d=document.getElementById('woDisp');if(b){b.textContent='Start';b.style.background='var(--blue)'}if(d)d.textContent='00:00'}
+let _ctr=false,_cts=0;
+function togCkTimer(){ensureAudio();const b=document.getElementById('ckBtn'),d=document.getElementById('ckDisp');if(!_ctr){_cts=parseInt(document.getElementById('ckMin').value)*60;_ctr=true;b.textContent='Stop';b.style.background='var(--coral)';window._cti=setInterval(()=>{_cts--;if(_cts<=0){clearInterval(window._cti);_ctr=false;b.textContent='Done!';b.style.background='var(--green)';playCookAlarm()}d.textContent=fmt(_cts)},1000)}else{clearInterval(window._cti);_ctr=false;b.textContent='Start';b.style.background='var(--blue)'}}
+function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.max(0,s%60)).padStart(2,'0')}
+function tog(el){el.classList.toggle('open');el.nextElementSibling.classList.toggle('open')}
+// ===== THEME SYSTEM =====
+const THEMES={
+  default:{name:"Garden Fresh",bg:"#FAF6F0",card:"#FFFFFF",card2:"#F5F0E8",green:"#2D5016",green2:"#4A7C2E",green3:"#6B9B4A","green-light":"#E8F0E0","green-pale":"#F2F7ED",coral:"#D4654A","coral-light":"#FDE8E4",warm:"#D4A574","warm-light":"#FDF4E8",blue:"#3B6FA0","blue-light":"#E3F0FA",text:"#2C2016",text2:"#6B5D4F",text3:"#9B8E80",brown:"#5C3D2E",brown2:"#8B6914",border:"rgba(92,61,46,0.08)",hdr1:"#2D5016",hdr2:"#4A7C2E"},
+  ocean:{name:"Deep Ocean",bg:"#0D1B2A",card:"#1B2838",card2:"#162230",green:"#007373",green2:"#00A5A5",green3:"#00C9C9","green-light":"#0D3333","green-pale":"#0F2E2E",coral:"#FF6B6B","coral-light":"#2A1A1A",warm:"#C9A96E","warm-light":"#1E1A14",blue:"#4DA8DA","blue-light":"#142830",text:"#E0E8F0",text2:"#8FA4B8",text3:"#5A7088",brown:"#C9A96E",brown2:"#DAB96E",border:"rgba(100,160,200,0.1)",hdr1:"#007373",hdr2:"#005F5F"},
+  mystic:{name:"Mystic Berry",bg:"#1A0A24",card:"#261438",card2:"#1F1030",green:"#5D005D",green2:"#8B2E8B",green3:"#B050B0","green-light":"#2E1040","green-pale":"#250E35",coral:"#FF8C69","coral-light":"#2A1810",warm:"#D4A0D4","warm-light":"#1E1020",blue:"#7B68EE","blue-light":"#1A1435",text:"#F0E0F5",text2:"#B090C0",text3:"#705880",brown:"#D4A0D4",brown2:"#C890D0",border:"rgba(150,80,180,0.12)",hdr1:"#5D005D",hdr2:"#3D003D"},
+  sage:{name:"Sage & Cream",bg:"#F5F1EB",card:"#FFFFFF",card2:"#EDE8E0",green:"#5F7A5E",green2:"#7A9B78",green3:"#96B494","green-light":"#E0E8DE","green-pale":"#EBF0EA",coral:"#C07050","coral-light":"#FAEAE4",warm:"#C4A882","warm-light":"#F8F0E6",blue:"#6888A0","blue-light":"#E4ECF2",text:"#3A3830",text2:"#6A6860",text3:"#9A9890",brown:"#705840",brown2:"#907040",border:"rgba(60,56,48,0.08)",hdr1:"#5F7A5E",hdr2:"#4A6548"},
+  sunset:{name:"Desert Sunset",bg:"#1C1210",card:"#2A1E1A",card2:"#241814",green:"#B8620B",green2:"#D4850E",green3:"#E8A030","green-light":"#2E1E10","green-pale":"#281A10",coral:"#E84040","coral-light":"#2A1414",warm:"#D4A060","warm-light":"#201610",blue:"#5090C0","blue-light":"#142028",text:"#F0E4D8",text2:"#B8A090",text3:"#806858",brown:"#D4A060",brown2:"#C89850",border:"rgba(200,160,96,0.1)",hdr1:"#8B4513",hdr2:"#6B3410"},
+  mint:{name:"Fresh Mint",bg:"#F0FAF5",card:"#FFFFFF",card2:"#E8F5EE",green:"#1B8A6B",green2:"#25A880",green3:"#40C098","green-light":"#D0F0E0","green-pale":"#E0F8EE",coral:"#E06050","coral-light":"#FDECEC",warm:"#D0A870","warm-light":"#FDF6EC",blue:"#4088B0","blue-light":"#E0F0F8",text:"#1A3028",text2:"#4A6858",text3:"#78988A",brown:"#6A5030",brown2:"#8A6A38",border:"rgba(30,100,70,0.06)",hdr1:"#1B8A6B",hdr2:"#158060"}
+};
+let _activeTheme='default';
+function applyPreset(id){
+  _activeTheme=id;
+  const t=THEMES[id];
+  const r=document.documentElement.style;
+  Object.entries(t).forEach(([k,v])=>{if(k!=='name'&&k!=='hdr1'&&k!=='hdr2')r.setProperty('--'+k,v)});
+  // Update header gradient
+  document.querySelector('.hdr').style.background=`linear-gradient(145deg,${t.hdr1} 0%,${t.hdr2} 100%)`;
+  // Update week button active states
+  document.querySelectorAll('.wk-btn.on').forEach(b=>{b.style.background=t.green;b.style.borderColor=t.green});
+  // Save preference
+  try{localStorage.setItem('fk-theme',id)}catch(e){}
+  // Update preset highlights
+  document.querySelectorAll('.theme-pre').forEach(p=>p.classList.toggle('active',p.dataset.id===id));
+  // Sync color pickers
+  syncPickers(t);
+}
+function syncPickers(t){
+  const map={'tc-bg':'bg','tc-card':'card','tc-green':'green','tc-coral':'coral','tc-text':'text'};
+  Object.entries(map).forEach(([id,key])=>{const el=document.getElementById(id);if(el)el.value=t[key]});
+}
+function customTheme(){
+  const bg=document.getElementById('tc-bg').value;
+  const card=document.getElementById('tc-card').value;
+  const green=document.getElementById('tc-green').value;
+  const coral=document.getElementById('tc-coral').value;
+  const text=document.getElementById('tc-text').value;
+  const r=document.documentElement.style;
+  r.setProperty('--bg',bg);r.setProperty('--card',card);r.setProperty('--card2',blendColor(card,bg,0.5));
+  r.setProperty('--green',green);r.setProperty('--green2',lighten(green,15));r.setProperty('--green3',lighten(green,30));
+  r.setProperty('--green-light',blendColor(green,bg,0.15));r.setProperty('--green-pale',blendColor(green,bg,0.08));
+  r.setProperty('--coral',coral);r.setProperty('--coral-light',blendColor(coral,bg,0.12));
+  r.setProperty('--text',text);r.setProperty('--text2',blendColor(text,bg,0.6));r.setProperty('--text3',blendColor(text,bg,0.4));
+  r.setProperty('--warm',blendColor('#D4A574',bg,0.7));r.setProperty('--warm-light',blendColor('#D4A574',bg,0.1));
+  r.setProperty('--blue',blendColor('#3B6FA0',green,0.5));r.setProperty('--blue-light',blendColor('#3B6FA0',bg,0.1));
+  r.setProperty('--brown',blendColor('#5C3D2E',text,0.6));r.setProperty('--brown2',blendColor('#8B6914',text,0.6));
+  r.setProperty('--border',hexToRgba(text,0.08));
+  document.querySelector('.hdr').style.background=`linear-gradient(145deg,${green} 0%,${lighten(green,12)} 100%)`;
+  document.querySelectorAll('.theme-pre').forEach(p=>p.classList.remove('active'));
+  _activeTheme='custom';
+  try{localStorage.setItem('fk-theme','custom');localStorage.setItem('fk-custom',JSON.stringify({bg,card,green,coral,text}))}catch(e){}
+}
+function hexToRgb(h){const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return[r,g,b]}
+function rgbToHex(r,g,b){return '#'+[r,g,b].map(x=>Math.max(0,Math.min(255,Math.round(x))).toString(16).padStart(2,'0')).join('')}
+function blendColor(c1,c2,ratio){const[r1,g1,b1]=hexToRgb(c1),[r2,g2,b2]=hexToRgb(c2);return rgbToHex(r1*ratio+r2*(1-ratio),g1*ratio+g2*(1-ratio),b1*ratio+b2*(1-ratio))}
+function lighten(c,pct){const[r,g,b]=hexToRgb(c);return rgbToHex(r+(255-r)*pct/100,g+(255-g)*pct/100,b+(255-b)*pct/100)}
+function hexToRgba(h,a){const[r,g,b]=hexToRgb(h);return `rgba(${r},${g},${b},${a})`}
+function openTheme(){
+  const d=document.getElementById('themeDrawer');d.classList.add('on');
+  let h='';
+  Object.entries(THEMES).forEach(([id,t])=>{
+    h+=`<div class="theme-pre ${id===_activeTheme?'active':''}" data-id="${id}" onclick="applyPreset('${id}')" style="background:${t.bg};color:${t.text}"><div class="tp-name">${t.name}</div><div class="tp-swatches"><div class="tp-swatch" style="background:${t.green}"></div><div class="tp-swatch" style="background:${t.coral}"></div><div class="tp-swatch" style="background:${t.card}"></div><div class="tp-swatch" style="background:${t.text}"></div></div></div>`;
+  });
+  document.getElementById('themePresets').innerHTML=h;
+  syncPickers(THEMES[_activeTheme]||THEMES.default);
+}
+function closeTheme(){document.getElementById('themeDrawer').classList.remove('on')}
+function loadSavedTheme(){
+  try{
+    const saved=localStorage.getItem('fk-theme');
+    if(saved&&saved!=='custom'&&THEMES[saved])applyPreset(saved);
+    else if(saved==='custom'){
+      const c=JSON.parse(localStorage.getItem('fk-custom'));
+      if(c){setTimeout(()=>{document.getElementById('tc-bg').value=c.bg;document.getElementById('tc-card').value=c.card;document.getElementById('tc-green').value=c.green;document.getElementById('tc-coral').value=c.coral;document.getElementById('tc-text').value=c.text;customTheme()},100)}
+    }
+  }catch(e){}
+}
+
+init();
+loadSavedTheme();
+</script>
+</body>
+</html>
